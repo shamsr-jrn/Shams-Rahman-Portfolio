@@ -67,7 +67,10 @@ nav.querySelectorAll('.nav__btn').forEach(btn => {
   let currentIndex = 0;
 
   function getVisibleCount() {
-    return window.innerWidth <= 900 ? 1 : 2;
+    const w = window.innerWidth;
+    if (w <= 580) return 1;
+    if (w <= 900) return 2;
+    return 3;
   }
 
   function getMaxIndex() {
