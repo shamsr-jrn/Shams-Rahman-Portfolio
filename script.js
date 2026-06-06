@@ -54,6 +54,64 @@ nav.querySelectorAll('.nav__btn').forEach(btn => {
 });
 
 /* ================================================================
+   Career — Carousel
+   ================================================================ */
+(function () {
+  const track   = document.getElementById('careerTrack');
+  const prevBtn = document.getElementById('careerPrev');
+  const nextBtn = document.getElementById('careerNext');
+  if (!track || !prevBtn || !nextBtn) return;
+
+  const cards      = Array.from(track.querySelectorAll('.carousel-card'));
+  const totalCards = cards.length;
+  let currentIndex = 0;
+
+  function getVisibleCount() {
+    return window.innerWidth <= 900 ? 1 : 2;
+  }
+
+  function getMaxIndex() {
+    return Math.max(0, totalCards - getVisibleCount());
+  }
+
+  function getStep() {
+    const gap = parseFloat(getComputedStyle(track).gap) || 24;
+    return cards[0].offsetWidth + gap;
+  }
+
+  function updateCarousel() {
+    const maxIndex = getMaxIndex();
+    if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+    track.style.transform = `translateX(-${currentIndex * getStep()}px)`;
+
+    prevBtn.classList.toggle('carousel-btn--hidden', currentIndex === 0);
+    nextBtn.classList.toggle('carousel-btn--hidden', currentIndex >= maxIndex);
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) { currentIndex--; updateCarousel(); }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < getMaxIndex()) { currentIndex++; updateCarousel(); }
+  });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const t = track.style.transition;
+      track.style.transition = 'none';
+      updateCarousel();
+      requestAnimationFrame(() => { track.style.transition = t; });
+    }, 200);
+  }, { passive: true });
+
+  updateCarousel();
+})();
+
+/* ================================================================
    Published Works — Carousel
    ================================================================ */
 (function () {
@@ -169,74 +227,6 @@ function setActiveLink() {
 }
 
 window.addEventListener('scroll', setActiveLink, { passive: true });
-
-/* ================================================================
-   Contact form — validation + simulated submit
-   ================================================================ */
-const form    = document.getElementById('contactForm');
-const success = document.getElementById('formSuccess');
-
-function setError(id, errorId, msg) {
-  const el = document.getElementById(id);
-  el.classList.add('invalid');
-  document.getElementById(errorId).textContent = msg;
-}
-
-function clearError(id, errorId) {
-  document.getElementById(id).classList.remove('invalid');
-  document.getElementById(errorId).textContent = '';
-}
-
-function isValidEmail(v) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-}
-
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  let valid = true;
-
-  const name    = document.getElementById('cname').value.trim();
-  const email   = document.getElementById('cemail').value.trim();
-  const message = document.getElementById('cmessage').value.trim();
-
-  if (!name) {
-    setError('cname', 'cnameError', 'Please enter your name.');
-    valid = false;
-  } else { clearError('cname', 'cnameError'); }
-
-  if (!email) {
-    setError('cemail', 'cemailError', 'Please enter your email address.');
-    valid = false;
-  } else if (!isValidEmail(email)) {
-    setError('cemail', 'cemailError', 'Please enter a valid email address.');
-    valid = false;
-  } else { clearError('cemail', 'cemailError'); }
-
-  if (!message) {
-    setError('cmessage', 'cmessageError', 'Please enter a message.');
-    valid = false;
-  } else { clearError('cmessage', 'cmessageError'); }
-
-  if (!valid) return;
-
-  const btn = form.querySelector('button[type="submit"]');
-  btn.textContent = 'Sending…';
-  btn.disabled    = true;
-
-  setTimeout(() => {
-    form.reset();
-    btn.textContent = 'Send Message';
-    btn.disabled    = false;
-    success.classList.add('visible');
-    setTimeout(() => success.classList.remove('visible'), 6000);
-  }, 1400);
-});
-
-['cname', 'cemail', 'cmessage'].forEach(id => {
-  document.getElementById(id).addEventListener('input', () => {
-    clearError(id, id + 'Error');
-  });
-});
 
 /* ================================================================
    Footer — current year
