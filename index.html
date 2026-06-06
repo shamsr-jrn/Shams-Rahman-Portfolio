@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shams Rahman — Journalist &amp; Communications Specialist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -27,7 +30,7 @@
           <li><a href="#works"      class="nav__btn">Published Work</a></li>
           <li><a href="#multimedia" class="nav__btn">Multimedia</a></li>
           <li><a href="#personal"   class="nav__btn">Personal Work</a></li>
-          <li><a href="#resume"     class="nav__btn">Resume</a></li>
+          <li><a href="Resume.pdf"  class="nav__btn nav__btn--resume" target="_blank" rel="noopener">Resume &#8595;</a></li>
           <li><a href="#contact"    class="nav__btn nav__btn--accent">Contact</a></li>
         </ul>
       </nav>
@@ -48,24 +51,36 @@
   <main>
 
     <!-- ══════════════════════════════════════════════════
-         HERO
+         HERO  (3-column: image | content | image)
     ══════════════════════════════════════════════════ -->
     <section class="hero" id="hero">
       <div class="hero__overlay" aria-hidden="true"></div>
-      <div class="hero__content">
-        <p class="hero__eyebrow">Portfolio</p>
-        <h1>Shams Rahman</h1>
-        <h2>Journalist | Communications Specialist</h2>
-        <p class="hero__bio">
-          Print and digital journalist with 5+ years of reporting experience across
-          Bangladesh and the United States. Skilled in daily news reporting, long-form
-          narrative writing, investigative storytelling, multimedia production, and
-          copy-editing.
-        </p>
-        <div class="hero__cta">
-          <a href="#works"   class="btn btn--primary">View Published Work</a>
-          <a href="#contact" class="btn btn--outline">Get In Touch</a>
+      <div class="hero__columns">
+
+        <div class="hero__img-side">
+          <img src="Header1.jpg" alt="Shams Rahman" class="hero__side-img" />
         </div>
+
+        <div class="hero__content">
+          <p class="hero__eyebrow">Portfolio</p>
+          <h1>Shams Rahman</h1>
+          <h2>Journalist | Communications Specialist</h2>
+          <p class="hero__bio">
+            Print and digital journalist with 5+ years of reporting experience across
+            Bangladesh and the United States. Skilled in daily news reporting, long-form
+            narrative writing, investigative storytelling, multimedia production, and
+            copy-editing.
+          </p>
+          <div class="hero__cta">
+            <a href="#works"      class="btn btn--primary">View Published Work</a>
+            <a href="Resume.pdf"  class="btn btn--outline" target="_blank" rel="noopener">Download Resume</a>
+          </div>
+        </div>
+
+        <div class="hero__img-side">
+          <img src="Header2.jpg" alt="Shams Rahman" class="hero__side-img" />
+        </div>
+
       </div>
       <div class="hero__scroll-hint" aria-hidden="true"><span></span></div>
     </section>
@@ -86,7 +101,7 @@
               <div class="timeline__line"></div>
             </div>
             <div class="timeline__body">
-              <span class="timeline__date">2021 — 2023</span>
+              <span class="timeline__date">2021 &mdash; 2023</span>
               <h4 class="timeline__role">Staff Reporter / De Facto Sports Editor</h4>
               <p class="timeline__org">The Business Post &mdash; Dhaka, Bangladesh</p>
               <p class="timeline__desc">Acted as de facto Sports Editor from September 2022, overseeing reporters, editing all copy, and coordinating the full daily production cycle. Assessed story pitches, generated original story ideas, and made independent editorial judgments on framing, structure, and length, while balancing a dual role of reporter and editor &mdash; filing original reported pieces while maintaining section-wide editorial standards on deadline.</p>
@@ -99,7 +114,7 @@
               <div class="timeline__line"></div>
             </div>
             <div class="timeline__body">
-              <span class="timeline__date">2023 — 2024</span>
+              <span class="timeline__date">2023 &mdash; 2024</span>
               <h4 class="timeline__role">Sub-Editor</h4>
               <p class="timeline__org">New Age &mdash; Dhaka, Bangladesh</p>
               <p class="timeline__desc">Served as Sub-Editor on the Sports desk of a national English-language daily, reading and responding to reporter copy at the level of narrative, structure, tone, and language. Copy-edited all reporter submissions to house style, assessed incoming copy for focus and accuracy, and coordinated the daily Sports page from incoming copy through to final layout and publication.</p>
@@ -125,7 +140,7 @@
               <div class="timeline__line"></div>
             </div>
             <div class="timeline__body">
-              <span class="timeline__date">2019 — 2020</span>
+              <span class="timeline__date">2019 &mdash; 2020</span>
               <h4 class="timeline__role">Sports Journalist</h4>
               <p class="timeline__org">The Business Standard &mdash; Dhaka, Bangladesh</p>
               <p class="timeline__desc">Helped establish the Sports section from the ground up at a national newspaper launch, contributing to editorial standards, copy-editing, layout design, and daily production workflow. Reported news events, wrote sports stories, edited copy, designed the section layout, and produced video content including voiceovers and scripts.</p>
@@ -138,7 +153,7 @@
               <div class="timeline__line"></div>
             </div>
             <div class="timeline__body">
-              <span class="timeline__date">2020 — 2021</span>
+              <span class="timeline__date">2020 &mdash; 2021</span>
               <h4 class="timeline__role">Staff Reporter</h4>
               <p class="timeline__org">NewsBangla24.com &mdash; Dhaka, Bangladesh</p>
               <p class="timeline__desc">Reported, edited, and published daily nonfiction news content for a major Bangladeshi digital outlet, maintaining editorial quality control across breaking news and feature stories on fast-moving deadlines. Conducted live video interviews and produced multimedia content alongside written reporting.</p>
@@ -151,7 +166,7 @@
               <div class="timeline__line"></div>
             </div>
             <div class="timeline__body">
-              <span class="timeline__date">2025 — 2026</span>
+              <span class="timeline__date">2025 &mdash; 2026</span>
               <h4 class="timeline__role">Graduate Assistant &mdash; Marketing and Communications</h4>
               <p class="timeline__org">University of Mississippi &mdash; Oxford, MS</p>
               <p class="timeline__desc">Produced 70+ AP Campus Insights explainer videos independently &mdash; shooting, scripting, editing, and publishing &mdash; with content picked up by several TV stations across the U.S. Interviewed University of Mississippi faculty to translate complex academic topics into accessible video content for national audiences, managing the full production pipeline as a solo producer with no supervisory oversight required.</p>
@@ -164,7 +179,7 @@
               <div class="timeline__line"></div>
             </div>
             <div class="timeline__body">
-              <span class="timeline__date">2023 — 2024</span>
+              <span class="timeline__date">2023 &mdash; 2024</span>
               <h4 class="timeline__role">Communication Consultant</h4>
               <p class="timeline__org">Article 19 &mdash; Dhaka, Bangladesh</p>
               <p class="timeline__desc">Coordinated communications content and editorial strategy for a leading international freedom-of-expression NGO, ensuring accuracy and alignment with organizational editorial standards. Reviewed and approved content for reach, accuracy, and tonal consistency across platforms, and provided strategic recommendations on content implementation and campaign planning.</p>
@@ -190,7 +205,7 @@
               <div class="timeline__line"></div>
             </div>
             <div class="timeline__body">
-              <span class="timeline__date">2024 — 2025</span>
+              <span class="timeline__date">2024 &mdash; 2025</span>
               <h4 class="timeline__role">Graduate Assistant</h4>
               <p class="timeline__org">School of Journalism and New Media, University of Mississippi &mdash; Oxford, MS</p>
               <p class="timeline__desc">Conducted academic research on deadline in support of faculty projects, developing rigorous research and verification practices. Assisted students with coursework in reporting and writing, providing feedback on structure, clarity, and editorial focus, while managing departmental scheduling and administrative coordination across multiple concurrent responsibilities.</p>
@@ -202,28 +217,34 @@
     </section>
 
     <!-- ══════════════════════════════════════════════════
-         EDUCATION
+         EDUCATION  (card | centre image | card)
     ══════════════════════════════════════════════════ -->
     <section class="section section--alt" id="education">
       <div class="container">
         <h3 class="section__title">Education</h3>
         <div class="section__rule" aria-hidden="true"></div>
 
-        <div class="edu-grid">
+        <div class="edu-layout">
 
-          <div class="edu-card reveal">
+          <div class="edu-card edu-card--ole-miss reveal">
             <div class="edu-card__badge">MA</div>
             <div class="edu-card__body">
               <h4>Master of Arts in Journalism</h4>
               <p class="edu-card__org">University of Mississippi &mdash; Oxford, MS</p>
+              <p class="edu-card__school-tag">Ole Miss</p>
             </div>
           </div>
 
-          <div class="edu-card reveal">
+          <div class="edu-center-img reveal">
+            <img src="Education.jpg" alt="Education" class="edu-center-photo" />
+          </div>
+
+          <div class="edu-card edu-card--dhaka reveal">
             <div class="edu-card__badge">BSS</div>
             <div class="edu-card__body">
               <h4>Bachelor of Social Science in Mass Communications and Journalism</h4>
               <p class="edu-card__org">University of Dhaka &mdash; Dhaka, Bangladesh</p>
+              <p class="edu-card__school-tag">University of Dhaka</p>
             </div>
           </div>
 
@@ -275,20 +296,24 @@
     </section>
 
     <!-- ══════════════════════════════════════════════════
-         FELLOWSHIP & TRAINING
+         FELLOWSHIP & TRAINING  (card | centre image | card)
     ══════════════════════════════════════════════════ -->
     <section class="section section--alt" id="fellowship">
       <div class="container">
         <h3 class="section__title">Fellowship &amp; Training</h3>
         <div class="section__rule" aria-hidden="true"></div>
 
-        <div class="fellowship-grid">
+        <div class="fellowship-layout">
 
           <div class="fellowship-card reveal">
             <span class="fellowship-card__year">2021 &ndash; 2023</span>
             <h4>Local Media Hub Fellowship</h4>
             <p class="fellowship-card__org">DW Akademie Bangladesh</p>
             <p class="fellowship-card__desc">A two-year DW Akademie program building local journalism capacity in Bangladesh through training in reporting practice, editorial development, and engagement with local media communities.</p>
+          </div>
+
+          <div class="fellowship-img-wrap reveal">
+            <img src="Fellowship.jpg" alt="Fellowship and Training" class="fellowship-img" />
           </div>
 
           <div class="fellowship-card reveal">
@@ -303,74 +328,105 @@
     </section>
 
     <!-- ══════════════════════════════════════════════════
-         PUBLISHED WORK
+         PUBLISHED WORK — CAROUSEL
     ══════════════════════════════════════════════════ -->
     <section class="section" id="works">
       <div class="container">
         <h3 class="section__title">Published Work</h3>
         <div class="section__rule" aria-hidden="true"></div>
 
-        <div class="works-grid">
+        <div class="carousel-wrap">
+          <button class="carousel-btn carousel-btn--prev carousel-btn--hidden" id="carouselPrev" aria-label="Previous works">&#8592;</button>
 
-          <!-- Row 1: Featured full-width -->
-          <article class="work-card work-card--featured work-card--blue reveal">
-            <p class="work-card__outlet">The Business Post</p>
-            <h4 class="work-card__title">
-              <a href="https://theshamstales.substack.com/p/no-mental-healthcare-projects-to"
-                 target="_blank" rel="noopener" class="work-card__link">
-                No mental healthcare projects to treat sex workers
-              </a>
-            </h4>
-            <p class="work-card__desc">Investigative accountability story produced with the Thomson Reuters Foundation, exposing the absence of mental-health services for sex workers in Bangladesh through interviews with sex workers, psychiatrists, government officials, and NGOs.</p>
-          </article>
+          <div class="carousel-viewport">
+            <div class="carousel-track" id="carouselTrack">
 
-          <!-- Row 2 -->
-          <article class="work-card work-card--coral reveal">
-            <p class="work-card__outlet">The Business Standard</p>
-            <h4 class="work-card__title">
-              <a href="https://www.tbsnews.net/sports/where-does-sports-budget-go-105034"
-                 target="_blank" rel="noopener" class="work-card__link">
-                Where does the Sports budget go?
-              </a>
-            </h4>
-            <p class="work-card__desc">Data-driven investigation of how Bangladesh's Tk 600-crore sports budget is distributed across federations, with quantitative breakdowns and sourced interviews with the Ministry of Youth and Sports and federation general secretaries.</p>
-          </article>
+              <article class="carousel-card work-card work-card--blue">
+                <div class="work-card__img-wrap">
+                  <img src="article-1.jpg" alt="No mental healthcare projects to treat sex workers" class="work-card__img" />
+                </div>
+                <div class="work-card__body">
+                  <p class="work-card__outlet">The Business Post</p>
+                  <h4 class="work-card__title">
+                    <a href="https://theshamstales.substack.com/p/no-mental-healthcare-projects-to"
+                       target="_blank" rel="noopener" class="work-card__link">
+                      No mental healthcare projects to treat sex workers
+                    </a>
+                  </h4>
+                  <p class="work-card__desc">Investigative accountability story produced with the Thomson Reuters Foundation, exposing the absence of mental-health services for sex workers in Bangladesh through interviews with sex workers, psychiatrists, government officials, and NGOs.</p>
+                </div>
+              </article>
 
-          <article class="work-card work-card--amber reveal">
-            <p class="work-card__outlet">The Business Post</p>
-            <h4 class="work-card__title">
-              <a href="https://theshamstales.substack.com/p/fireworks-galore-in-bpl-fancy-or"
-                 target="_blank" rel="noopener" class="work-card__link">
-                Fireworks galore in BPL: Fancy or futile?
-              </a>
-            </h4>
-            <p class="work-card__desc">Sports-accountability investigation costing out the Bangladesh Cricket Board's fireworks spending and documenting its environmental and public-health impact, with expert and resident sourcing.</p>
-          </article>
+              <article class="carousel-card work-card work-card--coral">
+                <div class="work-card__img-wrap">
+                  <img src="article-2.jpg" alt="Where does the Sports budget go?" class="work-card__img" />
+                </div>
+                <div class="work-card__body">
+                  <p class="work-card__outlet">The Business Standard</p>
+                  <h4 class="work-card__title">
+                    <a href="https://www.tbsnews.net/sports/where-does-sports-budget-go-105034"
+                       target="_blank" rel="noopener" class="work-card__link">
+                      Where does the Sports budget go?
+                    </a>
+                  </h4>
+                  <p class="work-card__desc">Data-driven investigation of how Bangladesh's Tk 600-crore sports budget is distributed across federations, with quantitative breakdowns and sourced interviews with the Ministry of Youth and Sports and federation general secretaries.</p>
+                </div>
+              </article>
 
-          <!-- Row 3 -->
-          <article class="work-card work-card--violet reveal">
-            <p class="work-card__outlet">The Oxford Eagle</p>
-            <h4 class="work-card__title">
-              <a href="https://oxfordeagle.com/2025/07/04/fighting-against-addiction-through-oxford-treatment-center/"
-                 target="_blank" rel="noopener" class="work-card__link">
-                Fighting against addiction through Oxford Treatment Center
-              </a>
-            </h4>
-            <p class="work-card__desc">Local Mississippi feature on addiction treatment and recovery, profiling the Oxford Treatment Center and its medical director.</p>
-          </article>
+              <article class="carousel-card work-card work-card--amber">
+                <div class="work-card__img-wrap">
+                  <img src="article-3.jpg" alt="Fireworks galore in BPL: Fancy or futile?" class="work-card__img" />
+                </div>
+                <div class="work-card__body">
+                  <p class="work-card__outlet">The Business Post</p>
+                  <h4 class="work-card__title">
+                    <a href="https://theshamstales.substack.com/p/fireworks-galore-in-bpl-fancy-or"
+                       target="_blank" rel="noopener" class="work-card__link">
+                      Fireworks galore in BPL: Fancy or futile?
+                    </a>
+                  </h4>
+                  <p class="work-card__desc">Sports-accountability investigation costing out the Bangladesh Cricket Board's fireworks spending and documenting its environmental and public-health impact, with expert and resident sourcing.</p>
+                </div>
+              </article>
 
-          <article class="work-card work-card--emerald reveal">
-            <p class="work-card__outlet">Long-Form Narrative Feature</p>
-            <h4 class="work-card__title">
-              <a href="https://theshamstales.substack.com/p/under-pressure-in-the-loop"
-                 target="_blank" rel="noopener" class="work-card__link">
-                Under pressure, in the loop
-              </a>
-            </h4>
-            <p class="work-card__desc">Immersive narrative on the financial precarity and immigration anxiety of international students in the United States, built on extended access and multiple-sourced interviews.</p>
-          </article>
+              <article class="carousel-card work-card work-card--violet">
+                <div class="work-card__img-wrap">
+                  <img src="article-4.jpg" alt="Fighting against addiction through Oxford Treatment Center" class="work-card__img" />
+                </div>
+                <div class="work-card__body">
+                  <p class="work-card__outlet">The Oxford Eagle</p>
+                  <h4 class="work-card__title">
+                    <a href="https://oxfordeagle.com/2025/07/04/fighting-against-addiction-through-oxford-treatment-center/"
+                       target="_blank" rel="noopener" class="work-card__link">
+                      Fighting against addiction through Oxford Treatment Center
+                    </a>
+                  </h4>
+                  <p class="work-card__desc">Local Mississippi feature on addiction treatment and recovery, profiling the Oxford Treatment Center and its medical director.</p>
+                </div>
+              </article>
 
-        </div>
+              <article class="carousel-card work-card work-card--emerald">
+                <div class="work-card__img-wrap">
+                  <img src="article-5.jpg" alt="Under pressure, in the loop" class="work-card__img" />
+                </div>
+                <div class="work-card__body">
+                  <p class="work-card__outlet">Long-Form Narrative Feature</p>
+                  <h4 class="work-card__title">
+                    <a href="https://theshamstales.substack.com/p/under-pressure-in-the-loop"
+                       target="_blank" rel="noopener" class="work-card__link">
+                      Under pressure, in the loop
+                    </a>
+                  </h4>
+                  <p class="work-card__desc">Immersive narrative on the financial precarity and immigration anxiety of international students in the United States, built on extended access and multiple-sourced interviews.</p>
+                </div>
+              </article>
+
+            </div><!-- /.carousel-track -->
+          </div><!-- /.carousel-viewport -->
+
+          <button class="carousel-btn carousel-btn--next" id="carouselNext" aria-label="Next works">&#8594;</button>
+        </div><!-- /.carousel-wrap -->
+
       </div>
     </section>
 
@@ -465,7 +521,7 @@
             Download a full PDF copy of my resume, including complete publication history,
             media appearances, language skills, and professional references.
           </p>
-          <a href="#" class="btn btn--primary btn--large" download>
+          <a href="Resume.pdf" class="btn btn--primary btn--large" target="_blank" rel="noopener" download>
             &#8659;&nbsp; Download Resume (PDF)
           </a>
         </div>
@@ -536,9 +592,9 @@
               <span class="contact-info__icon">&#9993;</span>
               <span>sm.shams.rahman@gmail.com</span>
             </a>
-            <a href="https://twitter.com/ShamsRahmanJrn" class="contact-info__item" target="_blank" rel="noopener">
+            <a href="https://x.com/shamsrahman1805" class="contact-info__item" target="_blank" rel="noopener">
               <span class="contact-info__icon">&#120143;</span>
-              <span>@ShamsRahmanJrn</span>
+              <span>@shamsrahman1805</span>
             </a>
             <a href="https://www.facebook.com/theshamstales" class="contact-info__item" target="_blank" rel="noopener">
               <span class="contact-info__icon contact-info__icon--fb">f</span>
@@ -578,12 +634,12 @@
             <span class="social-pill__text">Substack</span>
           </a>
 
-          <a href="https://www.facebook.com/theshamstales" target="_blank" rel="noopener" class="social-pill social-pill--fb">
+          <a href="https://www.facebook.com/shams.666666666/" target="_blank" rel="noopener" class="social-pill social-pill--fb">
             <span class="social-pill__icon">f</span>
             <span class="social-pill__text">Facebook</span>
           </a>
 
-          <a href="https://twitter.com/ShamsRahmanJrn" target="_blank" rel="noopener" class="social-pill social-pill--x">
+          <a href="https://x.com/shamsrahman1805" target="_blank" rel="noopener" class="social-pill social-pill--x">
             <span class="social-pill__icon">&#120143;</span>
             <span class="social-pill__text">Twitter / X</span>
           </a>
@@ -593,8 +649,8 @@
             <span class="social-pill__text">YouTube</span>
           </a>
 
-          <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="social-pill social-pill--li">
-            <span class="social-pill__icon contact-info__icon--in">in</span>
+          <a href="https://www.linkedin.com/in/shamsrahman1805/" target="_blank" rel="noopener" class="social-pill social-pill--li">
+            <span class="social-pill__icon">in</span>
             <span class="social-pill__text">LinkedIn</span>
           </a>
 
