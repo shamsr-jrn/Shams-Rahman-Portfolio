@@ -235,3 +235,39 @@ window.addEventListener('scroll', setActiveLink, { passive: true });
    Footer — current year
    ================================================================ */
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ================================================================
+   Floating Action Button — smooth scroll to contact
+   ================================================================ */
+const fabContact = document.querySelector('.fab-contact');
+if (fabContact) {
+  fabContact.addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  });
+}
+
+/* ================================================================
+   Contact Form — open mailto with pre-filled fields
+   ================================================================ */
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name    = document.getElementById('cfName').value.trim();
+    const subject = document.getElementById('cfSubject').value.trim();
+    const message = document.getElementById('cfMessage').value.trim();
+    if (!name || !subject || !message) return;
+
+    const body = `Name: ${name}\n\nMessage:\n${message}`;
+    window.location.href =
+      `mailto:sm.shams.rahman@gmail.com` +
+      `?subject=${encodeURIComponent(subject)}` +
+      `&body=${encodeURIComponent(body)}`;
+
+    const successEl = document.getElementById('contactSuccess');
+    successEl.textContent = 'Opening your email client…';
+    contactForm.reset();
+    setTimeout(() => { successEl.textContent = ''; }, 5000);
+  });
+}
