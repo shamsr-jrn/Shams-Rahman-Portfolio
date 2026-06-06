@@ -1,11 +1,10 @@
 /* ================================================================
-   Theme toggle — persists across page loads via localStorage
+   Theme toggle — light mode default, persists via localStorage
    ================================================================ */
 const html        = document.documentElement;
 const themeToggle = document.getElementById('themeToggle');
 
-// Apply saved preference immediately (before paint)
-const savedTheme = localStorage.getItem('sr-theme') || 'dark';
+const savedTheme = localStorage.getItem('sr-theme') || 'light';
 html.setAttribute('data-theme', savedTheme);
 
 themeToggle.addEventListener('click', () => {
@@ -55,14 +54,74 @@ nav.querySelectorAll('.nav__btn').forEach(btn => {
 });
 
 /* ================================================================
+   Published Works — Carousel
+   ================================================================ */
+(function () {
+  const track   = document.getElementById('carouselTrack');
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+  if (!track || !prevBtn || !nextBtn) return;
+
+  const cards       = Array.from(track.querySelectorAll('.carousel-card'));
+  const totalCards  = cards.length;
+  let currentIndex  = 0;
+
+  function getVisibleCount() {
+    const w = window.innerWidth;
+    if (w <= 580) return 1;
+    if (w <= 900) return 2;
+    return 3;
+  }
+
+  function getMaxIndex() {
+    return Math.max(0, totalCards - getVisibleCount());
+  }
+
+  function getStep() {
+    const gap = parseFloat(getComputedStyle(track).gap) || 24;
+    return cards[0].offsetWidth + gap;
+  }
+
+  function updateCarousel() {
+    const maxIndex = getMaxIndex();
+    if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+    track.style.transform = `translateX(-${currentIndex * getStep()}px)`;
+
+    prevBtn.classList.toggle('carousel-btn--hidden', currentIndex === 0);
+    nextBtn.classList.toggle('carousel-btn--hidden', currentIndex >= maxIndex);
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) { currentIndex--; updateCarousel(); }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < getMaxIndex()) { currentIndex++; updateCarousel(); }
+  });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const t = track.style.transition;
+      track.style.transition = 'none';
+      updateCarousel();
+      requestAnimationFrame(() => { track.style.transition = t; });
+    }, 200);
+  }, { passive: true });
+
+  updateCarousel();
+})();
+
+/* ================================================================
    Scroll-reveal — IntersectionObserver
    ================================================================ */
 const revealObserver = new IntersectionObserver(
   entries => {
-    entries.forEach((entry, i) => {
+    entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-      const el = entry.target;
-      // Stagger cards that appear in a grid
+      const el       = entry.target;
       const siblings = el.parentElement.querySelectorAll('.reveal');
       let delay = 0;
       siblings.forEach((sib, idx) => { if (sib === el) delay = idx * 80; });
@@ -76,12 +135,12 @@ const revealObserver = new IntersectionObserver(
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 /* ================================================================
-   Hero elements — auto-reveal on load
+   Hero elements — entrance animation on load
    ================================================================ */
 window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.hero__content > *').forEach((el, i) => {
-    el.style.opacity   = '0';
-    el.style.transform = 'translateY(20px)';
+    el.style.opacity    = '0';
+    el.style.transform  = 'translateY(20px)';
     el.style.transition = `opacity 0.7s ease ${i * 120}ms, transform 0.7s ease ${i * 120}ms`;
     requestAnimationFrame(() => {
       el.style.opacity   = '1';
@@ -99,12 +158,13 @@ const navLinks = document.querySelectorAll('.nav__btn');
 function setActiveLink() {
   let current = '';
   sections.forEach(sec => {
-    const top = sec.offsetTop - 100;
-    if (window.scrollY >= top) current = sec.id;
+    if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
   });
   navLinks.forEach(link => {
-    const href = link.getAttribute('href').slice(1);
-    link.classList.toggle('active', href === current);
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      link.classList.toggle('active', href.slice(1) === current);
+    }
   });
 }
 
@@ -123,8 +183,7 @@ function setError(id, errorId, msg) {
 }
 
 function clearError(id, errorId) {
-  const el = document.getElementById(id);
-  el.classList.remove('invalid');
+  document.getElementById(id).classList.remove('invalid');
   document.getElementById(errorId).textContent = '';
 }
 
@@ -143,9 +202,7 @@ form.addEventListener('submit', e => {
   if (!name) {
     setError('cname', 'cnameError', 'Please enter your name.');
     valid = false;
-  } else {
-    clearError('cname', 'cnameError');
-  }
+  } else { clearError('cname', 'cnameError'); }
 
   if (!email) {
     setError('cemail', 'cemailError', 'Please enter your email address.');
@@ -153,16 +210,12 @@ form.addEventListener('submit', e => {
   } else if (!isValidEmail(email)) {
     setError('cemail', 'cemailError', 'Please enter a valid email address.');
     valid = false;
-  } else {
-    clearError('cemail', 'cemailError');
-  }
+  } else { clearError('cemail', 'cemailError'); }
 
   if (!message) {
     setError('cmessage', 'cmessageError', 'Please enter a message.');
     valid = false;
-  } else {
-    clearError('cmessage', 'cmessageError');
-  }
+  } else { clearError('cmessage', 'cmessageError'); }
 
   if (!valid) return;
 
@@ -179,7 +232,6 @@ form.addEventListener('submit', e => {
   }, 1400);
 });
 
-// Clear individual errors on input
 ['cname', 'cemail', 'cmessage'].forEach(id => {
   document.getElementById(id).addEventListener('input', () => {
     clearError(id, id + 'Error');
