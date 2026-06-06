@@ -1,48 +1,34 @@
-/* ============================================================
-   Theme toggle — persists preference in localStorage
-   ============================================================ */
-const html         = document.documentElement;
-const themeToggle  = document.getElementById('themeToggle');
-
-const savedTheme = localStorage.getItem('theme') || 'dark';
-html.setAttribute('data-theme', savedTheme);
-
-themeToggle.addEventListener('click', () => {
-  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-});
-
-/* ============================================================
-   Header — add shadow on scroll
-   ============================================================ */
+/* ================================================================
+   Header — shadow on scroll
+   ================================================================ */
 const header = document.getElementById('header');
+
 window.addEventListener('scroll', () => {
   header.classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
 
-/* ============================================================
-   Mobile nav burger
-   ============================================================ */
+/* ================================================================
+   Mobile navigation burger
+   ================================================================ */
 const navBurger = document.getElementById('navBurger');
 const nav       = document.getElementById('nav');
 
 navBurger.addEventListener('click', () => {
   const open = nav.classList.toggle('open');
-  navBurger.setAttribute('aria-expanded', open);
+  navBurger.setAttribute('aria-expanded', String(open));
 
-  const spans = navBurger.querySelectorAll('span');
+  const [top, mid, bot] = navBurger.querySelectorAll('span');
   if (open) {
-    spans[0].style.transform = 'translateY(7px) rotate(45deg)';
-    spans[1].style.opacity   = '0';
-    spans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+    top.style.transform = 'translateY(7px) rotate(45deg)';
+    mid.style.opacity   = '0';
+    bot.style.transform = 'translateY(-7px) rotate(-45deg)';
   } else {
-    spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+    [top, mid, bot].forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
   }
 });
 
-nav.querySelectorAll('.nav__link').forEach(link => {
-  link.addEventListener('click', () => {
+nav.querySelectorAll('.nav__btn').forEach(btn => {
+  btn.addEventListener('click', () => {
     nav.classList.remove('open');
     navBurger.setAttribute('aria-expanded', 'false');
     navBurger.querySelectorAll('span').forEach(s => {
@@ -52,177 +38,139 @@ nav.querySelectorAll('.nav__link').forEach(link => {
   });
 });
 
-/* ============================================================
-   Typewriter effect
-   ============================================================ */
-const roles = [
-  'Full-Stack Developer',
-  'UI / UX Enthusiast',
-  'Open-Source Contributor',
-  'Problem Solver',
-];
-
-const typewriterEl = document.getElementById('typewriter');
-let roleIndex   = 0;
-let charIndex   = 0;
-let isDeleting  = false;
-const TYPING_MS = 80;
-const DELETE_MS = 45;
-const PAUSE_MS  = 1800;
-
-function type() {
-  const current = roles[roleIndex];
-
-  if (!isDeleting) {
-    typewriterEl.textContent = current.slice(0, ++charIndex);
-    if (charIndex === current.length) {
-      isDeleting = true;
-      setTimeout(type, PAUSE_MS);
-      return;
-    }
-  } else {
-    typewriterEl.textContent = current.slice(0, --charIndex);
-    if (charIndex === 0) {
-      isDeleting  = false;
-      roleIndex   = (roleIndex + 1) % roles.length;
-    }
-  }
-
-  setTimeout(type, isDeleting ? DELETE_MS : TYPING_MS);
-}
-
-type();
-
-/* ============================================================
+/* ================================================================
    Scroll-reveal — IntersectionObserver
-   ============================================================ */
-const revealTargets = [
-  '.hero__inner',
-  '.about__image-wrap',
-  '.about__content',
-  '.section__title',
-  '.section__subtitle',
-  '.projects__filters',
-  '.card',
-  '.contact__form',
-  '.contact__socials',
-];
-
-revealTargets.forEach(sel => {
-  document.querySelectorAll(sel).forEach(el => el.classList.add('reveal'));
-});
-
+   ================================================================ */
 const revealObserver = new IntersectionObserver(
   entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        revealObserver.unobserve(entry.target);
-      }
+    entries.forEach((entry, i) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      // Stagger cards that appear in a grid
+      const siblings = el.parentElement.querySelectorAll('.reveal');
+      let delay = 0;
+      siblings.forEach((sib, idx) => { if (sib === el) delay = idx * 80; });
+      setTimeout(() => el.classList.add('visible'), Math.min(delay, 400));
+      revealObserver.unobserve(el);
     });
   },
-  { threshold: 0.12 }
+  { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
 );
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-/* ============================================================
-   Project filter
-   ============================================================ */
-const filterBtns = document.querySelectorAll('.filter-btn');
-const cards      = document.querySelectorAll('.card');
-
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const filter = btn.dataset.filter;
-
-    cards.forEach(card => {
-      const match = filter === 'all' || card.dataset.category === filter;
-      card.classList.toggle('hidden', !match);
-      if (match) {
-        card.classList.add('reveal');
-        requestAnimationFrame(() => card.classList.add('visible'));
-      }
+/* ================================================================
+   Hero elements — auto-reveal on load
+   ================================================================ */
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.hero__content > *').forEach((el, i) => {
+    el.style.opacity   = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = `opacity 0.7s ease ${i * 120}ms, transform 0.7s ease ${i * 120}ms`;
+    requestAnimationFrame(() => {
+      el.style.opacity   = '1';
+      el.style.transform = 'none';
     });
   });
 });
 
-/* ============================================================
-   Contact form — client-side validation
-   ============================================================ */
-const form         = document.getElementById('contactForm');
-const nameInput    = document.getElementById('name');
-const emailInput   = document.getElementById('email');
-const messageInput = document.getElementById('message');
-const formSuccess  = document.getElementById('formSuccess');
+/* ================================================================
+   Active nav link highlight on scroll
+   ================================================================ */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav__btn');
 
-function showError(inputEl, errorId, msg) {
-  inputEl.classList.add('invalid');
+function setActiveLink() {
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 100;
+    if (window.scrollY >= top) current = sec.id;
+  });
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href').slice(1);
+    link.classList.toggle('active', href === current);
+  });
+}
+
+window.addEventListener('scroll', setActiveLink, { passive: true });
+
+/* ================================================================
+   Contact form — validation + simulated submit
+   ================================================================ */
+const form    = document.getElementById('contactForm');
+const success = document.getElementById('formSuccess');
+
+function setError(id, errorId, msg) {
+  const el = document.getElementById(id);
+  el.classList.add('invalid');
   document.getElementById(errorId).textContent = msg;
 }
-function clearError(inputEl, errorId) {
-  inputEl.classList.remove('invalid');
+
+function clearError(id, errorId) {
+  const el = document.getElementById(id);
+  el.classList.remove('invalid');
   document.getElementById(errorId).textContent = '';
 }
 
-function validateEmail(val) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+function isValidEmail(v) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 }
 
 form.addEventListener('submit', e => {
   e.preventDefault();
   let valid = true;
 
-  if (!nameInput.value.trim()) {
-    showError(nameInput, 'nameError', 'Name is required.');
+  const name    = document.getElementById('cname').value.trim();
+  const email   = document.getElementById('cemail').value.trim();
+  const message = document.getElementById('cmessage').value.trim();
+
+  if (!name) {
+    setError('cname', 'cnameError', 'Please enter your name.');
     valid = false;
   } else {
-    clearError(nameInput, 'nameError');
+    clearError('cname', 'cnameError');
   }
 
-  if (!emailInput.value.trim()) {
-    showError(emailInput, 'emailError', 'Email is required.');
+  if (!email) {
+    setError('cemail', 'cemailError', 'Please enter your email address.');
     valid = false;
-  } else if (!validateEmail(emailInput.value.trim())) {
-    showError(emailInput, 'emailError', 'Please enter a valid email.');
+  } else if (!isValidEmail(email)) {
+    setError('cemail', 'cemailError', 'Please enter a valid email address.');
     valid = false;
   } else {
-    clearError(emailInput, 'emailError');
+    clearError('cemail', 'cemailError');
   }
 
-  if (!messageInput.value.trim()) {
-    showError(messageInput, 'messageError', 'Message is required.');
+  if (!message) {
+    setError('cmessage', 'cmessageError', 'Please enter a message.');
     valid = false;
   } else {
-    clearError(messageInput, 'messageError');
+    clearError('cmessage', 'cmessageError');
   }
 
   if (!valid) return;
 
-  const submitBtn = form.querySelector('button[type="submit"]');
-  submitBtn.textContent  = 'Sending…';
-  submitBtn.disabled     = true;
+  const btn = form.querySelector('button[type="submit"]');
+  btn.textContent = 'Sending…';
+  btn.disabled    = true;
 
   setTimeout(() => {
     form.reset();
-    submitBtn.textContent = 'Send Message';
-    submitBtn.disabled    = false;
-    formSuccess.classList.add('visible');
-    setTimeout(() => formSuccess.classList.remove('visible'), 5000);
-  }, 1200);
+    btn.textContent = 'Send Message';
+    btn.disabled    = false;
+    success.classList.add('visible');
+    setTimeout(() => success.classList.remove('visible'), 6000);
+  }, 1400);
 });
 
-[nameInput, emailInput, messageInput].forEach(input => {
-  input.addEventListener('input', () => {
-    const errorId = input.id + 'Error';
-    clearError(input, errorId);
+// Clear individual errors on input
+['cname', 'cemail', 'cmessage'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    clearError(id, id + 'Error');
   });
 });
 
-/* ============================================================
-   Footer year
-   ============================================================ */
+/* ================================================================
+   Footer — current year
+   ================================================================ */
 document.getElementById('year').textContent = new Date().getFullYear();
