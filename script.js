@@ -111,6 +111,20 @@ nav.querySelectorAll('.nav__btn').forEach(btn => {
     }, 200);
   }, { passive: true });
 
+  // Touch swipe support
+  let careerTouchStartX = 0;
+  const careerViewport = track.parentElement;
+  careerViewport.addEventListener('touchstart', e => {
+    careerTouchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  careerViewport.addEventListener('touchend', e => {
+    const diff = careerTouchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0 && currentIndex < getMaxIndex()) { currentIndex++; updateCarousel(); }
+      else if (diff < 0 && currentIndex > 0)        { currentIndex--; updateCarousel(); }
+    }
+  }, { passive: true });
+
   updateCarousel();
 })();
 
@@ -172,6 +186,20 @@ nav.querySelectorAll('.nav__btn').forEach(btn => {
     }, 200);
   }, { passive: true });
 
+  // Touch swipe support
+  let worksTouchStartX = 0;
+  const worksViewport = track.parentElement;
+  worksViewport.addEventListener('touchstart', e => {
+    worksTouchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  worksViewport.addEventListener('touchend', e => {
+    const diff = worksTouchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0 && currentIndex < getMaxIndex()) { currentIndex++; updateCarousel(); }
+      else if (diff < 0 && currentIndex > 0)        { currentIndex--; updateCarousel(); }
+    }
+  }, { passive: true });
+
   updateCarousel();
 })();
 
@@ -181,13 +209,15 @@ nav.querySelectorAll('.nav__btn').forEach(btn => {
 const revealObserver = new IntersectionObserver(
   entries => {
     entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el       = entry.target;
-      const siblings = el.parentElement.querySelectorAll('.reveal');
-      let delay = 0;
-      siblings.forEach((sib, idx) => { if (sib === el) delay = idx * 80; });
-      setTimeout(() => el.classList.add('visible'), Math.min(delay, 400));
-      revealObserver.unobserve(el);
+      if (entry.isIntersecting) {
+        const el       = entry.target;
+        const siblings = el.parentElement.querySelectorAll('.reveal');
+        let delay = 0;
+        siblings.forEach((sib, idx) => { if (sib === el) delay = idx * 80; });
+        setTimeout(() => el.classList.add('visible'), Math.min(delay, 400));
+      } else {
+        entry.target.classList.remove('visible');
+      }
     });
   },
   { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
