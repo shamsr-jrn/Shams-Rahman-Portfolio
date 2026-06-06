@@ -637,10 +637,51 @@ input, textarea, select { font-family: inherit; }
 }
 
 /* ================================================================
-   About Me
+   About Me — two-column layout
    ================================================================ */
-.about-text {
-  max-width: 800px;
+.about-layout {
+  display:     grid;
+  grid-template-columns: 300px 1fr;
+  gap:         3rem;
+  align-items: start;
+}
+
+.about-img-col {
+  position: sticky;
+  top: calc(var(--header-h) + 2rem);
+}
+
+.about-img-wrap {
+  position:      relative;
+  overflow:      hidden;
+  border-radius: var(--radius);
+}
+
+.about-img-wrap::before {
+  content:  '';
+  position: absolute;
+  inset:    0;
+  background: linear-gradient(to right, rgba(236, 238, 248, 0) 35%, #ECEEF8 95%);
+  z-index:  1;
+  pointer-events: none;
+}
+
+[data-theme="dark"] .about-img-wrap::before {
+  background: linear-gradient(to right, rgba(12, 15, 38, 0) 35%, #0c0f26 95%);
+}
+
+.about-img {
+  width:        100%;
+  height:       auto;
+  object-fit:   cover;
+  aspect-ratio: 3 / 4;
+  display:      block;
+}
+
+.about-content-col {
+  display:        flex;
+  flex-direction: column;
+  gap:            2.5rem;
 }
 
 .about-text p {
@@ -651,8 +692,49 @@ input, textarea, select { font-family: inherit; }
   margin-bottom: 1.5rem;
 }
 
-.about-text p:last-child {
-  margin-bottom: 0;
+.about-text p:last-child { margin-bottom: 0; }
+
+/* Works Appeared In */
+.works-appeared {
+  padding-top: 2rem;
+  border-top:  1px solid var(--border);
+}
+
+.works-appeared__title {
+  font-family:    var(--font-heading);
+  font-size:      0.82rem;
+  font-weight:    700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color:          var(--text-3);
+  margin-bottom:  1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom:  2px solid var(--blue-dim);
+  display:        inline-block;
+}
+
+.works-logos {
+  display:     flex;
+  flex-wrap:   wrap;
+  gap:         1.1rem;
+  align-items: center;
+}
+
+.works-logo {
+  height:     38px;
+  width:      auto;
+  max-width:  110px;
+  object-fit: contain;
+  filter:     grayscale(100%);
+  opacity:    0.55;
+  transition: filter var(--transition), opacity var(--transition), transform 0.2s;
+  display:    block;
+}
+
+.works-logo:hover {
+  filter:    grayscale(0%);
+  opacity:   1;
+  transform: scale(1.08);
 }
 
 /* ================================================================
@@ -776,8 +858,10 @@ input, textarea, select { font-family: inherit; }
   background:    var(--bg-card);
   border:        1px solid var(--border);
   border-radius: var(--radius);
-  padding:       1.75rem;
+  padding:       2rem 2.5rem;
   align-items:   flex-start;
+  position:      relative;
+  overflow:      hidden;
   transition:    background var(--transition), border-color var(--transition), transform 0.2s;
 }
 .edu-card:hover {
@@ -785,6 +869,38 @@ input, textarea, select { font-family: inherit; }
   border-color: var(--border-hover);
   transform:    translateY(-3px);
   box-shadow:   var(--shadow-blue);
+}
+
+.edu-card__body {
+  position: relative;
+  z-index:  1;
+}
+
+/* Watermark pseudo-elements */
+.edu-card--ole-miss::after {
+  content:             '';
+  position:            absolute;
+  inset:               0;
+  background-image:    url('OleMiss-logo.png');
+  background-size:     contain;
+  background-repeat:   no-repeat;
+  background-position: center;
+  opacity:             0.12;
+  pointer-events:      none;
+  z-index:             0;
+}
+
+.edu-card--dhaka::after {
+  content:             '';
+  position:            absolute;
+  inset:               0;
+  background-image:    url('UDhaka-logo.png');
+  background-size:     contain;
+  background-repeat:   no-repeat;
+  background-position: center;
+  opacity:             0.12;
+  pointer-events:      none;
+  z-index:             0;
 }
 
 /* Ole Miss: cardinal red top + navy left */
@@ -1033,15 +1149,17 @@ input, textarea, select { font-family: inherit; }
 }
 
 .carousel-track {
-  display:     flex;
-  gap:         1.5rem;
-  transition:  transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
+  display:      flex;
+  align-items:  stretch;
+  gap:          1.5rem;
+  transition:   transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change:  transform;
 }
 
 .carousel-card {
   flex:      0 0 calc((100% - 3rem) / 3);
   min-width: 0;
+  display:   flex;
 }
 
 .carousel-btn {
@@ -1189,10 +1307,19 @@ input, textarea, select { font-family: inherit; }
   justify-content: center;
   position:        relative;
   overflow:        hidden;
+  background:      #111;
 }
-.media-card__preview--yt  { background: linear-gradient(135deg, #1a0000 0%, #360000 60%, #200808 100%); }
-.media-card__preview--yt2 { background: linear-gradient(135deg, #1c0000 0%, #4a0000 60%, #2a0505 100%); }
-.media-card__preview--ap  { background: linear-gradient(135deg, #00120a 0%, #002018 60%, #001510 100%); }
+
+.media-card__thumb {
+  position:   absolute;
+  inset:      0;
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+  display:    block;
+  transition: transform 0.35s ease;
+}
+.media-card:hover .media-card__thumb { transform: scale(1.04); }
 
 .media-card__play {
   width:           64px; height: 64px;
@@ -1289,8 +1416,9 @@ input, textarea, select { font-family: inherit; }
 
 .personal-card__icon {
   flex-shrink:     0;
-  width:           52px; height: 52px;
-  border-radius:   var(--radius-sm);
+  width:           60px; height: 60px;
+  border-radius:   50%;
+  overflow:        hidden;
   display:         flex;
   align-items:     center;
   justify-content: center;
@@ -1302,6 +1430,14 @@ input, textarea, select { font-family: inherit; }
 }
 .personal-card__icon--substack { background: linear-gradient(135deg, #ff6719, #ff9a00); }
 .personal-card__icon--fb       { background: linear-gradient(135deg, #1877F2, #0d5ed1); }
+
+.personal-card__avatar {
+  width:         100%;
+  height:        100%;
+  object-fit:    cover;
+  border-radius: 50%;
+  display:       block;
+}
 
 .personal-card__body {
   display:        flex;
@@ -1719,6 +1855,13 @@ input, textarea, select { font-family: inherit; }
   .awards-center { order: 1; }
   .awards-photo-wrap:last-child { order: 3; }
   .awards-photo { min-height: 220px; max-width: 340px; margin: 0 auto; }
+
+  /* About Me — stack on mobile */
+  .about-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .about-img-col { position: static; }
+  .about-img { aspect-ratio: 4 / 3; max-height: 280px; }
+  .about-img-wrap::before { background: linear-gradient(to bottom, rgba(236, 238, 248, 0) 50%, #ECEEF8 100%); }
+  [data-theme="dark"] .about-img-wrap::before { background: linear-gradient(to bottom, rgba(12, 15, 38, 0) 50%, #0c0f26 100%); }
 
   /* Education — stack */
   .edu-layout { grid-template-columns: 1fr; gap: 1.5rem; }
