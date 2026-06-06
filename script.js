@@ -1,4 +1,20 @@
 /* ================================================================
+   Theme toggle — persists across page loads via localStorage
+   ================================================================ */
+const html        = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+
+// Apply saved preference immediately (before paint)
+const savedTheme = localStorage.getItem('sr-theme') || 'dark';
+html.setAttribute('data-theme', savedTheme);
+
+themeToggle.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('sr-theme', next);
+});
+
+/* ================================================================
    Header — shadow on scroll
    ================================================================ */
 const header = document.getElementById('header');
