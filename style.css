@@ -638,7 +638,26 @@ input, textarea, select { font-family: inherit; }
 }
 
 /* ================================================================
-   Skills — two-column section (after Fellowship)
+   About Me
+   ================================================================ */
+.about-text {
+  max-width: 800px;
+}
+
+.about-text p {
+  font-family:   var(--font-body);
+  font-size:     1rem;
+  line-height:   1.85;
+  color:         var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.about-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* ================================================================
+   Skills — two-column section
    ================================================================ */
 .skills-layout {
   display:     grid;
