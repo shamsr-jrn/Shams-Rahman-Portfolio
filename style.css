@@ -1553,6 +1553,17 @@ input, textarea, select { font-family: inherit; }
   align-items: center;
 }
 
+/* View Online button always renders in white for visibility on dark backgrounds */
+.resume-wrap__actions .btn--outline {
+  color:        #FFFFFF;
+  border-color: #FFFFFF;
+}
+.resume-wrap__actions .btn--outline:hover {
+  background:   #FFFFFF;
+  color:        var(--blue-dark);
+  border-color: #FFFFFF;
+}
+
 /* ================================================================
    Contact — simplified (email left | social list right)
    ================================================================ */
@@ -1599,6 +1610,9 @@ input, textarea, select { font-family: inherit; }
   line-height: 1.4;
 }
 .contact-email-addr:hover { color: var(--blue-light); }
+
+[data-theme="dark"] .contact-email-addr       { color: #FFFFFF; }
+[data-theme="dark"] .contact-email-addr:hover  { color: var(--blue-lighter); }
 
 .contact-location {
   font-family: var(--font-caption);
@@ -1784,25 +1798,18 @@ input, textarea, select { font-family: inherit; }
   bottom:          2rem;
   right:           2rem;
   z-index:         300;
+  width:           52px;
+  height:          52px;
   background:      var(--blue);
   color:           #fff;
-  padding:         0.7rem 1.5rem 0.7rem 1.2rem;
-  border-radius:   999px;
-  font-family:     var(--font-heading);
-  font-size:       0.79rem;
-  font-weight:     700;
-  letter-spacing:  0.05em;
-  text-transform:  uppercase;
+  padding:         0;
+  border-radius:   50%;
   text-decoration: none;
   box-shadow:      0 4px 20px rgba(63, 81, 181, 0.42);
   display:         flex;
   align-items:     center;
-  gap:             0.45rem;
+  justify-content: center;
   transition:      background var(--transition), transform 0.2s, box-shadow 0.2s;
-}
-.fab-contact::before {
-  content:   '✉';
-  font-size: 0.9rem;
 }
 .fab-contact:hover {
   background:  var(--blue-dark);
