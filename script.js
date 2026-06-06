@@ -4,7 +4,7 @@
 const html        = document.documentElement;
 const themeToggle = document.getElementById('themeToggle');
 
-const savedTheme = localStorage.getItem('sr-theme') || 'light';
+const savedTheme = localStorage.getItem('sr-theme') || 'dark';
 html.setAttribute('data-theme', savedTheme);
 
 themeToggle.addEventListener('click', () => {
