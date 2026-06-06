@@ -24,6 +24,7 @@
       <nav class="nav" id="nav" aria-label="Primary navigation">
         <ul class="nav__list">
           <li><a href="#career"     class="nav__btn">Career</a></li>
+          <li><a href="#skills"     class="nav__btn">Skills</a></li>
           <li><a href="#education"  class="nav__btn">Education</a></li>
           <li><a href="#awards"     class="nav__btn">Awards</a></li>
           <li><a href="#fellowship" class="nav__btn">Fellowship</a></li>
@@ -51,34 +52,32 @@
   <main>
 
     <!-- ══════════════════════════════════════════════════
-         HERO  (3-column: image | content | image)
+         HERO  (text left | photo right with gradient blend)
     ══════════════════════════════════════════════════ -->
     <section class="hero" id="hero">
       <div class="hero__overlay" aria-hidden="true"></div>
-      <div class="hero__columns">
+      <div class="hero__layout">
 
-        <div class="hero__img-side">
-          <img src="Header5.jpg" alt="Shams Rahman" class="hero__side-img" />
-        </div>
-
-        <div class="hero__content">
-          <p class="hero__eyebrow">Portfolio</p>
-          <h1>Shams Rahman</h1>
-          <h2>Journalist | Communications Specialist</h2>
-          <p class="hero__bio">
-            Print and digital journalist with 5+ years of reporting experience across
-            Bangladesh and the United States. Skilled in daily news reporting, long-form
-            narrative writing, investigative storytelling, multimedia production, and
-            copy-editing.
-          </p>
-          <div class="hero__cta">
-            <a href="#works"      class="btn btn--primary">View Published Work</a>
-            <a href="Resume - S M Shams Rahman.pdf"  class="btn btn--outline" target="_blank" rel="noopener">Download Resume</a>
+        <div class="hero__content-area">
+          <div class="hero__content">
+            <p class="hero__eyebrow">Portfolio</p>
+            <h1>Shams Rahman</h1>
+            <h2>Journalist | Communications Specialist</h2>
+            <p class="hero__bio">
+              Print and digital journalist with 5+ years of reporting experience across
+              Bangladesh and the United States. Skilled in daily news reporting, long-form
+              narrative writing, investigative storytelling, multimedia production, and
+              copy-editing.
+            </p>
+            <div class="hero__cta">
+              <a href="#works"      class="btn btn--primary">View Published Work</a>
+              <a href="Resume.pdf"  class="btn btn--outline" target="_blank" rel="noopener">Download Resume</a>
+            </div>
           </div>
         </div>
 
-        <div class="hero__img-side">
-          <img src="Header2.jpg" alt="Shams Rahman" class="hero__side-img" />
+        <div class="hero__photo-wrap">
+          <img src="Header1.jpg" alt="Shams Rahman" class="hero__photo" />
         </div>
 
       </div>
@@ -86,166 +85,149 @@
     </section>
 
     <!-- ══════════════════════════════════════════════════
-         CAREER
+         CAREER — CAROUSEL
     ══════════════════════════════════════════════════ -->
     <section class="section" id="career">
       <div class="container">
         <h3 class="section__title">Career</h3>
         <div class="section__rule" aria-hidden="true"></div>
 
-        <div class="timeline">
+        <div class="career-carousel-wrap">
+          <button class="carousel-btn carousel-btn--prev carousel-btn--hidden" id="careerPrev" aria-label="Previous career items">&#8592;</button>
 
-          <div class="timeline__item reveal">
-            <div class="timeline__marker">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__body">
-              <span class="timeline__date">2021 &mdash; 2023</span>
-              <h4 class="timeline__role">Staff Reporter / De Facto Sports Editor</h4>
-              <p class="timeline__org">The Business Post &mdash; Dhaka, Bangladesh</p>
-              <p class="timeline__desc">Acted as de facto Sports Editor from September 2022, overseeing reporters, editing all copy, and coordinating the full daily production cycle. Assessed story pitches, generated original story ideas, and made independent editorial judgments on framing, structure, and length, while balancing a dual role of reporter and editor &mdash; filing original reported pieces while maintaining section-wide editorial standards on deadline.</p>
+          <div class="carousel-viewport">
+            <div class="carousel-track" id="careerTrack">
+
+              <article class="carousel-card career-card reveal">
+                <span class="career-card__years">2021 &mdash; 2023</span>
+                <h4 class="career-card__role">Staff Reporter / De Facto Sports Editor</h4>
+                <p class="career-card__org">The Business Post &mdash; Dhaka, Bangladesh</p>
+                <p class="career-card__desc">Acted as de facto Sports Editor from September 2022, overseeing reporters, editing all copy, and coordinating the full daily production cycle. Assessed story pitches, generated original story ideas, and made independent editorial judgments on framing, structure, and length, while balancing a dual role of reporter and editor &mdash; filing original reported pieces while maintaining section-wide editorial standards on deadline.</p>
+              </article>
+
+              <article class="carousel-card career-card reveal">
+                <span class="career-card__years">2023 &mdash; 2024</span>
+                <h4 class="career-card__role">Sub-Editor</h4>
+                <p class="career-card__org">New Age &mdash; Dhaka, Bangladesh</p>
+                <p class="career-card__desc">Served as Sub-Editor on the Sports desk of a national English-language daily, reading and responding to reporter copy at the level of narrative, structure, tone, and language. Copy-edited all reporter submissions to house style, assessed incoming copy for focus and accuracy, and coordinated the daily Sports page from incoming copy through to final layout and publication.</p>
+              </article>
+
+              <article class="carousel-card career-card reveal">
+                <span class="career-card__years">2025</span>
+                <h4 class="career-card__role">Reporting Intern</h4>
+                <p class="career-card__org">The Oxford Eagle &mdash; Oxford, MS</p>
+                <p class="career-card__desc">Covered local government, community affairs, and business on deadline for a regional daily, filing clean, accurate copy under editorial supervision. Conducted original source-based reporting and fact-checking across a range of nonfiction story types, and built a local source network to support original accountability reporting in Oxford.</p>
+              </article>
+
+              <article class="carousel-card career-card reveal">
+                <span class="career-card__years">2019 &mdash; 2020</span>
+                <h4 class="career-card__role">Sports Journalist</h4>
+                <p class="career-card__org">The Business Standard &mdash; Dhaka, Bangladesh</p>
+                <p class="career-card__desc">Helped establish the Sports section from the ground up at a national newspaper launch, contributing to editorial standards, copy-editing, layout design, and daily production workflow. Reported news events, wrote sports stories, edited copy, designed the section layout, and produced video content including voiceovers and scripts.</p>
+              </article>
+
+              <article class="carousel-card career-card reveal">
+                <span class="career-card__years">2020 &mdash; 2021</span>
+                <h4 class="career-card__role">Staff Reporter</h4>
+                <p class="career-card__org">NewsBangla24.com &mdash; Dhaka, Bangladesh</p>
+                <p class="career-card__desc">Reported, edited, and published daily nonfiction news content for a major Bangladeshi digital outlet, maintaining editorial quality control across breaking news and feature stories on fast-moving deadlines. Conducted live video interviews and produced multimedia content alongside written reporting.</p>
+              </article>
+
+              <article class="carousel-card career-card reveal">
+                <span class="career-card__years">2025 &mdash; 2026</span>
+                <h4 class="career-card__role">Graduate Assistant &mdash; Marketing and Communications</h4>
+                <p class="career-card__org">University of Mississippi &mdash; Oxford, MS</p>
+                <p class="career-card__desc">Produced 70+ AP Campus Insights explainer videos independently &mdash; shooting, scripting, editing, and publishing &mdash; with content picked up by several TV stations across the U.S. Interviewed University of Mississippi faculty to translate complex academic topics into accessible video content for national audiences, managing the full production pipeline as a solo producer.</p>
+              </article>
+
+              <article class="carousel-card career-card reveal">
+                <span class="career-card__years">2023 &mdash; 2024</span>
+                <h4 class="career-card__role">Communication Consultant</h4>
+                <p class="career-card__org">Article 19 &mdash; Dhaka, Bangladesh</p>
+                <p class="career-card__desc">Coordinated communications content and editorial strategy for a leading international freedom-of-expression NGO, ensuring accuracy and alignment with organizational editorial standards. Reviewed and approved content for reach, accuracy, and tonal consistency across platforms, and provided strategic recommendations on content implementation and campaign planning.</p>
+              </article>
+
+              <article class="carousel-card career-card reveal">
+                <span class="career-card__years">2023</span>
+                <h4 class="career-card__role">Youth Facilitator</h4>
+                <p class="career-card__org">DW Akademie &amp; Article 19 &mdash; Dhaka, Bangladesh</p>
+                <p class="career-card__desc">Planned and led debate forums on press freedom and informed civic participation across Bangladeshi universities in partnership with DW Akademie, demonstrating organizational leadership and editorial coordination across a multi-institution program.</p>
+              </article>
+
+              <article class="carousel-card career-card reveal">
+                <span class="career-card__years">2024 &mdash; 2025</span>
+                <h4 class="career-card__role">Graduate Assistant</h4>
+                <p class="career-card__org">School of Journalism and New Media, University of Mississippi &mdash; Oxford, MS</p>
+                <p class="career-card__desc">Conducted academic research on deadline in support of faculty projects, developing rigorous research and verification practices. Assisted students with coursework in reporting and writing, providing feedback on structure, clarity, and editorial focus, while managing departmental scheduling and administrative coordination.</p>
+              </article>
+
             </div>
           </div>
 
-          <div class="timeline__item reveal">
-            <div class="timeline__marker">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__body">
-              <span class="timeline__date">2023 &mdash; 2024</span>
-              <h4 class="timeline__role">Sub-Editor</h4>
-              <p class="timeline__org">New Age &mdash; Dhaka, Bangladesh</p>
-              <p class="timeline__desc">Served as Sub-Editor on the Sports desk of a national English-language daily, reading and responding to reporter copy at the level of narrative, structure, tone, and language. Copy-edited all reporter submissions to house style, assessed incoming copy for focus and accuracy, and coordinated the daily Sports page from incoming copy through to final layout and publication.</p>
-            </div>
-          </div>
+          <button class="carousel-btn carousel-btn--next" id="careerNext" aria-label="Next career items">&#8594;</button>
+        </div>
 
-          <div class="timeline__item reveal">
-            <div class="timeline__marker">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__body">
-              <span class="timeline__date">2025</span>
-              <h4 class="timeline__role">Reporting Intern</h4>
-              <p class="timeline__org">The Oxford Eagle &mdash; Oxford, MS</p>
-              <p class="timeline__desc">Covered local government, community affairs, and business on deadline for a regional daily, filing clean, accurate copy under editorial supervision. Conducted original source-based reporting and fact-checking across a range of nonfiction story types, and built a local source network to support original accountability reporting in Oxford.</p>
-            </div>
-          </div>
+      </div>
+    </section>
 
-          <div class="timeline__item reveal">
-            <div class="timeline__marker">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__body">
-              <span class="timeline__date">2019 &mdash; 2020</span>
-              <h4 class="timeline__role">Sports Journalist</h4>
-              <p class="timeline__org">The Business Standard &mdash; Dhaka, Bangladesh</p>
-              <p class="timeline__desc">Helped establish the Sports section from the ground up at a national newspaper launch, contributing to editorial standards, copy-editing, layout design, and daily production workflow. Reported news events, wrote sports stories, edited copy, designed the section layout, and produced video content including voiceovers and scripts.</p>
-            </div>
-          </div>
+    <!-- ══════════════════════════════════════════════════
+         CORE SKILLS
+    ══════════════════════════════════════════════════ -->
+    <section class="section section--alt" id="skills">
+      <div class="container">
+        <h3 class="section__title">Core Skills</h3>
+        <div class="section__rule" aria-hidden="true"></div>
 
-          <div class="timeline__item reveal">
-            <div class="timeline__marker">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__body">
-              <span class="timeline__date">2020 &mdash; 2021</span>
-              <h4 class="timeline__role">Staff Reporter</h4>
-              <p class="timeline__org">NewsBangla24.com &mdash; Dhaka, Bangladesh</p>
-              <p class="timeline__desc">Reported, edited, and published daily nonfiction news content for a major Bangladeshi digital outlet, maintaining editorial quality control across breaking news and feature stories on fast-moving deadlines. Conducted live video interviews and produced multimedia content alongside written reporting.</p>
-            </div>
-          </div>
-
-          <div class="timeline__item reveal">
-            <div class="timeline__marker">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__body">
-              <span class="timeline__date">2025 &mdash; 2026</span>
-              <h4 class="timeline__role">Graduate Assistant &mdash; Marketing and Communications</h4>
-              <p class="timeline__org">University of Mississippi &mdash; Oxford, MS</p>
-              <p class="timeline__desc">Produced 70+ AP Campus Insights explainer videos independently &mdash; shooting, scripting, editing, and publishing &mdash; with content picked up by several TV stations across the U.S. Interviewed University of Mississippi faculty to translate complex academic topics into accessible video content for national audiences, managing the full production pipeline as a solo producer with no supervisory oversight required.</p>
-            </div>
-          </div>
-
-          <div class="timeline__item reveal">
-            <div class="timeline__marker">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__body">
-              <span class="timeline__date">2023 &mdash; 2024</span>
-              <h4 class="timeline__role">Communication Consultant</h4>
-              <p class="timeline__org">Article 19 &mdash; Dhaka, Bangladesh</p>
-              <p class="timeline__desc">Coordinated communications content and editorial strategy for a leading international freedom-of-expression NGO, ensuring accuracy and alignment with organizational editorial standards. Reviewed and approved content for reach, accuracy, and tonal consistency across platforms, and provided strategic recommendations on content implementation and campaign planning.</p>
-            </div>
-          </div>
-
-          <div class="timeline__item reveal">
-            <div class="timeline__marker">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__body">
-              <span class="timeline__date">2023</span>
-              <h4 class="timeline__role">Youth Facilitator</h4>
-              <p class="timeline__org">DW Akademie &amp; Article 19 &mdash; Dhaka, Bangladesh</p>
-              <p class="timeline__desc">Planned and led debate forums on press freedom and informed civic participation across Bangladeshi universities in partnership with DW Akademie, demonstrating organizational leadership and editorial coordination across a multi-institution program.</p>
-            </div>
-          </div>
-
-          <div class="timeline__item reveal">
-            <div class="timeline__marker">
-              <div class="timeline__dot"></div>
-              <div class="timeline__line"></div>
-            </div>
-            <div class="timeline__body">
-              <span class="timeline__date">2024 &mdash; 2025</span>
-              <h4 class="timeline__role">Graduate Assistant</h4>
-              <p class="timeline__org">School of Journalism and New Media, University of Mississippi &mdash; Oxford, MS</p>
-              <p class="timeline__desc">Conducted academic research on deadline in support of faculty projects, developing rigorous research and verification practices. Assisted students with coursework in reporting and writing, providing feedback on structure, clarity, and editorial focus, while managing departmental scheduling and administrative coordination across multiple concurrent responsibilities.</p>
-            </div>
-          </div>
-
+        <div class="skills-grid reveal">
+          <span class="skill-tag">News Reporting</span>
+          <span class="skill-tag">Investigative &amp; Accountability Reporting</span>
+          <span class="skill-tag">Copy Editing</span>
+          <span class="skill-tag">Multimedia Production</span>
+          <span class="skill-tag">Video Editing</span>
+          <span class="skill-tag">Photo Editing (Adobe Photoshop)</span>
+          <span class="skill-tag">Data Journalism &amp; Analysis (SPSS)</span>
+          <span class="skill-tag">Fact-Checking &amp; Verification</span>
+          <span class="skill-tag">OSINT Research</span>
+          <span class="skill-tag">AP Style</span>
+          <span class="skill-tag">Source Development</span>
         </div>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════
-         EDUCATION  (card | centre image | card)
+         EDUCATION  (photo left | stacked cards right)
     ══════════════════════════════════════════════════ -->
-    <section class="section section--alt" id="education">
+    <section class="section" id="education">
       <div class="container">
         <h3 class="section__title">Education</h3>
         <div class="section__rule" aria-hidden="true"></div>
 
         <div class="edu-layout">
 
-          <div class="edu-card edu-card--ole-miss reveal">
-            <div class="edu-card__badge">MA</div>
-            <div class="edu-card__body">
-              <h4>Master of Arts in Journalism</h4>
-              <p class="edu-card__org">University of Mississippi &mdash; Oxford, MS</p>
-              <p class="edu-card__school-tag">Ole Miss</p>
-            </div>
+          <div class="edu-img-col reveal">
+            <img src="OleMiss1.jpg" alt="Education" class="edu-side-photo" />
           </div>
 
-          <div class="edu-center-img reveal">
-            <img src="OleMiss1.jpg" alt="Education" class="edu-center-photo" />
-          </div>
+          <div class="edu-cards-col">
 
-          <div class="edu-card edu-card--dhaka reveal">
-            <div class="edu-card__badge">BSS</div>
-            <div class="edu-card__body">
-              <h4>Bachelor of Social Science in Mass Communications and Journalism</h4>
-              <p class="edu-card__org">University of Dhaka &mdash; Dhaka, Bangladesh</p>
-              <p class="edu-card__school-tag">University of Dhaka</p>
+            <div class="edu-card edu-card--ole-miss reveal">
+              <div class="edu-card__badge">MA</div>
+              <div class="edu-card__body">
+                <h4>MA in Journalism</h4>
+                <p class="edu-card__org">University of Mississippi</p>
+                <p class="edu-card__year">Class of 2026</p>
+              </div>
             </div>
+
+            <div class="edu-card edu-card--dhaka reveal">
+              <div class="edu-card__badge">BSS</div>
+              <div class="edu-card__body">
+                <h4>BSS in Mass Communication and Journalism</h4>
+                <p class="edu-card__org">University of Dhaka</p>
+                <p class="edu-card__year">Class of 2021</p>
+              </div>
+            </div>
+
           </div>
 
         </div>
@@ -255,7 +237,7 @@
     <!-- ══════════════════════════════════════════════════
          AWARDS & RECOGNITION
     ══════════════════════════════════════════════════ -->
-    <section class="section" id="awards">
+    <section class="section section--alt" id="awards">
       <div class="container">
         <h3 class="section__title">Awards &amp; Recognition</h3>
         <div class="section__rule" aria-hidden="true"></div>
@@ -296,31 +278,35 @@
     </section>
 
     <!-- ══════════════════════════════════════════════════
-         FELLOWSHIP & TRAINING  (card | centre image | card)
+         FELLOWSHIP & TRAINING  (stacked cards left | photo right)
     ══════════════════════════════════════════════════ -->
-    <section class="section section--alt" id="fellowship">
+    <section class="section" id="fellowship">
       <div class="container">
         <h3 class="section__title">Fellowship &amp; Training</h3>
         <div class="section__rule" aria-hidden="true"></div>
 
         <div class="fellowship-layout">
 
-          <div class="fellowship-card reveal">
-            <span class="fellowship-card__year">2021 &ndash; 2023</span>
-            <h4>Local Media Hub Fellowship</h4>
-            <p class="fellowship-card__org">DW Akademie Bangladesh</p>
-            <p class="fellowship-card__desc">A two-year DW Akademie program building local journalism capacity in Bangladesh through training in reporting practice, editorial development, and engagement with local media communities.</p>
+          <div class="fellowship-cards-col">
+
+            <div class="fellowship-card reveal">
+              <span class="fellowship-card__year">2021 &ndash; 2023</span>
+              <h4>Local Media Hub Fellowship</h4>
+              <p class="fellowship-card__org">DW Akademie Bangladesh</p>
+              <p class="fellowship-card__desc">A two-year DW Akademie program building local journalism capacity in Bangladesh through training in reporting practice, editorial development, and engagement with local media communities.</p>
+            </div>
+
+            <div class="fellowship-card reveal">
+              <span class="fellowship-card__year">2022</span>
+              <h4>Reporting on Social Inclusion in South Asia</h4>
+              <p class="fellowship-card__org">Thomson Reuters Foundation &amp; Asian Development Bank</p>
+              <p class="fellowship-card__desc">Specialized training program on reporting issues of social inclusion, marginalization, and public-interest accountability across South Asia.</p>
+            </div>
+
           </div>
 
-          <div class="fellowship-img-wrap reveal">
-            <img src="Fellowship.jpg" alt="Fellowship and Training" class="fellowship-img" />
-          </div>
-
-          <div class="fellowship-card reveal">
-            <span class="fellowship-card__year">2022</span>
-            <h4>Reporting on Social Inclusion in South Asia</h4>
-            <p class="fellowship-card__org">Thomson Reuters Foundation &amp; Asian Development Bank</p>
-            <p class="fellowship-card__desc">Specialized training program on reporting issues of social inclusion, marginalization, and public-interest accountability across South Asia.</p>
+          <div class="fellowship-img-col reveal">
+            <img src="Fellowship.jpg" alt="Fellowship and Training" class="fellowship-side-img" />
           </div>
 
         </div>
@@ -330,7 +316,7 @@
     <!-- ══════════════════════════════════════════════════
          PUBLISHED WORK — CAROUSEL
     ══════════════════════════════════════════════════ -->
-    <section class="section" id="works">
+    <section class="section section--alt" id="works">
       <div class="container">
         <h3 class="section__title">Published Work</h3>
         <div class="section__rule" aria-hidden="true"></div>
@@ -421,11 +407,11 @@
                 </div>
               </article>
 
-            </div><!-- /.carousel-track -->
-          </div><!-- /.carousel-viewport -->
+            </div>
+          </div>
 
           <button class="carousel-btn carousel-btn--next" id="carouselNext" aria-label="Next works">&#8594;</button>
-        </div><!-- /.carousel-wrap -->
+        </div>
 
       </div>
     </section>
@@ -433,7 +419,7 @@
     <!-- ══════════════════════════════════════════════════
          MULTIMEDIA WORK
     ══════════════════════════════════════════════════ -->
-    <section class="section section--alt" id="multimedia">
+    <section class="section" id="multimedia">
       <div class="container">
         <h3 class="section__title">Multimedia Work</h3>
         <div class="section__rule" aria-hidden="true"></div>
@@ -474,7 +460,7 @@
     <!-- ══════════════════════════════════════════════════
          PERSONAL WORK
     ══════════════════════════════════════════════════ -->
-    <section class="section" id="personal">
+    <section class="section section--alt" id="personal">
       <div class="container">
         <h3 class="section__title">Personal Work</h3>
         <div class="section__rule" aria-hidden="true"></div>
@@ -511,7 +497,7 @@
     <!-- ══════════════════════════════════════════════════
          RESUME
     ══════════════════════════════════════════════════ -->
-    <section class="section section--alt" id="resume">
+    <section class="section" id="resume">
       <div class="container">
         <h3 class="section__title">Resume</h3>
         <div class="section__rule" aria-hidden="true"></div>
@@ -521,36 +507,18 @@
             Download a full PDF copy of my resume, including complete publication history,
             media appearances, language skills, and professional references.
           </p>
-          <a href="Resume.pdf" class="btn btn--primary btn--large" target="_blank" rel="noopener" download>
+          <a href="Resume - S M Shams Rahman.pdf" class="btn btn--primary btn--large" target="_blank" rel="noopener" download>
             &#8659;&nbsp; Download Resume (PDF)
           </a>
-        </div>
-
-        <div class="skills-wrap reveal">
-          <h4 class="skills-wrap__heading">Core Skills</h4>
-          <ul class="skills-list">
-            <li class="skill-tag">Daily News Reporting</li>
-            <li class="skill-tag">Investigative Journalism</li>
-            <li class="skill-tag">Long-Form Narrative Writing</li>
-            <li class="skill-tag">Copy-Editing &amp; Sub-Editing</li>
-            <li class="skill-tag">Multimedia Production</li>
-            <li class="skill-tag">Data Journalism</li>
-            <li class="skill-tag">Source Management</li>
-            <li class="skill-tag">AP &amp; Chicago Style</li>
-            <li class="skill-tag">Video Production &amp; Editing</li>
-            <li class="skill-tag">Bengali &amp; English (Fluent)</li>
-            <li class="skill-tag">Section Layout &amp; Design</li>
-            <li class="skill-tag">Editorial Strategy</li>
-          </ul>
         </div>
 
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════
-         CONTACT
+         CONTACT  (email left | social links right)
     ══════════════════════════════════════════════════ -->
-    <section class="section" id="contact">
+    <section class="section section--alt" id="contact">
       <div class="container">
         <h3 class="section__title">Contact</h3>
         <div class="section__rule" aria-hidden="true"></div>
@@ -558,56 +526,47 @@
           Available for freelance assignments, editorial collaboration, and speaking engagements.
         </p>
 
-        <div class="contact__layout">
+        <div class="contact-simple reveal">
 
-          <form class="contact-form reveal" id="contactForm" novalidate>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="cname">Name</label>
-                <input type="text"  id="cname"  name="name"  placeholder="Your name"      required />
-                <span class="form-error" id="cnameError"></span>
-              </div>
-              <div class="form-group">
-                <label for="cemail">Email</label>
-                <input type="email" id="cemail" name="email" placeholder="your@email.com" required />
-                <span class="form-error" id="cemailError"></span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="csubject">Subject</label>
-              <input type="text" id="csubject" name="subject" placeholder="Story pitch, collaboration request, speaking enquiry&hellip;" />
-            </div>
-            <div class="form-group">
-              <label for="cmessage">Message</label>
-              <textarea id="cmessage" name="message" rows="5" placeholder="Your message&hellip;" required></textarea>
-              <span class="form-error" id="cmessageError"></span>
-            </div>
-            <button type="submit" class="btn btn--primary btn--full">Send Message</button>
-            <p class="form-success" id="formSuccess">Thank you &mdash; I'll be in touch shortly.</p>
-          </form>
+          <div class="contact-email-block">
+            <p class="contact-email-label">Email</p>
+            <a href="mailto:sm.shams.rahman@gmail.com" class="contact-email-addr">
+              sm.shams.rahman@gmail.com
+            </a>
+            <p class="contact-location">Based in Oxford, MS &mdash; available for remote and international assignments.</p>
+          </div>
 
-          <aside class="contact-info reveal">
-            <h4>Direct Contact</h4>
-            <a href="mailto:sm.shams.rahman@gmail.com" class="contact-info__item">
-              <span class="contact-info__icon">&#9993;</span>
-              <span>sm.shams.rahman@gmail.com</span>
-            </a>
-            <a href="https://x.com/shamsrahman1805" class="contact-info__item" target="_blank" rel="noopener">
-              <span class="contact-info__icon">&#120143;</span>
-              <span>@shamsrahman1805</span>
-            </a>
-            <a href="https://www.facebook.com/theshamstales" class="contact-info__item" target="_blank" rel="noopener">
-              <span class="contact-info__icon contact-info__icon--fb">f</span>
-              <span>The Shams Tales</span>
-            </a>
-            <a href="https://theshamstales.substack.com/" class="contact-info__item" target="_blank" rel="noopener">
-              <span class="contact-info__icon">S</span>
-              <span>Substack Newsletter</span>
-            </a>
-            <div class="contact-info__note">
-              <p>Based in Oxford, MS.<br />Available for remote and international assignments.</p>
+          <div class="contact-social-block">
+            <p class="contact-social-label">Find Me Online</p>
+            <div class="contact-social-list">
+
+              <a href="https://www.facebook.com/shams.666666666/" target="_blank" rel="noopener" class="contact-social-link contact-social-link--fb">
+                <span class="contact-social-link__icon">f</span>
+                <span>Facebook</span>
+              </a>
+
+              <a href="https://x.com/shamsrahman1805" target="_blank" rel="noopener" class="contact-social-link contact-social-link--x">
+                <span class="contact-social-link__icon">&#120143;</span>
+                <span>Twitter / X</span>
+              </a>
+
+              <a href="https://www.linkedin.com/in/shamsrahman1805/" target="_blank" rel="noopener" class="contact-social-link contact-social-link--li">
+                <span class="contact-social-link__icon">in</span>
+                <span>LinkedIn</span>
+              </a>
+
+              <a href="https://theshamstales.substack.com/" target="_blank" rel="noopener" class="contact-social-link contact-social-link--substack">
+                <span class="contact-social-link__icon">S</span>
+                <span>Substack</span>
+              </a>
+
+              <a href="https://www.youtube.com/@SMShamsRahman" target="_blank" rel="noopener" class="contact-social-link contact-social-link--yt">
+                <span class="contact-social-link__icon">&#9654;</span>
+                <span>YouTube</span>
+              </a>
+
             </div>
-          </aside>
+          </div>
 
         </div>
       </div>
@@ -616,47 +575,9 @@
   </main>
 
   <!-- ══════════════════════════════════════════════════
-       SOCIAL MEDIA FOOTER
+       FOOTER
   ══════════════════════════════════════════════════ -->
   <footer class="footer">
-    <div class="social-footer">
-      <div class="container">
-        <p class="social-footer__label">Find me online</p>
-        <div class="social-footer__links">
-
-          <a href="mailto:sm.shams.rahman@gmail.com" class="social-pill" aria-label="Email">
-            <span class="social-pill__icon">&#9993;</span>
-            <span class="social-pill__text">Email</span>
-          </a>
-
-          <a href="https://theshamstales.substack.com/" target="_blank" rel="noopener" class="social-pill social-pill--substack">
-            <span class="social-pill__icon">S</span>
-            <span class="social-pill__text">Substack</span>
-          </a>
-
-          <a href="https://www.facebook.com/shams.666666666/" target="_blank" rel="noopener" class="social-pill social-pill--fb">
-            <span class="social-pill__icon">f</span>
-            <span class="social-pill__text">Facebook</span>
-          </a>
-
-          <a href="https://x.com/shamsrahman1805" target="_blank" rel="noopener" class="social-pill social-pill--x">
-            <span class="social-pill__icon">&#120143;</span>
-            <span class="social-pill__text">Twitter / X</span>
-          </a>
-
-          <a href="https://www.youtube.com/@SMShamsRahman" target="_blank" rel="noopener" class="social-pill social-pill--yt">
-            <span class="social-pill__icon">&#9654;</span>
-            <span class="social-pill__text">YouTube</span>
-          </a>
-
-          <a href="https://www.linkedin.com/in/shamsrahman1805/" target="_blank" rel="noopener" class="social-pill social-pill--li">
-            <span class="social-pill__icon">in</span>
-            <span class="social-pill__text">LinkedIn</span>
-          </a>
-
-        </div>
-      </div>
-    </div>
 
     <div class="footer__bar">
       <div class="container footer__inner">
@@ -664,6 +585,11 @@
         <p class="footer__tagline">Journalist | Communications Specialist</p>
       </div>
     </div>
+
+    <div class="footer-banner">
+      <img src="Footer.jpg" alt="" class="footer-banner__img" role="presentation" />
+    </div>
+
   </footer>
 
   <script src="script.js"></script>
