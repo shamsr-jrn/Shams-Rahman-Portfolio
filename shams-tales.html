@@ -70,14 +70,15 @@
       padding-bottom: 6rem;
     }
 
-    .substack-widget-wrap {
-      max-width:     800px;
-      margin:        0 auto;
-      background:    var(--bg-card);
-      border:        1px solid var(--border);
-      border-top:    3px solid var(--blue);
-      border-radius: var(--radius);
-      overflow:      hidden;
+    .rss-feed-container {
+      max-width:  1000px;
+      margin:     0 auto;
+      background: transparent;
+      padding:    0 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .rss-feed-container { padding: 0 0.5rem; }
     }
   </style>
 </head>
@@ -138,15 +139,8 @@
     <section class="section substack-section" id="substack">
       <div class="container">
 
-        <div class="substack-widget-wrap">
-          <iframe
-            src="https://theshamstales.substack.com/feed"
-            width="100%"
-            height="600"
-            style="border:none; background:transparent;"
-            frameborder="0"
-            scrolling="no">
-          </iframe>
+        <div id="rss-feed-container" class="rss-feed-container">
+          <!-- PASTE YOUR NEW RSS WIDGET SCRIPT CODE HERE -->
         </div>
 
       </div>
