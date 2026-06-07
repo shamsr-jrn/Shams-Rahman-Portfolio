@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Shams Rahman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="Shams Logo.png" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Page-specific styles ─────────────────────────────── */
+    .page-hero {
+      padding:    calc(var(--header-h) + 5rem) 0 4rem;
+      text-align: center;
+      position:   relative;
+    }
+
+    .page-hero__eyebrow {
+      font-family:    var(--font-caption);
+      font-size:      0.82rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color:          var(--blue);
+      margin-bottom:  1.1rem;
+    }
+
+    .page-hero__title {
+      font-family:    var(--font-heading);
+      font-size:      clamp(2.4rem, 5vw, 4rem);
+      font-weight:    700;
+      letter-spacing: -1.5px;
+      line-height:    1.05;
+      margin-bottom:  1.1rem;
+      background:     linear-gradient(135deg, #ffffff 30%, var(--blue-lighter) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    [data-theme="light"] .page-hero__title {
+      background:     linear-gradient(135deg, #0D0E1F 35%, var(--blue-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-hero__sub {
+      font-family: var(--font-body);
+      font-size:   clamp(0.9rem, 1.4vw, 1rem);
+      color:       var(--text-2);
+      max-width:   520px;
+      margin:      0 auto;
+      line-height: 1.85;
+    }
+
+    .page-hero__rule {
+      width:         52px;
+      height:        3px;
+      background:    linear-gradient(90deg, var(--blue), var(--blue-lighter));
+      border-radius: 2px;
+      margin:        1.5rem auto 0;
+    }
+
+    /* ── Coming Soon card ─────────────────────────────────── */
+    .coming-soon-section {
+      padding-bottom: 7rem;
+    }
+
+    .coming-soon-wrap {
+      display:         flex;
+      justify-content: center;
+      padding:         2rem 0;
+    }
+
+    .coming-soon-card {
+      text-align:    center;
+      max-width:     480px;
+      width:         100%;
+      padding:       3.5rem 2.5rem;
+      background:    var(--bg-card);
+      border:        1px solid var(--border);
+      border-top:    3px solid var(--blue);
+      border-radius: var(--radius);
+      transition:    border-color var(--transition), box-shadow 0.2s;
+    }
+    .coming-soon-card:hover {
+      border-color: var(--border-hover);
+      box-shadow:   var(--shadow-blue);
+    }
+
+    .coming-soon__icon {
+      font-size:     2.6rem;
+      display:       block;
+      margin-bottom: 1.4rem;
+      line-height:   1;
+    }
+
+    .coming-soon-card h2 {
+      font-family:   var(--font-heading);
+      font-size:     1.75rem;
+      font-weight:   700;
+      letter-spacing: -0.5px;
+      color:         var(--text);
+      margin-bottom: 0.9rem;
+    }
+
+    .coming-soon-card p {
+      font-family: var(--font-body);
+      font-size:   0.95rem;
+      color:       var(--text-2);
+      line-height: 1.8;
+      margin-bottom: 0;
+    }
+
+    .coming-soon__back {
+      display:        inline-flex;
+      align-items:    center;
+      gap:            0.4rem;
+      margin-top:     2rem;
+      font-family:    var(--font-caption);
+      font-size:      0.82rem;
+      font-weight:    600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color:          var(--blue-light);
+      text-decoration: none;
+      transition:     color var(--transition), gap 0.2s;
+    }
+    .coming-soon__back:hover {
+      color: var(--blue-lighter);
+      gap:   0.65rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════════════ -->
+  <header class="header" id="header">
+    <div class="header__inner">
+
+      <a href="index.html" class="header__logo-link">
+        <img src="SRLOGO.svg" alt="Shams Rahman Logo" class="header__logo-img" />
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Primary navigation">
+        <ul class="nav__list">
+          <li><a href="index.html#career"    class="nav__btn">Career</a></li>
+          <li><a href="index.html#education" class="nav__btn">Education</a></li>
+          <li><a href="index.html#works"     class="nav__btn">Notable works</a></li>
+          <li><a href="shams-tales.html"     class="nav__btn">The Shams Tales</a></li>
+          <li><a href="blog.html"            class="nav__btn nav__btn--accent">Blog</a></li>
+          <li><a href="index.html#contact"   class="nav__btn">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__end">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+          <span class="theme-toggle__sun"  aria-hidden="true">&#9728;</span>
+          <span class="theme-toggle__moon" aria-hidden="true">&#9790;</span>
+        </button>
+        <button class="nav-burger" id="navBurger" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE HERO
+    ══════════════════════════════════════════════════ -->
+    <section class="section section--alt page-hero" id="page-top">
+      <div class="container">
+        <p class="page-hero__eyebrow">Writing</p>
+        <h1 class="page-hero__title">Blog</h1>
+        <p class="page-hero__sub">
+          Thoughts on journalism, sports, culture, and public life.
+        </p>
+        <div class="page-hero__rule"></div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         COMING SOON
+    ══════════════════════════════════════════════════ -->
+    <section class="section coming-soon-section">
+      <div class="container">
+
+        <div class="coming-soon-wrap">
+          <div class="coming-soon-card">
+            <span class="coming-soon__icon">&#9998;</span>
+            <h2>Coming Soon</h2>
+            <p>
+              Blog posts and longer personal writing are on their way.
+              In the meantime, read my published work on
+              <a href="shams-tales.html" style="color: var(--blue-light); text-decoration: underline;">The Shams Tales</a>.
+            </p>
+            <a href="index.html" class="coming-soon__back">&#8592; Back to Portfolio</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════ -->
+  <footer class="footer">
+
+    <div class="footer__bar">
+      <div class="container footer__inner">
+        <p class="footer__copy">&copy; <span id="year"></span> Shams Rahman. All rights reserved.</p>
+        <p class="footer__tagline">Journalist | Communications Specialist</p>
+      </div>
+    </div>
+
+    <div class="footer-banner">
+      <img src="Footerimage.jpg" alt="" class="footer-banner__img" role="presentation" />
+    </div>
+
+  </footer>
+
+  <!-- Floating Contact Button -->
+  <a href="index.html#contact" class="fab-contact" aria-label="Go to Contact section">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="2" y="4" width="20" height="16" rx="2"/>
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+    </svg>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
