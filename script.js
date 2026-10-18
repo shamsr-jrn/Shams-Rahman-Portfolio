@@ -278,6 +278,19 @@ if (fabContact) {
 }
 
 /* ================================================================
+   Thesis abstract — read more / read less
+   ================================================================ */
+const thesisToggle   = document.getElementById('thesisToggle');
+const thesisAbstract = document.getElementById('thesisAbstract');
+if (thesisToggle && thesisAbstract) {
+  thesisToggle.addEventListener('click', () => {
+    const expanded = thesisAbstract.classList.toggle('expanded');
+    thesisToggle.textContent = expanded ? 'Read less' : 'Read more';
+    thesisToggle.setAttribute('aria-expanded', String(expanded));
+  });
+}
+
+/* ================================================================
    Contact Form — open mailto with pre-filled fields
    ================================================================ */
 const contactForm = document.getElementById('contactForm');
