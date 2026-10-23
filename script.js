@@ -352,7 +352,12 @@ if (shareBox) {
    ================================================================ */
 const viewsBox = document.querySelector('[data-views]');
 if (viewsBox && location.protocol.startsWith('http')) {
-  const path = location.pathname;
+  // Same path GoatCounter records: the canonical address if the page has one
+  const canonical = document.querySelector('link[rel="canonical"]');
+  let path = location.pathname;
+  if (canonical) {
+    try { path = new URL(canonical.href).pathname; } catch (e) {}
+  }
   fetch(`https://shamsrahman.goatcounter.com/counter/${encodeURIComponent(path)}.json`)
     .then(res => (res.ok ? res.json() : null))
     .then(data => {
