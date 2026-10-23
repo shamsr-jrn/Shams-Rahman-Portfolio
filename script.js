@@ -346,6 +346,27 @@ if (shareBox) {
 }
 
 /* ================================================================
+   Story view count — public counter from shamsrahman.goatcounter.com
+   (stays hidden until GoatCounter's "allow using the visitor counter"
+   setting is on and the page has at least one recorded view)
+   ================================================================ */
+const viewsBox = document.querySelector('[data-views]');
+if (viewsBox && location.protocol.startsWith('http')) {
+  const path = location.pathname;
+  fetch(`https://shamsrahman.goatcounter.com/counter/${encodeURIComponent(path)}.json`)
+    .then(res => (res.ok ? res.json() : null))
+    .then(data => {
+      if (!data || !data.count) return;
+      const n = parseInt(String(data.count).replace(/[^\d]/g, ''), 10) || 0;
+      if (n < 1) return;
+      viewsBox.querySelector('[data-views-count]').textContent =
+        `${n.toLocaleString('en-US')} ${n === 1 ? 'view' : 'views'}`;
+      viewsBox.hidden = false;
+    })
+    .catch(() => {});
+}
+
+/* ================================================================
    Contact Form — open mailto with pre-filled fields
    ================================================================ */
 const contactForm = document.getElementById('contactForm');

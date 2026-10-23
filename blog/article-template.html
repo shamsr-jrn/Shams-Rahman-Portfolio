@@ -196,6 +196,30 @@
     }
     .article-footer__back:hover { color: var(--blue-lighter); gap: 0.65rem; }
 
+    /* ── Bottom row: back link left, view count right ─────── */
+    .article-footer__bar {
+      display:         flex;
+      align-items:     center;
+      justify-content: space-between;
+      gap:             1rem;
+      flex-wrap:       wrap;
+    }
+
+    .article-views {
+      display:        inline-flex;
+      align-items:    center;
+      gap:            0.4rem;
+      margin-left:    auto;
+      font-family:    var(--font-caption);
+      font-size:      0.82rem;
+      font-weight:    600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color:          var(--text-3);
+    }
+    .article-views svg { width: 16px; height: 16px; }
+    .article-views[hidden] { display: none; }
+
     /* ── Share buttons ────────────────────────────────────── */
     .article-share { margin-bottom: 1.75rem; }
 
@@ -243,6 +267,8 @@
     .share-btn--copy:hover,
     .share-btn--native:hover   { background: var(--blue); }
   </style>
+  <!-- Visitor stats: shamsrahman.goatcounter.com -->
+  <script data-goatcounter="https://shamsrahman.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 
@@ -375,7 +401,14 @@
             </div>
           </div>
 
-          <a href="../blog.html" class="article-footer__back">&#8592; Back to Blog</a>
+          <div class="article-footer__bar">
+            <a href="../blog.html" class="article-footer__back">&#8592; Back to Blog</a>
+            <!-- View count: filled in by script.js from GoatCounter. Nothing to edit here. -->
+            <span class="article-views" data-views hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span data-views-count></span>
+            </span>
+          </div>
         </div>
 
       </div>
