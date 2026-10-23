@@ -119,7 +119,27 @@
     .article ol { list-style: decimal; }
     .article li { margin-bottom: 0.5rem; }
 
-    .article figure { margin: 2.2rem 0; }
+    /* Photos break out wider than the text column */
+    .article figure {
+      --fig-w:     min(1040px, calc(100vw - 3.5rem));
+      width:       var(--fig-w);
+      position:    relative;
+      left:        50%;
+      margin:      2.4rem 0 2.4rem calc(var(--fig-w) / -2);
+    }
+    .article > figure:first-child { margin-top: 0; }
+
+    /* Drop cap on the opening paragraph */
+    .article__lead::first-letter {
+      float:        left;
+      font-family:  var(--font-heading);
+      font-size:    4.6rem;
+      font-weight:  700;
+      line-height:  0.85;
+      margin:       0.35rem 0.6rem 0 0;
+      color:        var(--blue-lighter);
+    }
+    [data-theme="light"] .article__lead::first-letter { color: var(--blue-dark); }
     .article figure img {
       width:         100%;
       border-radius: var(--radius);
@@ -204,17 +224,17 @@
     <section class="section section--alt article-hero" id="page-top">
       <div class="container">
         <!-- TEMPLATE: Category, e.g. Sports, Accountability, Feature -->
-        <p class="article-hero__eyebrow">CATEGORY</p>
+        <p class="article-hero__eyebrow reveal">CATEGORY</p>
         <!-- TEMPLATE: Headline -->
-        <h1 class="article-hero__title">ARTICLE HEADLINE</h1>
+        <h1 class="article-hero__title reveal">ARTICLE HEADLINE</h1>
         <!-- TEMPLATE: Optional subheadline. Delete this line if not needed -->
-        <p class="article-hero__dek">Optional one- or two-sentence subheadline.</p>
-        <p class="article-meta">
+        <p class="article-hero__dek reveal">Optional one- or two-sentence subheadline.</p>
+        <p class="article-meta reveal">
           <!-- TEMPLATE: Byline, date, and (optional) outlet or reading time -->
           <span>By Shams Rahman</span>
           <span>Month DD, YYYY</span>
         </p>
-        <div class="article-hero__rule"></div>
+        <div class="article-hero__rule reveal"></div>
       </div>
     </section>
 
@@ -228,31 +248,34 @@
 
           <!-- TEMPLATE: Optional lead image. Delete this figure if not needed.
                Save the image in the main folder and use "../filename.jpg" -->
-          <figure>
+          <figure class="reveal">
             <img src="../IMAGE-FILE.jpg" alt="Describe the image" />
             <figcaption>Caption and photo credit.</figcaption>
           </figure>
 
           <!-- ═════════ PASTE ARTICLE TEXT BELOW ═════════
-               One <p>...</p> per paragraph.
+               One <p class="reveal">...</p> per paragraph.
+               The first paragraph keeps class="article__lead reveal" for the drop cap.
+               class="reveal" makes each block float in on scroll, like the home page.
                Other building blocks you can copy:
 
-               <h2>Section heading</h2>
-               <blockquote><p>Pull quote or quoted passage.</p></blockquote>
-               <ul><li>Bullet</li></ul>
-               <p>Text with a <a href="https://example.com" target="_blank" rel="noopener">link</a>.</p>
+               <h2 class="reveal">Section heading</h2>
+               <blockquote class="reveal"><p>Pull quote or quoted passage.</p></blockquote>
+               <ul class="reveal"><li>Bullet</li></ul>
+               <p class="reveal">Text with a <a href="https://example.com" target="_blank" rel="noopener">link</a>.</p>
+               <figure class="reveal"><img src="../IMAGE-FILE.jpg" alt="Describe the image" /></figure>
                <hr>
           -->
 
-          <p>First paragraph of the article.</p>
+          <p class="article__lead reveal">First paragraph of the article.</p>
 
-          <p>Second paragraph of the article.</p>
+          <p class="reveal">Second paragraph of the article.</p>
 
           <!-- ═════════ END OF ARTICLE TEXT ═════════ -->
 
         </article>
 
-        <div class="article-footer">
+        <div class="article-footer reveal">
           <a href="../blog.html" class="article-footer__back">&#8592; Back to Blog</a>
         </div>
 

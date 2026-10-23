@@ -78,7 +78,15 @@
 
     .article p { margin-bottom: 1.5rem; }
 
-    .article figure { margin: 0 0 2.4rem; }
+    /* Photos break out wider than the text column */
+    .article figure {
+      --fig-w:     min(1040px, calc(100vw - 3.5rem));
+      width:       var(--fig-w);
+      position:    relative;
+      left:        50%;
+      margin:      2.4rem 0 2.4rem calc(var(--fig-w) / -2);
+    }
+    .article > figure:first-child { margin-top: 0; }
     .article figure img {
       width:         100%;
       border-radius: var(--radius);
@@ -180,13 +188,13 @@
     ══════════════════════════════════════════════════ -->
     <section class="section section--alt article-hero" id="page-top">
       <div class="container">
-        <p class="article-hero__eyebrow">Cricket Analysis</p>
-        <h1 class="article-hero__title">Hridoy: A left-arm spinner’s dream</h1>
-        <p class="article-meta">
+        <p class="article-hero__eyebrow reveal">Cricket Analysis</p>
+        <h1 class="article-hero__title reveal">Hridoy: A left-arm spinner’s dream</h1>
+        <p class="article-meta reveal">
           <span>By Shams Rahman</span>
           <span>October 23, 2026</span>
         </p>
-        <div class="article-hero__rule"></div>
+        <div class="article-hero__rule reveal"></div>
       </div>
     </section>
 
@@ -198,40 +206,40 @@
 
         <article class="article">
 
-          <figure>
+          <figure class="reveal">
             <img src="../Towhid_Hridoy.jpg" alt="Towhid Hridoy walking off the field in Bangladesh kit, holding his bat" />
           </figure>
 
-          <p class="article__lead">Towhid Hridoy came into the Bangladesh national team with the promise of being the beacon of middle-order reliability, and his early days showed signs of exactly that. A 92 on debut against Ireland in ODIs, then played pretty well consistently, at least by Bangladeshi standards. He took down Wanindu Hasaranga in the T20 World Cup and became an instant hero.</p>
+          <p class="article__lead reveal">Towhid Hridoy came into the Bangladesh national team with the promise of being the beacon of middle-order reliability, and his early days showed signs of exactly that. A 92 on debut against Ireland in ODIs, then played pretty well consistently, at least by Bangladeshi standards. He took down Wanindu Hasaranga in the T20 World Cup and became an instant hero.</p>
 
-          <p>He is still the most consistent Bangladesh batter, averaging 37.19 in ODIs and 28.66 in T20Is, but if you watch him, you immediately notice two glaring issues.</p>
+          <p class="reveal">He is still the most consistent Bangladesh batter, averaging 37.19 in ODIs and 28.66 in T20Is, but if you watch him, you immediately notice two glaring issues.</p>
 
-          <p>The first is pretty obvious. Whenever he is facing balls directed towards his pads, his head falls over, ruining his balance and leading to dismissals.</p>
+          <p class="reveal">The first is pretty obvious. Whenever he is facing balls directed towards his pads, his head falls over, ruining his balance and leading to dismissals.</p>
 
-          <p>The other issue, though, is not talked about enough, which is weakness against left-arm spin. As a right-handed batter, any left-arm spinner should be a good matchup, but because Hridoy is so leg-side dominant, he becomes a run desert whenever a left-arm spinner comes to bowl.</p>
+          <p class="reveal">The other issue, though, is not talked about enough, which is weakness against left-arm spin. As a right-handed batter, any left-arm spinner should be a good matchup, but because Hridoy is so leg-side dominant, he becomes a run desert whenever a left-arm spinner comes to bowl.</p>
 
-          <p>While he doesn’t get out to them a whole lot, his numbers, in almost every other metric, drop significantly. In ODIs, his batting strike rate against left-arm spinners drops to 60.9 compared to 82.5 against all other bowling, and it drops to 118.3 compared to 128.6 against other bowlers in T20Is.</p>
+          <p class="reveal">While he doesn’t get out to them a whole lot, his numbers, in almost every other metric, drop significantly. In ODIs, his batting strike rate against left-arm spinners drops to 60.9 compared to 82.5 against all other bowling, and it drops to 118.3 compared to 128.6 against other bowlers in T20Is.</p>
 
-          <p>He also takes more balls to hit a boundary. Against all other bowlers, he hits a boundary every 7.4 balls in T20Is and 14.1 balls in ODIs; however, against left-arm spinners, he takes 8.5 balls in T20Is and 28.9 balls in ODIs to hit a boundary.</p>
+          <p class="reveal">He also takes more balls to hit a boundary. Against all other bowlers, he hits a boundary every 7.4 balls in T20Is and 14.1 balls in ODIs; however, against left-arm spinners, he takes 8.5 balls in T20Is and 28.9 balls in ODIs to hit a boundary.</p>
 
-          <p>While he gets out less to left-arm spinners in ODIs (93 balls per dismissal against SLA v 47 against all others), he does get out more to them in T20Is (17 balls per dismissal against SLA v 26 against all others), presumably because of the onus to attack.</p>
+          <p class="reveal">While he gets out less to left-arm spinners in ODIs (93 balls per dismissal against SLA v 47 against all others), he does get out more to them in T20Is (17 balls per dismissal against SLA v 26 against all others), presumably because of the onus to attack.</p>
 
-          <p>Amongst all the left-arm bowlers he has faced in ODIs, Hridoy only managed to emulate his career strike rate (77.9) against only one spinner - New Zealand’s Jayden Lennox (76.7). The numbers, though, are better in T20Is, as he has scored at a faster rate than his career strike rate against six left-arm spinners.</p>
+          <p class="reveal">Amongst all the left-arm bowlers he has faced in ODIs, Hridoy only managed to emulate his career strike rate (77.9) against only one spinner - New Zealand’s Jayden Lennox (76.7). The numbers, though, are better in T20Is, as he has scored at a faster rate than his career strike rate against six left-arm spinners.</p>
 
-          <p>In all of his innings against left-arm spin in ODIs, he has only managed to score faster than run-a-ball twice in 30 innings - against Ireland’s Matthew Humphreys (10 runs off seven balls) and Afghanistan’s Zia-ur-Rehman (10 off nine balls).</p>
+          <p class="reveal">In all of his innings against left-arm spin in ODIs, he has only managed to score faster than run-a-ball twice in 30 innings - against Ireland’s Matthew Humphreys (10 runs off seven balls) and Afghanistan’s Zia-ur-Rehman (10 off nine balls).</p>
 
-          <p>Hridoy’s stats seem even more surprising because of the abundance of left-arm spinners in Bangladesh, and because it seems like wrist spin - something Bangladesh batters find trouble against - bothers him less than the one he has faced way more throughout his career.</p>
+          <p class="reveal">Hridoy’s stats seem even more surprising because of the abundance of left-arm spinners in Bangladesh, and because it seems like wrist spin - something Bangladesh batters find trouble against - bothers him less than the one he has faced way more throughout his career.</p>
 
-          <p>Bangladesh have a lot of hope in Hridoy, making him the white-ball vice-captain. However, without improvement against left-arm spin, it’s only a matter of time before his numbers dwindle even further, and all that promise gets lost.</p>
+          <p class="reveal">Bangladesh have a lot of hope in Hridoy, making him the white-ball vice-captain. However, without improvement against left-arm spin, it’s only a matter of time before his numbers dwindle even further, and all that promise gets lost.</p>
 
           <div class="article-notes">
-            <p>[All the data was collected from cricsheet.org and espncricinfo.com, following which the data was analysed using AI.]</p>
-            <p>[[The interactive graphics used in this story were produced by Claude, and belongs to the author.]]</p>
+            <p class="reveal">[All the data was collected from cricsheet.org and espncricinfo.com, following which the data was analysed using AI.]</p>
+            <p class="reveal">[[The interactive graphics used in this story were produced by Claude, and belongs to the author.]]</p>
           </div>
 
         </article>
 
-        <div class="article-footer">
+        <div class="article-footer reveal">
           <a href="../blog.html" class="article-footer__back">&#8592; Back to Blog</a>
         </div>
 

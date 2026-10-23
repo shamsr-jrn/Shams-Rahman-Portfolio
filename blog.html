@@ -72,8 +72,10 @@
     }
 
     .post-card {
-      display:       block;
-      padding:       2rem 2.2rem;
+      display:       flex;
+      align-items:   center;
+      gap:           1.75rem;
+      padding:       1.25rem 2rem 1.25rem 1.25rem;
       background:    var(--bg-card);
       border:        1px solid var(--border);
       border-left:   4px solid var(--blue);
@@ -88,6 +90,25 @@
       transform:    translateY(-3px);
       box-shadow:   var(--shadow-blue);
     }
+
+    .post-card__img-wrap {
+      flex:          0 0 190px;
+      aspect-ratio:  1 / 1;
+      overflow:      hidden;
+      border-radius: var(--radius-sm);
+      background:    var(--blue-dim);
+    }
+
+    .post-card__img {
+      width:           100%;
+      height:          100%;
+      object-fit:      cover;
+      object-position: center 30%;
+      transition:      transform 0.35s ease;
+    }
+    .post-card:hover .post-card__img { transform: scale(1.05); }
+
+    .post-card__body { flex: 1; min-width: 0; }
 
     .post-card__category {
       font-family:    var(--font-caption);
@@ -127,8 +148,9 @@
     }
     .post-card:hover .post-card__cta { color: var(--blue-lighter); }
 
-    @media (max-width: 480px) {
-      .post-card { padding: 1.5rem; }
+    @media (max-width: 560px) {
+      .post-card { flex-direction: column; align-items: stretch; gap: 1.1rem; padding: 1rem 1rem 1.4rem; }
+      .post-card__img-wrap { flex-basis: auto; aspect-ratio: 5 / 4; }
     }
 
     /* ── Coming Soon card ─────────────────────────────────── */
@@ -244,12 +266,12 @@
     ══════════════════════════════════════════════════ -->
     <section class="section section--alt page-hero" id="page-top">
       <div class="container">
-        <p class="page-hero__eyebrow">Writing</p>
-        <h1 class="page-hero__title">Blog</h1>
-        <p class="page-hero__sub">
+        <p class="page-hero__eyebrow reveal">Writing</p>
+        <h1 class="page-hero__title reveal">Blog</h1>
+        <p class="page-hero__sub reveal">
           Thoughts on journalism, sports, culture, and public life.
         </p>
-        <div class="page-hero__rule"></div>
+        <div class="page-hero__rule reveal"></div>
       </div>
     </section>
 
@@ -259,15 +281,22 @@
     <section class="section coming-soon-section">
       <div class="container">
 
-        <!-- Newest story first. Copy a post-card to list a new story. -->
+        <!-- Newest story first. Copy a whole <div class="reveal">…</div> block to list a new story. -->
         <div class="post-list">
 
-          <a href="blog/towhid_hridoy.html" class="post-card">
-            <p class="post-card__category">Cricket Analysis <span class="post-card__date">&middot; October 23, 2026</span></p>
-            <h2 class="post-card__title">Hridoy: A left-arm spinner’s dream</h2>
-            <p class="post-card__excerpt">Towhid Hridoy is still the most consistent Bangladesh batter, but his numbers drop sharply whenever a left-arm spinner comes on to bowl.</p>
-            <span class="post-card__cta">Read story &#8594;</span>
-          </a>
+          <div class="reveal">
+            <a href="blog/towhid_hridoy.html" class="post-card">
+              <div class="post-card__img-wrap">
+                <img src="Towhid_Hridoy.jpg" alt="Towhid Hridoy walking off the field in Bangladesh kit" class="post-card__img" />
+              </div>
+              <div class="post-card__body">
+                <p class="post-card__category">Cricket Analysis <span class="post-card__date">&middot; October 23, 2026</span></p>
+                <h2 class="post-card__title">Hridoy: A left-arm spinner’s dream</h2>
+                <p class="post-card__excerpt">Towhid Hridoy is still the most consistent Bangladesh batter, but his numbers drop sharply whenever a left-arm spinner comes on to bowl.</p>
+                <span class="post-card__cta">Read story &#8594;</span>
+              </div>
+            </a>
+          </div>
 
         </div>
 
