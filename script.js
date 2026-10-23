@@ -291,6 +291,61 @@ if (thesisToggle && thesisAbstract) {
 }
 
 /* ================================================================
+   Article share buttons — built from the page's og:url / og:title
+   ================================================================ */
+const shareBox = document.querySelector('[data-share]');
+if (shareBox) {
+  const meta = name => {
+    const el = document.querySelector(`meta[property="${name}"]`);
+    return el ? el.getAttribute('content') : '';
+  };
+  const shareUrl   = meta('og:url') || location.href.split('#')[0];
+  const shareTitle = meta('og:title') || document.title;
+  const u = encodeURIComponent(shareUrl);
+  const t = encodeURIComponent(shareTitle);
+  const shareLinks = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
+    x:        `https://twitter.com/intent/tweet?url=${u}&text=${t}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
+    whatsapp: `https://wa.me/?text=${t}%20${u}`,
+    email:    `mailto:?subject=${t}&body=${t}%0A%0A${u}`,
+  };
+  shareBox.querySelectorAll('a[data-share-to]').forEach(a => {
+    a.href = shareLinks[a.dataset.shareTo];
+  });
+
+  const copyBtn = shareBox.querySelector('[data-share-to="copy"]');
+  if (copyBtn) {
+    const label = copyBtn.querySelector('span');
+    const done  = () => {
+      label.textContent = 'Link copied';
+      setTimeout(() => { label.textContent = 'Copy link'; }, 2000);
+    };
+    copyBtn.addEventListener('click', () => {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(shareUrl).then(done).catch(() => {});
+      } else {
+        const tmp = document.createElement('textarea');
+        tmp.value = shareUrl;
+        document.body.appendChild(tmp);
+        tmp.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        tmp.remove();
+      }
+    });
+  }
+
+  // Phones and tablets: the system share sheet (Messenger, Instagram, SMS, etc.)
+  const nativeBtn = shareBox.querySelector('[data-share-to="native"]');
+  if (nativeBtn && navigator.share) {
+    nativeBtn.hidden = false;
+    nativeBtn.addEventListener('click', () => {
+      navigator.share({ title: shareTitle, url: shareUrl }).catch(() => {});
+    });
+  }
+}
+
+/* ================================================================
    Contact Form — open mailto with pre-filled fields
    ================================================================ */
 const contactForm = document.getElementById('contactForm');
