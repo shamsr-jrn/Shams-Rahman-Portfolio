@@ -93,6 +93,15 @@
       border:        1px solid var(--border);
     }
 
+    /* Interactive graphics: each is its own page in an iframe that reports its height */
+    .hx-embed {
+      display:    block;
+      width:      100%;
+      border:     0;
+      background: transparent;
+      transition: height 0.2s ease;
+    }
+
     /* Drop cap on the opening paragraph */
     .article__lead::first-letter {
       float:        left;
@@ -218,17 +227,45 @@
 
           <p class="reveal">The other issue, though, is not talked about enough, which is weakness against left-arm spin. As a right-handed batter, any left-arm spinner should be a good matchup, but because Hridoy is so leg-side dominant, he becomes a run desert whenever a left-arm spinner comes to bowl.</p>
 
+          <figure class="reveal">
+            <iframe class="hx-embed" data-src="graphics/hridoy-key-figures.html" title="Towhid Hridoy against left-arm orthodox: key figures" loading="lazy" style="height:330px"></iframe>
+          </figure>
+
           <p class="reveal">While he doesn’t get out to them a whole lot, his numbers, in almost every other metric, drop significantly. In ODIs, his batting strike rate against left-arm spinners drops to 60.9 compared to 82.5 against all other bowling, and it drops to 118.3 compared to 128.6 against other bowlers in T20Is.</p>
+
+          <figure class="reveal">
+            <iframe class="hx-embed" data-src="graphics/hridoy-bowling-groups.html" title="Towhid Hridoy: left-arm orthodox against other spin and pace" loading="lazy" style="height:380px"></iframe>
+          </figure>
 
           <p class="reveal">He also takes more balls to hit a boundary. Against all other bowlers, he hits a boundary every 7.4 balls in T20Is and 14.1 balls in ODIs; however, against left-arm spinners, he takes 8.5 balls in T20Is and 28.9 balls in ODIs to hit a boundary.</p>
 
+          <figure class="reveal">
+            <iframe class="hx-embed" data-src="graphics/hridoy-six-types-chart.html" title="Towhid Hridoy: scoring rate against survival for six bowling types" loading="lazy" style="height:640px"></iframe>
+          </figure>
+
           <p class="reveal">While he gets out less to left-arm spinners in ODIs (93 balls per dismissal against SLA v 47 against all others), he does get out more to them in T20Is (17 balls per dismissal against SLA v 26 against all others), presumably because of the onus to attack.</p>
+
+          <figure class="reveal">
+            <iframe class="hx-embed" data-src="graphics/hridoy-six-types-table.html" title="Towhid Hridoy: six bowling types compared" loading="lazy" style="height:480px"></iframe>
+          </figure>
 
           <p class="reveal">Amongst all the left-arm bowlers he has faced in ODIs, Hridoy only managed to emulate his career strike rate (77.9) against only one spinner - New Zealand’s Jayden Lennox (76.7). The numbers, though, are better in T20Is, as he has scored at a faster rate than his career strike rate against six left-arm spinners.</p>
 
+          <figure class="reveal">
+            <iframe class="hx-embed" data-src="graphics/hridoy-every-bowler.html" title="Towhid Hridoy: strike rate against every bowler he has faced" loading="lazy" style="height:560px"></iframe>
+          </figure>
+
           <p class="reveal">In all of his innings against left-arm spin in ODIs, he has only managed to score faster than run-a-ball twice in 30 innings - against Ireland’s Matthew Humphreys (10 runs off seven balls) and Afghanistan’s Zia-ur-Rehman (10 off nine balls).</p>
 
+          <figure class="reveal">
+            <iframe class="hx-embed" data-src="graphics/hridoy-innings-left-arm-orthodox.html" title="Towhid Hridoy: each innings against left-arm orthodox" loading="lazy" style="height:440px"></iframe>
+          </figure>
+
           <p class="reveal">Hridoy’s stats seem even more surprising because of the abundance of left-arm spinners in Bangladesh, and because it seems like wrist spin - something Bangladesh batters find trouble against - bothers him less than the one he has faced way more throughout his career.</p>
+
+          <figure class="reveal">
+            <iframe class="hx-embed" data-src="graphics/hridoy-left-arm-orthodox-bowlers.html" title="Towhid Hridoy: record against each left-arm orthodox bowler" loading="lazy" style="height:760px"></iframe>
+          </figure>
 
           <p class="reveal">Bangladesh have a lot of hope in Hridoy, making him the white-ball vice-captain. However, without improvement against left-arm spin, it’s only a matter of time before his numbers dwindle even further, and all that promise gets lost.</p>
 
@@ -275,5 +312,29 @@
   </a>
 
   <script src="../script.js"></script>
+  <script>
+    /* Interactive graphics: load each in the site's current theme, reload on theme change,
+       and size each frame to the height its graphic reports. */
+    (() => {
+      const frames = Array.from(document.querySelectorAll('.hx-embed'));
+      const html   = document.documentElement;
+      const load = () => {
+        const theme = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        frames.forEach(f => {
+          const src = `${f.dataset.src}?theme=${theme}`;
+          if (f.getAttribute('src') !== src) f.setAttribute('src', src);
+        });
+      };
+      load();
+      new MutationObserver(load).observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+
+      window.addEventListener('message', e => {
+        if (!e.data || e.data.type !== 'hx-embed-height') return;
+        const f = frames.find(fr => fr.contentWindow === e.source);
+        const h = Number(e.data.height);
+        if (f && h > 0 && h < 5000) f.style.height = `${Math.ceil(h)}px`;
+      });
+    })();
+  </script>
 </body>
 </html>

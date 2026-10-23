@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hridoy Every Bowler</title>
+<style>
+  /* Layout: one card that fills the iframe's width; header with the format switch, then the visual, then a source line. */
+  :root {
+    --hx-card: #ffffff; --hx-panel: #f5f6f7; --hx-fg: #16181b; --hx-muted: #5b626b; --hx-line: #dfe3e7;
+    --hx-grid: #eceef1; --hx-axis: #c4cad1; --hx-ref: #7b828b; --hx-sla: #b4232c; --hx-spin: #2563b8; --hx-pace: #a7adb4;
+    --hx-tip-bg: #ffffff; --hx-tip-shadow: 0 4px 14px rgba(20, 24, 28, 0.12);
+    --hx-serif: Georgia, "Times New Roman", Times, serif;
+    --hx-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --hx-fs-cap: 13px; --hx-fs-body: 15px; --hx-fs-head: 19px; --hx-fs-big: 30px;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --hx-card: #15181b; --hx-panel: #1d2124; --hx-fg: #eceef0; --hx-muted: #9aa1a9; --hx-line: #2c3136;
+    --hx-grid: #23272b; --hx-axis: #3a4046; --hx-ref: #8a929b; --hx-sla: #e5555b; --hx-spin: #5b93dc; --hx-pace: #5e656c;
+    --hx-tip-bg: #202428; --hx-tip-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root[data-theme="auto"] {
+      --hx-card: #15181b; --hx-panel: #1d2124; --hx-fg: #eceef0; --hx-muted: #9aa1a9; --hx-line: #2c3136;
+      --hx-grid: #23272b; --hx-axis: #3a4046; --hx-ref: #8a929b; --hx-sla: #e5555b; --hx-spin: #5b93dc; --hx-pace: #5e656c;
+      --hx-tip-bg: #202428; --hx-tip-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: transparent; }
+  body { font-family: var(--hx-sans); font-size: var(--hx-fs-body); line-height: 1.5; color: var(--hx-fg); }
+
+  .hx {
+    background: var(--hx-card);
+    color: var(--hx-fg);
+    border: 1px solid var(--hx-line);
+    border-radius: 10px;
+    padding: 18px clamp(14px, 3vw, 22px) 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+  }
+  .hx-top { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: flex-start; justify-content: space-between; }
+  .hx-titles { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 22rem; }
+  .hx-kicker { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--hx-sla); }
+  .hx h2 { margin: 0; font-size: var(--hx-fs-head); font-weight: 650; line-height: 1.25; text-wrap: balance; }
+  .hx-dek { margin: 2px 0 0; font-size: var(--hx-fs-body); line-height: 1.55; max-width: 68ch; }
+  .hx .hx-dek b, .hx .hx-note b { font-weight: 650; font-variant-numeric: tabular-nums; color: var(--hx-fg); }
+  .hx-note { margin: 0; font-size: var(--hx-fs-cap); color: var(--hx-muted); line-height: 1.55; max-width: 72ch; }
+  .hx-source { margin: 0; padding-top: 10px; border-top: 1px solid var(--hx-line); font-size: 12px; color: var(--hx-muted); line-height: 1.5; }
+
+  .hx-seg, .hx-legend { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .hx-seg-label { font-size: var(--hx-fs-cap); color: var(--hx-muted); margin-right: 2px; }
+  .hx-seg button, .hx-legend button {
+    font: inherit; font-size: var(--hx-fs-cap); color: var(--hx-muted); background: transparent;
+    border: 1px solid var(--hx-line); border-radius: 999px; padding: 4px 11px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px; line-height: 1.4;
+  }
+  .hx-seg button:hover, .hx-legend button:hover { color: var(--hx-fg); }
+  .hx-seg button[aria-pressed="true"] { color: var(--hx-card); background: var(--hx-fg); border-color: var(--hx-fg); }
+  .hx-legend button[aria-pressed="true"] { color: var(--hx-fg); border-color: var(--hx-fg); }
+  .hx-format { flex: none; padding: 3px; border: 1px solid var(--hx-line); border-radius: 999px; gap: 2px; }
+  .hx-format button { border-color: transparent; font-weight: 600; padding: 4px 14px; }
+  .hx button:focus-visible { outline: 2px solid var(--hx-fg); outline-offset: 2px; }
+
+  .hx-tiles { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hx-tiles > .hx-tile { flex: 1 1 9rem; }
+  .hx-tile { background: var(--hx-panel); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; border-top: 3px solid var(--hx-sla); }
+  .hx-tile-label { font-size: var(--hx-fs-cap); color: var(--hx-muted); }
+  .hx-tile-value { font-family: var(--hx-serif); font-size: var(--hx-fs-big); line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .hx-tile-vs { font-size: 12.5px; color: var(--hx-muted); font-variant-numeric: tabular-nums; }
+
+  .hx-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: var(--hx-fs-cap); color: var(--hx-muted); }
+  .hx-key span { display: inline-flex; align-items: center; gap: 6px; }
+  .hx-sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+  .hx-sw-bar { width: 12px; height: 8px; border-radius: 2px; }
+  .hx-sw-pace { background: var(--hx-pace); }
+  .hx-sw-sla { background: var(--hx-sla); }
+  .hx-sw-fg { background: var(--hx-fg); }
+
+  .hx-chart { position: relative; width: 100%; }
+  .hx-chart svg { display: block; overflow: visible; }
+  .hx svg text { font-family: var(--hx-sans); font-size: 12px; }
+  .hx svg .hx-axis { fill: var(--hx-muted); }
+  .hx svg .hx-label { fill: var(--hx-fg); }
+  .hx svg .hx-strong { fill: var(--hx-fg); font-weight: 650; }
+  .hx svg .hx-grid { stroke: var(--hx-grid); stroke-width: 1; }
+  .hx svg .hx-axisline { stroke: var(--hx-axis); stroke-width: 1; }
+  .hx svg .hx-ref { stroke: var(--hx-ref); stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .hx svg .hx-halo { stroke: var(--hx-card); stroke-width: 4; stroke-linejoin: round; paint-order: stroke; }
+
+  .hx-tip {
+    position: absolute; z-index: 2; pointer-events: none; color: var(--hx-fg);
+    background: var(--hx-tip-bg); border: 1px solid var(--hx-line); border-radius: 8px; box-shadow: var(--hx-tip-shadow);
+    padding: 5px 9px; font-size: 12.5px; line-height: 1.5; max-width: 16rem; font-variant-numeric: tabular-nums;
+  }
+  .hx-tip .hx-tip-head { color: var(--hx-muted); }
+
+  .hx-tablewrap { overflow-x: auto; }
+  .hx table { width: 100%; border-collapse: collapse; font-size: var(--hx-fs-cap); font-variant-numeric: tabular-nums; }
+  .hx th, .hx td { padding: 7px 8px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--hx-line); }
+  .hx th:first-child, .hx td:first-child { text-align: left; }
+  .hx thead th { font-weight: 600; color: var(--hx-muted); vertical-align: bottom; }
+  .hx thead button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+  .hx thead th[aria-sort] button { color: var(--hx-fg); }
+  .hx thead th[aria-sort="descending"] button::after { content: " ↓"; }
+  .hx thead th[aria-sort="ascending"] button::after { content: " ↑"; }
+  .hx tbody tr:last-child td { border-bottom: 0; }
+  .hx-sticky th:first-child, .hx-sticky td:first-child { position: sticky; left: 0; background: var(--hx-card); z-index: 1; }
+  .hx-wrapheads thead th { white-space: normal; max-width: 5.5rem; }
+  .hx-wrapheads th, .hx-wrapheads td { padding-left: 6px; padding-right: 6px; }
+  .hx tr.hx-row-focus td:first-child { box-shadow: inset 3px 0 0 var(--hx-sla); font-weight: 650; }
+  .hx tr.hx-row-total td { border-top: 1px solid var(--hx-axis); color: var(--hx-muted); }
+  .hx-chip { display: inline-block; margin-left: 6px; padding: 0 6px; border: 1px solid var(--hx-line); border-radius: 999px; font-size: 0.85em; color: var(--hx-muted); font-weight: 400; }
+  .hx-cellbar { display: inline-flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .hx-cellbar-track { width: 3rem; height: 8px; border-radius: 999px; background: var(--hx-grid); overflow: hidden; display: block; }
+  .hx-cellbar-fill { display: block; height: 100%; border-radius: 999px; }
+  @media (prefers-reduced-motion: no-preference) { .hx-cellbar-fill { transition: width 250ms ease-out; } }
+  #sla-table td:nth-child(2) { text-align: left; }
+</style>
+</head>
+<body data-name="hridoy-every-bowler">
+<div class="hx" id="hx" role="figure" aria-label="Towhid Hridoy: strike rate against every bowler he has faced">
+  <div class="hx-top">
+    <div class="hx-titles">
+      <p class="hx-kicker">Towhid Hridoy · <span data-meta="label">ODIs</span></p>
+      <h2 id="hx-title">Every bowler he has faced at least 10 balls from</h2>
+      
+    </div>
+    <div class="hx-seg hx-format" role="group" aria-label="Format">
+      <button type="button" id="f-odi" data-format="odi" aria-pressed="true">ODIs</button>
+      <button type="button" id="f-t20i" data-format="t20i" aria-pressed="false">T20Is</button>
+    </div>
+  </div>
+  <p class="hx-note">Each dot is one bowler. Dots below the dashed line are bowlers he scores more slowly against than his overall strike rate. Select a style to highlight its bowlers; hover over or tap a dot for details.</p>
+  <div class="hx-legend" id="legend" role="group" aria-label="Bowling style"></div>
+  <div class="hx-chart" id="chart" style="min-height:300px"></div>
+  <p class="hx-source"><span data-meta="scope">…</span>. Pace includes medium pace. Spinners who mix styles count by their main style; Kamindu Mendis and Tharindu Ratnayake, who bowl with either arm, count as left-arm orthodox. Data: Cricsheet ball-by-ball data and ESPNcricinfo commentary.</p>
+</div>
+<script type="application/json" id="hx-data">{"meta":{"odi":{"label":"ODIs","scope":"All 57 ODIs he has played, to 17 October 2026 (52 innings)"},"t20i":{"label":"T20Is","scope":"All 67 T20Is he has played, to 3 October 2026 (61 innings)"}},"odi":{"bowlers":[{"bowler":"Dunith Wellalage","team":"Sri Lanka","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":71,"balls":122,"outs":0,"fours":1,"sixes":1,"innings":6,"sr":58.2,"dot_pct":53.3},{"bowler":"Wanindu Hasaranga","team":"Sri Lanka","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":47,"balls":72,"outs":0,"fours":1,"sixes":2,"innings":5,"sr":65.3,"dot_pct":54.2},{"bowler":"Rashid Khan","team":"Afghanistan","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":32,"balls":66,"outs":5,"fours":1,"sixes":0,"innings":8,"sr":48.5,"dot_pct":59.1},{"bowler":"Adam Zampa","team":"Australia","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":50,"balls":58,"outs":0,"fours":4,"sixes":1,"innings":4,"sr":86.2,"dot_pct":43.1},{"bowler":"Brad Evans","team":"Zimbabwe","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":37,"balls":58,"outs":0,"fours":2,"sixes":0,"innings":3,"sr":63.8,"dot_pct":58.6},{"bowler":"Ravindra Jadeja","team":"India","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":29,"balls":56,"outs":0,"fours":1,"sixes":1,"innings":3,"sr":51.8,"dot_pct":62.5},{"bowler":"Mohammad Nabi","team":"Afghanistan","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":48,"balls":53,"outs":0,"fours":2,"sixes":2,"innings":6,"sr":90.6,"dot_pct":41.5},{"bowler":"Axar Patel","team":"India","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":32,"balls":52,"outs":0,"fours":3,"sixes":0,"innings":2,"sr":61.5,"dot_pct":61.5},{"bowler":"Andy McBrine","team":"Ireland","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":48,"balls":48,"outs":0,"fours":2,"sixes":1,"innings":5,"sr":100,"dot_pct":29.2},{"bowler":"Azmatullah Omarzai","team":"Afghanistan","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":30,"balls":48,"outs":0,"fours":4,"sixes":0,"innings":4,"sr":62.5,"dot_pct":64.6},{"bowler":"Matt Renshaw","team":"Australia","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":40,"balls":47,"outs":0,"fours":3,"sixes":0,"innings":3,"sr":85.1,"dot_pct":42.6},{"bowler":"Maheesh Theekshana","team":"Sri Lanka","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":45,"balls":45,"outs":1,"fours":4,"sixes":1,"innings":5,"sr":100,"dot_pct":42.2},{"bowler":"AM Ghazanfar","team":"Afghanistan","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":31,"balls":42,"outs":0,"fours":3,"sixes":1,"innings":5,"sr":73.8,"dot_pct":59.5},{"bowler":"Will O'Rourke","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":38,"balls":41,"outs":0,"fours":2,"sixes":2,"innings":5,"sr":92.7,"dot_pct":48.8},{"bowler":"Khary Pierre","team":"West Indies","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":20,"balls":41,"outs":0,"fours":1,"sixes":0,"innings":3,"sr":48.8,"dot_pct":68.3},{"bowler":"Curtis Campher","team":"Ireland","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":55,"balls":40,"outs":0,"fours":7,"sixes":0,"innings":4,"sr":137.5,"dot_pct":25},{"bowler":"Mark Adair","team":"Ireland","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":35,"balls":35,"outs":1,"fours":2,"sixes":1,"innings":4,"sr":100,"dot_pct":42.9},{"bowler":"Nangeyalia Kharote","team":"Afghanistan","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":19,"balls":32,"outs":1,"fours":0,"sixes":0,"innings":6,"sr":59.4,"dot_pct":40.6},{"bowler":"Graham Hume","team":"Ireland","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":41,"balls":30,"outs":2,"fours":2,"sixes":3,"innings":4,"sr":136.7,"dot_pct":36.7},{"bowler":"Roston Chase","team":"West Indies","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":18,"balls":30,"outs":0,"fours":2,"sixes":0,"innings":3,"sr":60,"dot_pct":63.3},{"bowler":"Jayden Lennox","team":"New Zealand","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":23,"balls":30,"outs":0,"fours":2,"sixes":0,"innings":3,"sr":76.7,"dot_pct":50},{"bowler":"Dhananjaya de Silva","team":"Sri Lanka","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":17,"balls":29,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":58.6,"dot_pct":44.8},{"bowler":"Nathan Smith","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":34,"balls":28,"outs":1,"fours":3,"sixes":1,"innings":3,"sr":121.4,"dot_pct":35.7},{"bowler":"Newman Nyamhuri","team":"Zimbabwe","style":"Pace","type":"Left-arm pace","detail":"Pace","runs":22,"balls":28,"outs":1,"fours":1,"sixes":0,"innings":3,"sr":78.6,"dot_pct":60.7},{"bowler":"Gudakesh Motie","team":"West Indies","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":20,"balls":27,"outs":1,"fours":1,"sixes":0,"innings":3,"sr":74.1,"dot_pct":51.9},{"bowler":"Mujeeb Ur Rahman","team":"Afghanistan","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":16,"balls":26,"outs":0,"fours":0,"sixes":0,"innings":3,"sr":61.5,"dot_pct":53.8},{"bowler":"Kuldeep Yadav","team":"India","style":"Other spin","type":"Left-arm wrist spin","detail":"Left-arm wrist spin","runs":27,"balls":25,"outs":0,"fours":1,"sixes":1,"innings":2,"sr":108,"dot_pct":28},{"bowler":"Shaheen Shah Afridi","team":"Pakistan","style":"Pace","type":"Left-arm pace","detail":"Pace","runs":27,"balls":25,"outs":0,"fours":4,"sixes":0,"innings":3,"sr":108,"dot_pct":52},{"bowler":"Dilshan Madushanka","team":"Sri Lanka","style":"Pace","type":"Left-arm pace","detail":"Pace","runs":25,"balls":25,"outs":0,"fours":1,"sixes":2,"innings":3,"sr":100,"dot_pct":60},{"bowler":"Lahiru Kumara","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":32,"balls":25,"outs":1,"fours":0,"sixes":3,"innings":2,"sr":128,"dot_pct":52},{"bowler":"Mohammed Shami","team":"India","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":21,"balls":24,"outs":1,"fours":3,"sixes":0,"innings":2,"sr":87.5,"dot_pct":50},{"bowler":"Pramod Madushan","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":21,"balls":24,"outs":1,"fours":1,"sixes":0,"innings":3,"sr":87.5,"dot_pct":41.7},{"bowler":"Xavier Bartlett","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":16,"balls":24,"outs":1,"fours":1,"sixes":0,"innings":3,"sr":66.7,"dot_pct":50},{"bowler":"Blessing Muzarabani","team":"Zimbabwe","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":4,"balls":24,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":16.7,"dot_pct":83.3},{"bowler":"Sikandar Raza","team":"Zimbabwe","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":20,"balls":24,"outs":1,"fours":2,"sixes":0,"innings":2,"sr":83.3,"dot_pct":54.2},{"bowler":"Adil Rashid","team":"England","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":12,"balls":23,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":52.2,"dot_pct":56.5},{"bowler":"Dean Foxcroft","team":"New Zealand","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":22,"balls":23,"outs":0,"fours":1,"sixes":1,"innings":3,"sr":95.7,"dot_pct":43.5},{"bowler":"George Dockrell","team":"Ireland","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":16,"balls":22,"outs":2,"fours":2,"sixes":0,"innings":2,"sr":72.7,"dot_pct":59.1},{"bowler":"Matheesha Pathirana","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":21,"balls":22,"outs":0,"fours":2,"sixes":0,"innings":2,"sr":95.5,"dot_pct":54.5},{"bowler":"Riley Meredith","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":24,"balls":22,"outs":0,"fours":1,"sixes":1,"innings":2,"sr":109.1,"dot_pct":36.4},{"bowler":"Cameron Green","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":16,"balls":21,"outs":0,"fours":2,"sixes":0,"innings":3,"sr":76.2,"dot_pct":52.4},{"bowler":"Nathan Ellis","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":7,"balls":21,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":33.3,"dot_pct":71.4},{"bowler":"Faheem Ashraf","team":"Pakistan","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":15,"balls":20,"outs":0,"fours":0,"sixes":0,"innings":3,"sr":75,"dot_pct":45},{"bowler":"Akeal Hosein","team":"West Indies","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":5,"balls":20,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":25,"dot_pct":80},{"bowler":"Richard Ngarava","team":"Zimbabwe","style":"Pace","type":"Left-arm pace","detail":"Pace","runs":4,"balls":20,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":20,"dot_pct":85},{"bowler":"Shardul Thakur","team":"India","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":15,"balls":18,"outs":1,"fours":2,"sixes":0,"innings":2,"sr":83.3,"dot_pct":50},{"bowler":"Haris Rauf","team":"Pakistan","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":14,"balls":18,"outs":2,"fours":1,"sixes":0,"innings":3,"sr":77.8,"dot_pct":44.4},{"bowler":"Josh Little","team":"Ireland","style":"Pace","type":"Left-arm pace","detail":"Pace","runs":17,"balls":17,"outs":0,"fours":2,"sixes":0,"innings":3,"sr":100,"dot_pct":58.8},{"bowler":"Gareth Delany","team":"Ireland","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":22,"balls":16,"outs":0,"fours":1,"sixes":1,"innings":1,"sr":137.5,"dot_pct":12.5},{"bowler":"Harshit Rana","team":"India","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":11,"balls":16,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":68.8,"dot_pct":56.3},{"bowler":"Dushmantha Chameera","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":12,"balls":16,"outs":1,"fours":2,"sixes":0,"innings":2,"sr":75,"dot_pct":62.5},{"bowler":"Dasun Shanaka","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":11,"balls":15,"outs":1,"fours":1,"sixes":0,"innings":2,"sr":73.3,"dot_pct":53.3},{"bowler":"Michael Bracewell","team":"New Zealand","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":4,"balls":15,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":26.7,"dot_pct":73.3},{"bowler":"Asitha Fernando","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":13,"balls":15,"outs":0,"fours":1,"sixes":0,"innings":2,"sr":86.7,"dot_pct":40},{"bowler":"Jayden Seales","team":"West Indies","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":16,"balls":15,"outs":0,"fours":2,"sixes":0,"innings":1,"sr":106.7,"dot_pct":53.3},{"bowler":"Reece Topley","team":"England","style":"Pace","type":"Left-arm pace","detail":"Pace","runs":14,"balls":14,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":100,"dot_pct":35.7},{"bowler":"Travis Head","team":"Australia","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":19,"balls":14,"outs":0,"fours":1,"sixes":1,"innings":1,"sr":135.7,"dot_pct":21.4},{"bowler":"Ben Dwarshuis","team":"Australia","style":"Pace","type":"Left-arm pace","detail":"Pace","runs":8,"balls":14,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":57.1,"dot_pct":57.1},{"bowler":"Mark Wood","team":"England","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":8,"balls":13,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":61.5,"dot_pct":61.5},{"bowler":"Pat Cummins","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":15,"balls":13,"outs":0,"fours":2,"sixes":0,"innings":1,"sr":115.4,"dot_pct":30.8},{"bowler":"Kamindu Mendis","team":"Sri Lanka","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Bowls with both arms; left-arm orthodox to right-handers","runs":8,"balls":13,"outs":1,"fours":0,"sixes":0,"innings":3,"sr":61.5,"dot_pct":53.8},{"bowler":"Lockie Ferguson","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":6,"balls":12,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":50,"dot_pct":58.3},{"bowler":"Sean Abbott","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":11,"balls":12,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":91.7,"dot_pct":41.7},{"bowler":"Tilak Varma","team":"India","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":16,"balls":12,"outs":0,"fours":0,"sixes":2,"innings":1,"sr":133.3,"dot_pct":50},{"bowler":"Maaz Sadaqat","team":"Pakistan","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":8,"balls":12,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":66.7,"dot_pct":41.7},{"bowler":"Mitchell Santner","team":"New Zealand","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":4,"balls":11,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":36.4,"dot_pct":63.6},{"bowler":"Trent Boult","team":"New Zealand","style":"Pace","type":"Left-arm pace","detail":"Pace","runs":10,"balls":11,"outs":1,"fours":1,"sixes":0,"innings":2,"sr":90.9,"dot_pct":63.6},{"bowler":"Adam Milne","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":12,"balls":11,"outs":1,"fours":2,"sixes":0,"innings":3,"sr":109.1,"dot_pct":45.5},{"bowler":"Prasidh Krishna","team":"India","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":4,"balls":11,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":36.4,"dot_pct":63.6},{"bowler":"Hardik Pandya","team":"India","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":10,"balls":11,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":90.9,"dot_pct":45.5},{"bowler":"Alick Athanaze","team":"West Indies","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":6,"balls":11,"outs":1,"fours":1,"sixes":0,"innings":1,"sr":54.5,"dot_pct":72.7},{"bowler":"Chris Woakes","team":"England","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":5,"balls":10,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":50,"dot_pct":70},{"bowler":"Josh Hazlewood","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":4,"balls":10,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":40,"dot_pct":60},{"bowler":"Jacob Duffy","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":8,"balls":10,"outs":0,"fours":1,"sixes":0,"innings":2,"sr":80,"dot_pct":60},{"bowler":"Abrar Ahmed","team":"Pakistan","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":8,"balls":10,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":80,"dot_pct":20},{"bowler":"Blair Tickner","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":8,"balls":10,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":80,"dot_pct":40},{"bowler":"Brian Bennett","team":"Zimbabwe","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":8,"balls":10,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":80,"dot_pct":50},{"bowler":"Fazalhaq Farooqi","team":"Afghanistan","style":"Pace","type":"Left-arm pace","detail":"Pace","runs":5,"balls":10,"outs":1,"fours":0,"sixes":0,"innings":3,"sr":50,"dot_pct":60},{"bowler":"Harry Tector","team":"Ireland","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":5,"balls":9,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":55.6,"dot_pct":44.4},{"bowler":"Zia-ur-Rehman","team":"Afghanistan","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":10,"balls":9,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":111.1,"dot_pct":33.3},{"bowler":"Marcus Stoinis","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":9,"balls":8,"outs":1,"fours":1,"sixes":0,"innings":1,"sr":112.5,"dot_pct":25},{"bowler":"Josh Clarkson","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":11,"balls":8,"outs":0,"fours":1,"sixes":0,"innings":2,"sr":137.5,"dot_pct":12.5},{"bowler":"Charith Asalanka","team":"Sri Lanka","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":10,"balls":8,"outs":0,"fours":1,"sixes":0,"innings":3,"sr":125,"dot_pct":25},{"bowler":"Ben Lister","team":"New Zealand","style":"Pace","type":"Left-arm pace","detail":"Pace","runs":10,"balls":8,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":125,"dot_pct":25},{"bowler":"Mohammad Saleem","team":"Afghanistan","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":5,"balls":8,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":62.5,"dot_pct":75},{"bowler":"Matthew Humphreys","team":"Ireland","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":10,"balls":7,"outs":0,"fours":2,"sixes":0,"innings":1,"sr":142.9,"dot_pct":42.9},{"bowler":"Rachin Ravindra","team":"New Zealand","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":6,"balls":7,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":85.7,"dot_pct":14.3},{"bowler":"Justin Greaves","team":"West Indies","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":5,"balls":7,"outs":1,"fours":0,"sixes":0,"innings":2,"sr":71.4,"dot_pct":42.9},{"bowler":"Saad Masood","team":"Pakistan","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":7,"balls":7,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":100,"dot_pct":42.9},{"bowler":"Mohammed Siraj","team":"India","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":5,"balls":6,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":83.3,"dot_pct":33.3},{"bowler":"Kasun Rajitha","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":5,"balls":6,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":83.3,"dot_pct":33.3},{"bowler":"Ish Sodhi","team":"New Zealand","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":4,"balls":6,"outs":2,"fours":0,"sixes":0,"innings":2,"sr":66.7,"dot_pct":50},{"bowler":"Matt Henry","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":5,"balls":5,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Janith Liyanage","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":3,"balls":5,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":60,"dot_pct":40},{"bowler":"Marnus Labuschagne","team":"Australia","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":5,"balls":5,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":20},{"bowler":"Abdul Rahman","team":"Afghanistan","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":5,"balls":5,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":40},{"bowler":"Bilal Sami","team":"Afghanistan","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":4,"balls":5,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":80,"dot_pct":40},{"bowler":"Jasprit Bumrah","team":"India","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":0,"balls":3,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":0,"dot_pct":100},{"bowler":"Liam Scott","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":3,"balls":3,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":33.3},{"bowler":"Wessly Madhevere","team":"Zimbabwe","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":2,"balls":3,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":66.7,"dot_pct":33.3},{"bowler":"Ernest Masuku","team":"Zimbabwe","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":0,"balls":3,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":0,"dot_pct":100},{"bowler":"Usama Mir","team":"Pakistan","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":6,"balls":2,"outs":1,"fours":0,"sixes":1,"innings":1,"sr":300,"dot_pct":50},{"bowler":"Romario Shepherd","team":"West Indies","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":1,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":50,"dot_pct":50},{"bowler":"Gulbadin Naib","team":"Afghanistan","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":0,"balls":2,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":0,"dot_pct":100},{"bowler":"Wellington Masakadza","team":"Zimbabwe","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":1,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":50,"dot_pct":50},{"bowler":"Liam Livingstone","team":"England","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break (bowls off-breaks too; this ball was a leg-break)","runs":0,"balls":1,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":0,"dot_pct":100},{"bowler":"Mitchell Marsh","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Pace","runs":1,"balls":1,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0}],"by_group":[{"group":"sla","label":"Left-arm orthodox","innings":30,"runs":282,"balls":463,"outs":5,"sr":60.9,"avg":56.4,"dot_pct":55.7,"balls_per_boundary":28.9,"balls_per_dismissal":93},{"group":"other_spin","label":"Other spin","innings":43,"runs":595,"balls":740,"outs":14,"sr":80.4,"avg":42.5,"dot_pct":46.6,"balls_per_boundary":15.7,"balls_per_dismissal":53},{"group":"pace","label":"Pace","innings":49,"runs":834,"balls":992,"outs":23,"sr":84.1,"avg":36.3,"dot_pct":51.1,"balls_per_boundary":13.1,"balls_per_dismissal":43},{"group":"not_sla","label":"All other bowling","innings":52,"runs":1429,"balls":1732,"outs":37,"sr":82.5,"avg":38.6,"dot_pct":49.2,"balls_per_boundary":14.1,"balls_per_dismissal":47},{"group":"all","label":"All bowling","innings":52,"runs":1711,"balls":2195,"outs":42,"sr":77.9,"avg":40.7,"dot_pct":50.6,"balls_per_boundary":15.8,"balls_per_dismissal":52}]},"t20i":{"bowlers":[{"bowler":"Abrar Ahmed","team":"Pakistan","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":47,"balls":32,"outs":1,"fours":3,"sixes":3,"innings":5,"sr":146.9,"dot_pct":31.3},{"bowler":"Sikandar Raza","team":"Zimbabwe","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":37,"balls":30,"outs":2,"fours":2,"sixes":1,"innings":6,"sr":123.3,"dot_pct":23.3},{"bowler":"Ish Sodhi","team":"New Zealand","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":31,"balls":28,"outs":0,"fours":3,"sixes":1,"innings":4,"sr":110.7,"dot_pct":39.3},{"bowler":"Adam Zampa","team":"Australia","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":35,"balls":25,"outs":1,"fours":4,"sixes":1,"innings":4,"sr":140,"dot_pct":32},{"bowler":"Blessing Muzarabani","team":"Zimbabwe","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":28,"balls":22,"outs":1,"fours":4,"sixes":0,"innings":6,"sr":127.3,"dot_pct":36.4},{"bowler":"Rashid Khan","team":"Afghanistan","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":16,"balls":22,"outs":1,"fours":0,"sixes":0,"innings":4,"sr":72.7,"dot_pct":31.8},{"bowler":"Maheesh Theekshana","team":"Sri Lanka","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":29,"balls":21,"outs":0,"fours":1,"sixes":2,"innings":5,"sr":138.1,"dot_pct":28.6},{"bowler":"Nuwan Thushara","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":20,"balls":20,"outs":1,"fours":2,"sixes":0,"innings":7,"sr":100,"dot_pct":40},{"bowler":"Wanindu Hasaranga","team":"Sri Lanka","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":42,"balls":19,"outs":1,"fours":1,"sixes":4,"innings":2,"sr":221.1,"dot_pct":15.8},{"bowler":"Dasun Shanaka","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":23,"balls":19,"outs":1,"fours":1,"sixes":1,"innings":4,"sr":121.1,"dot_pct":26.3},{"bowler":"Richard Ngarava","team":"Zimbabwe","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":25,"balls":19,"outs":1,"fours":2,"sixes":1,"innings":5,"sr":131.6,"dot_pct":31.6},{"bowler":"Varun Chakaravarthy","team":"India","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":26,"balls":19,"outs":1,"fours":3,"sixes":1,"innings":3,"sr":136.8,"dot_pct":42.1},{"bowler":"Jeffrey Vandersay","team":"Sri Lanka","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":18,"balls":19,"outs":0,"fours":1,"sixes":0,"innings":3,"sr":94.7,"dot_pct":31.6},{"bowler":"Mark Adair","team":"Ireland","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":26,"balls":18,"outs":1,"fours":2,"sixes":1,"innings":3,"sr":144.4,"dot_pct":27.8},{"bowler":"Luke Jongwe","team":"Zimbabwe","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":24,"balls":18,"outs":0,"fours":1,"sixes":1,"innings":4,"sr":133.3,"dot_pct":16.7},{"bowler":"Nathan Ellis","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":26,"balls":18,"outs":0,"fours":0,"sixes":2,"innings":2,"sr":144.4,"dot_pct":33.3},{"bowler":"Harmeet Singh","team":"United States of America","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":16,"balls":16,"outs":0,"fours":0,"sixes":1,"innings":2,"sr":100,"dot_pct":31.3},{"bowler":"Josh Little","team":"Ireland","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":28,"balls":16,"outs":0,"fours":4,"sixes":0,"innings":1,"sr":175,"dot_pct":18.8},{"bowler":"Adil Rashid","team":"England","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":23,"balls":14,"outs":0,"fours":2,"sixes":1,"innings":2,"sr":164.3,"dot_pct":35.7},{"bowler":"Mitchell Santner","team":"New Zealand","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":9,"balls":14,"outs":2,"fours":0,"sixes":0,"innings":2,"sr":64.3,"dot_pct":50},{"bowler":"Binura Fernando","team":"Sri Lanka","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":17,"balls":14,"outs":1,"fours":0,"sixes":1,"innings":4,"sr":121.4,"dot_pct":21.4},{"bowler":"Corey Anderson","team":"United States of America","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":13,"balls":14,"outs":1,"fours":1,"sixes":0,"innings":2,"sr":92.9,"dot_pct":42.9},{"bowler":"Faheem Ashraf","team":"Pakistan","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":16,"balls":14,"outs":0,"fours":1,"sixes":0,"innings":5,"sr":114.3,"dot_pct":14.3},{"bowler":"Nikhil Chaudhary","team":"Australia","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":18,"balls":14,"outs":0,"fours":2,"sixes":1,"innings":2,"sr":128.6,"dot_pct":50},{"bowler":"Curtis Campher","team":"Ireland","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":24,"balls":13,"outs":0,"fours":3,"sixes":1,"innings":3,"sr":184.6,"dot_pct":30.8},{"bowler":"Abbas Afridi","team":"Pakistan","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":10,"balls":13,"outs":2,"fours":1,"sixes":0,"innings":2,"sr":76.9,"dot_pct":46.2},{"bowler":"Matheesha Pathirana","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":14,"balls":12,"outs":0,"fours":1,"sixes":0,"innings":2,"sr":116.7,"dot_pct":33.3},{"bowler":"Ravi Bishnoi","team":"India","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":18,"balls":12,"outs":0,"fours":2,"sixes":1,"innings":1,"sr":150,"dot_pct":41.7},{"bowler":"Shadab Khan","team":"Pakistan","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":10,"balls":12,"outs":0,"fours":1,"sixes":0,"innings":2,"sr":83.3,"dot_pct":41.7},{"bowler":"Haider Ali","team":"United Arab Emirates","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":11,"balls":12,"outs":1,"fours":0,"sixes":1,"innings":3,"sr":91.7,"dot_pct":50},{"bowler":"Kamindu Mendis","team":"Sri Lanka","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Bowls with both arms; left-arm orthodox to right-handers","runs":21,"balls":12,"outs":0,"fours":2,"sixes":1,"innings":2,"sr":175,"dot_pct":25},{"bowler":"Barry McCarthy","team":"Ireland","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":10,"balls":12,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":83.3,"dot_pct":33.3},{"bowler":"Azmatullah Omarzai","team":"Afghanistan","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":22,"balls":12,"outs":2,"fours":2,"sixes":1,"innings":3,"sr":183.3,"dot_pct":33.3},{"bowler":"Keshav Maharaj","team":"South Africa","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":16,"balls":11,"outs":0,"fours":0,"sixes":2,"innings":1,"sr":145.5,"dot_pct":54.5},{"bowler":"Hardik Pandya","team":"India","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":13,"balls":11,"outs":0,"fours":0,"sixes":1,"innings":2,"sr":118.2,"dot_pct":36.4},{"bowler":"Aizaz Khan","team":"Hong Kong","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":7,"balls":11,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":63.6,"dot_pct":54.5},{"bowler":"Spencer Johnson","team":"Australia","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":3,"balls":11,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":27.3,"dot_pct":72.7},{"bowler":"Wellington Masakadza","team":"Zimbabwe","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":19,"balls":10,"outs":0,"fours":1,"sixes":1,"innings":1,"sr":190,"dot_pct":10},{"bowler":"Steven Taylor","team":"United States of America","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":9,"balls":10,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":90,"dot_pct":30},{"bowler":"Jasdeep Singh","team":"United States of America","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":26,"balls":10,"outs":0,"fours":2,"sixes":2,"innings":2,"sr":260,"dot_pct":10},{"bowler":"Khary Pierre","team":"West Indies","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":15,"balls":10,"outs":0,"fours":2,"sixes":0,"innings":2,"sr":150,"dot_pct":20},{"bowler":"Fazalhaq Farooqi","team":"Afghanistan","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":19,"balls":10,"outs":0,"fours":1,"sixes":1,"innings":2,"sr":190,"dot_pct":10},{"bowler":"Moeen Ali","team":"England","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":5,"balls":9,"outs":1,"fours":0,"sixes":0,"innings":2,"sr":55.6,"dot_pct":44.4},{"bowler":"Gareth Delany","team":"Ireland","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":17,"balls":9,"outs":0,"fours":1,"sixes":1,"innings":3,"sr":188.9,"dot_pct":0},{"bowler":"Ben Sears","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":16,"balls":9,"outs":0,"fours":1,"sixes":1,"innings":3,"sr":177.8,"dot_pct":22.2},{"bowler":"Anrich Nortje","team":"South Africa","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":7,"balls":9,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":77.8,"dot_pct":44.4},{"bowler":"Tim Pringle","team":"Netherlands","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":3,"balls":9,"outs":2,"fours":0,"sixes":0,"innings":2,"sr":33.3,"dot_pct":66.7},{"bowler":"Muhammad Waseem","team":"United Arab Emirates","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":20,"balls":9,"outs":0,"fours":1,"sixes":1,"innings":1,"sr":222.2,"dot_pct":11.1},{"bowler":"Yasim Murtaza","team":"Hong Kong","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":10,"balls":9,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":111.1,"dot_pct":11.1},{"bowler":"Dunith Wellalage","team":"Sri Lanka","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":14,"balls":9,"outs":0,"fours":0,"sixes":1,"innings":1,"sr":155.6,"dot_pct":11.1},{"bowler":"Shaheen Shah Afridi","team":"Pakistan","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":4,"balls":9,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":44.4,"dot_pct":77.8},{"bowler":"Akeal Hosein","team":"West Indies","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":5,"balls":9,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":55.6,"dot_pct":44.4},{"bowler":"Josh Clarkson","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":14,"balls":9,"outs":1,"fours":0,"sixes":1,"innings":2,"sr":155.6,"dot_pct":11.1},{"bowler":"Mohammad Nabi","team":"Afghanistan","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":14,"balls":9,"outs":0,"fours":2,"sixes":0,"innings":2,"sr":155.6,"dot_pct":33.3},{"bowler":"Noor Ahmad","team":"Afghanistan","style":"Other spin","type":"Left-arm wrist spin","detail":"Left-arm wrist spin","runs":14,"balls":9,"outs":0,"fours":1,"sixes":1,"innings":1,"sr":155.6,"dot_pct":33.3},{"bowler":"Kuldeep Yadav","team":"India","style":"Other spin","type":"Left-arm wrist spin","detail":"Left-arm wrist spin","runs":5,"balls":8,"outs":1,"fours":0,"sixes":0,"innings":2,"sr":62.5,"dot_pct":37.5},{"bowler":"Ali Khan","team":"United States of America","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":9,"balls":8,"outs":1,"fours":1,"sixes":0,"innings":2,"sr":112.5,"dot_pct":25},{"bowler":"Mayank Yadav","team":"India","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":2,"balls":8,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":25,"dot_pct":75},{"bowler":"Salman Mirza","team":"Pakistan","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":6,"balls":8,"outs":0,"fours":0,"sixes":1,"innings":2,"sr":75,"dot_pct":87.5},{"bowler":"Dushmantha Chameera","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":9,"balls":8,"outs":1,"fours":1,"sixes":0,"innings":2,"sr":112.5,"dot_pct":50},{"bowler":"Aaron Hardie","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":16,"balls":8,"outs":1,"fours":1,"sixes":1,"innings":2,"sr":200,"dot_pct":25},{"bowler":"Sufiyan Muqeem","team":"Pakistan","style":"Other spin","type":"Left-arm wrist spin","detail":"Left-arm wrist spin","runs":13,"balls":8,"outs":1,"fours":1,"sixes":1,"innings":1,"sr":162.5,"dot_pct":37.5},{"bowler":"Mujeeb Ur Rahman","team":"Afghanistan","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":9,"balls":8,"outs":0,"fours":1,"sixes":0,"innings":2,"sr":112.5,"dot_pct":25},{"bowler":"Aryan Dutt","team":"Netherlands","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":4,"balls":7,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":57.1,"dot_pct":57.1},{"bowler":"Pat Cummins","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":6,"balls":7,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":85.7,"dot_pct":28.6},{"bowler":"Ainsley Ndlovu","team":"Zimbabwe","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":19,"balls":7,"outs":0,"fours":3,"sixes":1,"innings":2,"sr":271.4,"dot_pct":28.6},{"bowler":"Brian Bennett","team":"Zimbabwe","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":8,"balls":7,"outs":1,"fours":0,"sixes":1,"innings":2,"sr":114.3,"dot_pct":57.1},{"bowler":"Muhammad Jawadullah","team":"United Arab Emirates","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":8,"balls":7,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":114.3,"dot_pct":14.3},{"bowler":"Saghir Khan","team":"United Arab Emirates","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":13,"balls":7,"outs":1,"fours":2,"sixes":0,"innings":1,"sr":185.7,"dot_pct":28.6},{"bowler":"Saim Ayub","team":"Pakistan","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":7,"balls":7,"outs":0,"fours":0,"sixes":1,"innings":2,"sr":100,"dot_pct":71.4},{"bowler":"Ehsan Khan","team":"Hong Kong","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":6,"balls":7,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":85.7,"dot_pct":28.6},{"bowler":"Romario Shepherd","team":"West Indies","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":4,"balls":7,"outs":1,"fours":0,"sixes":0,"innings":2,"sr":57.1,"dot_pct":42.9},{"bowler":"Ben Lister","team":"New Zealand","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":12,"balls":7,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":171.4,"dot_pct":0},{"bowler":"Brad Evans","team":"Zimbabwe","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":7,"balls":7,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":100,"dot_pct":28.6},{"bowler":"Paul van Meekeren","team":"Netherlands","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":5,"balls":6,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":83.3,"dot_pct":50},{"bowler":"Dilshan Madushanka","team":"Sri Lanka","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":9,"balls":6,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":150,"dot_pct":0},{"bowler":"Saurabh Netravalkar","team":"United States of America","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":6,"balls":6,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":16.7},{"bowler":"Abhishek Sharma","team":"India","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":7,"balls":6,"outs":1,"fours":1,"sixes":0,"innings":2,"sr":116.7,"dot_pct":33.3},{"bowler":"Nitish Kumar Reddy","team":"India","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":9,"balls":6,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":150,"dot_pct":16.7},{"bowler":"Matthew Humphreys","team":"Ireland","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":3,"balls":6,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":50,"dot_pct":50},{"bowler":"Ryan Burl","team":"Zimbabwe","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":9,"balls":6,"outs":0,"fours":1,"sixes":0,"innings":2,"sr":150,"dot_pct":16.7},{"bowler":"Chris Woakes","team":"England","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":9,"balls":5,"outs":0,"fours":2,"sixes":0,"innings":1,"sr":180,"dot_pct":40},{"bowler":"Harry Tector","team":"Ireland","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":12,"balls":5,"outs":0,"fours":1,"sixes":1,"innings":2,"sr":240,"dot_pct":20},{"bowler":"Ottneil Baartman","team":"South Africa","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":7,"balls":5,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":140,"dot_pct":20},{"bowler":"Marco Jansen","team":"South Africa","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":5,"balls":5,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":100,"dot_pct":60},{"bowler":"Haris Rauf","team":"Pakistan","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":3,"balls":5,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":60,"dot_pct":60},{"bowler":"Zuhaib Zubair","team":"United Arab Emirates","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":13,"balls":5,"outs":0,"fours":1,"sixes":1,"innings":1,"sr":260,"dot_pct":20},{"bowler":"Axar Patel","team":"India","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":3,"balls":5,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":60,"dot_pct":40},{"bowler":"Roston Chase","team":"West Indies","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":4,"balls":5,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":80,"dot_pct":20},{"bowler":"Matthew Fisher","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":9,"balls":5,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":180,"dot_pct":0},{"bowler":"Nathan Smith","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":9,"balls":5,"outs":0,"fours":0,"sixes":1,"innings":2,"sr":180,"dot_pct":40},{"bowler":"Dean Foxcroft","team":"New Zealand","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":11,"balls":5,"outs":0,"fours":1,"sixes":1,"innings":1,"sr":220,"dot_pct":40},{"bowler":"Joel Davies","team":"Australia","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":7,"balls":5,"outs":0,"fours":1,"sixes":0,"innings":2,"sr":140,"dot_pct":20},{"bowler":"Craig Young","team":"Ireland","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":9,"balls":4,"outs":1,"fours":0,"sixes":1,"innings":1,"sr":225,"dot_pct":25},{"bowler":"Graham Hume","team":"Ireland","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":9,"balls":4,"outs":0,"fours":0,"sixes":1,"innings":2,"sr":225,"dot_pct":0},{"bowler":"Kagiso Rabada","team":"South Africa","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":2,"balls":4,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":50,"dot_pct":50},{"bowler":"Rohit Paudel","team":"Nepal","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":4,"balls":4,"outs":1,"fours":1,"sixes":0,"innings":1,"sr":100,"dot_pct":75},{"bowler":"Glenn Maxwell","team":"Australia","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":6,"balls":4,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":150,"dot_pct":0},{"bowler":"Josh Hazlewood","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":4,"balls":4,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":25},{"bowler":"Marcus Stoinis","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":13,"balls":4,"outs":0,"fours":0,"sixes":2,"innings":1,"sr":325,"dot_pct":25},{"bowler":"Shadley van Schalkwyk","team":"United States of America","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":4,"balls":4,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Ateeq Iqbal","team":"Hong Kong","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":5,"balls":4,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":125,"dot_pct":50},{"bowler":"Jason Holder","team":"West Indies","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":8,"balls":4,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":200,"dot_pct":0},{"bowler":"Jayden Seales","team":"West Indies","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":4,"balls":4,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":25},{"bowler":"Jofra Archer","team":"England","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":2,"balls":3,"outs":0,"fours":0,"sixes":0,"innings":2,"sr":66.7,"dot_pct":33.3},{"bowler":"Sam Curran","team":"England","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":2,"balls":3,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":66.7,"dot_pct":33.3},{"bowler":"Ben White","team":"Ireland","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":0,"balls":3,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":0,"dot_pct":100},{"bowler":"Logan van Beek","team":"Netherlands","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":1,"balls":3,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":33.3,"dot_pct":66.7},{"bowler":"Sompal Kami","team":"Nepal","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":5,"balls":3,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":166.7,"dot_pct":33.3},{"bowler":"Ravindra Jadeja","team":"India","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":3,"balls":3,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Faraz Akram","team":"Zimbabwe","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":6,"balls":3,"outs":0,"fours":1,"sixes":0,"innings":1,"sr":200,"dot_pct":0},{"bowler":"Arshdeep Singh","team":"India","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":1,"balls":3,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":33.3,"dot_pct":66.7},{"bowler":"Mohammad Nawaz","team":"Pakistan","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":1,"balls":3,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":33.3,"dot_pct":66.7},{"bowler":"Kinchit Shah","team":"Hong Kong","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":5,"balls":3,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":166.7,"dot_pct":0},{"bowler":"Jayden Lennox","team":"New Zealand","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":7,"balls":3,"outs":0,"fours":0,"sixes":1,"innings":1,"sr":233.3,"dot_pct":33.3},{"bowler":"Matt Renshaw","team":"Australia","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":8,"balls":3,"outs":0,"fours":0,"sixes":1,"innings":2,"sr":266.7,"dot_pct":0},{"bowler":"Mohammad Wasim","team":"Pakistan","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":7,"balls":3,"outs":0,"fours":0,"sixes":1,"innings":1,"sr":233.3,"dot_pct":33.3},{"bowler":"Tharindu Ratnayake","team":"Sri Lanka","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Bowls with both arms; left-arm orthodox to Hridoy","runs":6,"balls":3,"outs":1,"fours":1,"sixes":0,"innings":1,"sr":200,"dot_pct":33.3},{"bowler":"Fareed Ahmad","team":"Afghanistan","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":7,"balls":3,"outs":0,"fours":0,"sixes":1,"innings":1,"sr":233.3,"dot_pct":33.3},{"bowler":"AM Ghazanfar","team":"Afghanistan","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":3,"balls":3,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Adam Milne","team":"New Zealand","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":1,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":50,"dot_pct":50},{"bowler":"Mitchell Starc","team":"Australia","style":"Pace","type":"Left-arm pace","detail":"Left-arm pace","runs":1,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":50,"dot_pct":50},{"bowler":"Angelo Mathews","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":1,"balls":2,"outs":1,"fours":0,"sixes":0,"innings":2,"sr":50,"dot_pct":50},{"bowler":"Khushdil Shah","team":"Pakistan","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":1,"balls":2,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":50,"dot_pct":50},{"bowler":"Hasan Ali","team":"Pakistan","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":3,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":150,"dot_pct":0},{"bowler":"Chamika Karunaratne","team":"Sri Lanka","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":2,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Ayush Shukla","team":"Hong Kong","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":2,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Kyle Klein","team":"Netherlands","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":3,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":150,"dot_pct":50},{"bowler":"Daniel Doram","team":"Netherlands","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":2,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Dion Myers","team":"Zimbabwe","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":2,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Arafat Minhas","team":"Pakistan","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":2,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Karim Janat","team":"Afghanistan","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":2,"balls":2,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Rehan Ahmed","team":"England","style":"Other spin","type":"Right-arm wrist spin","detail":"Right-arm leg-break","runs":0,"balls":1,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":0,"dot_pct":100},{"bowler":"Washington Sundar","team":"India","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":1,"balls":1,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Dhruv Parashar","team":"United Arab Emirates","style":"Other spin","type":"Off-spin","detail":"Right-arm off-break","runs":0,"balls":1,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":0,"dot_pct":100},{"bowler":"Xavier Bartlett","team":"Australia","style":"Pace","type":"Right-arm pace","detail":"Right-arm pace","runs":1,"balls":1,"outs":0,"fours":0,"sixes":0,"innings":1,"sr":100,"dot_pct":0},{"bowler":"Milton Shumba","team":"Zimbabwe","style":"Left-arm orthodox","type":"Left-arm orthodox","detail":"Slow left-arm orthodox","runs":0,"balls":1,"outs":1,"fours":0,"sixes":0,"innings":1,"sr":0,"dot_pct":100}],"by_group":[{"group":"sla","label":"Left-arm orthodox","innings":32,"runs":200,"balls":169,"outs":10,"sr":118.3,"avg":20,"dot_pct":34.3,"balls_per_boundary":8.5,"balls_per_dismissal":17},{"group":"other_spin","label":"Other spin","innings":51,"runs":537,"balls":414,"outs":15,"sr":129.7,"avg":35.8,"dot_pct":33.3,"balls_per_boundary":6.8,"balls_per_dismissal":28},{"group":"pace","label":"Pace","innings":56,"runs":725,"balls":567,"outs":23,"sr":127.9,"avg":31.5,"dot_pct":31.7,"balls_per_boundary":7.9,"balls_per_dismissal":25},{"group":"not_sla","label":"All other bowling","innings":60,"runs":1262,"balls":981,"outs":38,"sr":128.6,"avg":33.2,"dot_pct":32.4,"balls_per_boundary":7.4,"balls_per_dismissal":26},{"group":"all","label":"All bowling","innings":61,"runs":1462,"balls":1150,"outs":48,"sr":127.1,"avg":30.5,"dot_pct":32.7,"balls_per_boundary":7.5,"balls_per_dismissal":24}]}}</script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const theme = params.get('theme');
+  if (theme === 'dark' || theme === 'auto') document.documentElement.dataset.theme = theme;
+  const DATA = JSON.parse(document.getElementById('hx-data').textContent);
+  let format = params.get('format') === 't20i' ? 't20i' : 'odi';
+  const root = document.getElementById('hx');
+  const listeners = [];
+
+  const f1 = d3.format('.1f');
+  const f0 = d3.format(',');
+  const ONE_DP = new Set(['sr', 'avg', 'dot_pct', 'balls_per_boundary']);
+  const fmtField = (field, v) => {
+    if (v == null || v === '') return '–';
+    if (typeof v !== 'number') return String(v);
+    return ONE_DP.has(field) ? f1(v) : f0(v);
+  };
+  const plural = (n, one, many) => `${f0(n)} ${n === 1 ? one : many}`;
+  const SLA = 'Left-arm orthodox';
+  const styleColor = (s) => (s === SLA ? 'var(--hx-sla)' : s === 'Other spin' ? 'var(--hx-spin)' : 'var(--hx-pace)');
+
+  function showTip(box, event, lines) {
+    let tip = box.querySelector('.hx-tip');
+    if (!tip) {
+      tip = document.createElement('div');
+      tip.className = 'hx-tip';
+      box.append(tip);
+    }
+    tip.replaceChildren(...lines.filter(Boolean).map((l, i) => {
+      const d = document.createElement('div');
+      if (i === 0) d.className = 'hx-tip-head';
+      d.textContent = l;
+      return d;
+    }));
+    tip.hidden = false;
+    const r = box.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    const th = tip.offsetHeight;
+    let x = event.clientX - r.left + 14;
+    let y = event.clientY - r.top + 14;
+    if (x + tw > r.width) x = event.clientX - r.left - tw - 14;
+    if (x < 0) x = 0;
+    if (y + th > r.height) y = event.clientY - r.top - th - 14;
+    if (y < 0) y = 0;
+    tip.style.left = `${x}px`;
+    tip.style.top = `${y}px`;
+  }
+  const hideTip = (box) => { const t = box.querySelector('.hx-tip'); if (t) t.hidden = true; };
+  function textWidth(svg, text, cls) {
+    const t = svg.append('text').attr('class', cls || 'hx-axis').text(text);
+    const w = t.node().getComputedTextLength();
+    t.remove();
+    return w;
+  }
+  function svgFor(box, W, H) {
+    const svg = d3.select(box).selectAll('svg').data([0]).join('svg')
+      .attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`);
+    svg.selectAll('*').remove();
+    return svg;
+  }
+
+  function setText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
+  function setRich(id, parts) {
+    // parts: strings, or [text] for bold figures
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.replaceChildren(...parts.map((p) => {
+      if (Array.isArray(p)) { const b = document.createElement('b'); b.textContent = p[0]; return b; }
+      return document.createTextNode(p);
+    }));
+  }
+
+  function post() {
+    if (window.parent === window) return;
+    const h = Math.ceil(root.getBoundingClientRect().height);
+    window.parent.postMessage({ type: 'hx-embed-height', name: document.body.dataset.name, height: h }, '*');
+  }
+
+  function syncFormat() {
+    document.querySelectorAll('[data-format]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.format === format)));
+    const m = DATA.meta[format];
+    document.querySelectorAll('[data-meta]').forEach((el) => { el.textContent = m[el.dataset.meta]; });
+  }
+  function redraw() {
+    syncFormat();
+    listeners.forEach((fn) => fn());
+    post();
+  }
+
+  window.HX = {
+    get format() { return format; },
+    data: (id) => DATA[format][id],
+    meta: () => DATA.meta[format],
+    onDraw: (fn) => listeners.push(fn),
+    redraw, f1, f0, fmtField, plural, SLA, styleColor, showTip, hideTip, textWidth, svgFor, setText, setRich,
+    start() {
+      document.querySelectorAll('[data-format]').forEach((b) => b.addEventListener('click', () => {
+        if (format === b.dataset.format) return;
+        format = b.dataset.format;
+        redraw();
+      }));
+      // First draw happens now, not on an animation frame: browsers pause those in off-screen iframes.
+      let lastW = Math.round(root.getBoundingClientRect().width);
+      redraw();
+      let timer = 0;
+      new ResizeObserver((entries) => {
+        const w = Math.round(entries[0].contentRect.width);
+        if (w === lastW) return;
+        lastW = w;
+        clearTimeout(timer);
+        timer = setTimeout(redraw, 60);
+      }).observe(root);
+      new ResizeObserver(post).observe(root);
+      window.addEventListener('load', post);
+    },
+  };
+})();
+</script>
+<script>
+(() => {
+  const { f0, f1, plural, showTip, hideTip, textWidth, svgFor, SLA, styleColor } = HX;
+  const MIN = { odi: 10, t20i: 6 };
+  let focus = null;
+
+  function drawLegend(pts) {
+    const leg = document.getElementById('legend');
+    leg.replaceChildren(...[SLA, 'Other spin', 'Pace'].map((s) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(focus === s));
+      const sw = document.createElement('i');
+      sw.className = 'hx-sw';
+      sw.style.background = styleColor(s);
+      b.append(sw, document.createTextNode(`${s} (${pts.filter((p) => p.style === s).length})`));
+      b.addEventListener('click', () => { focus = focus === s ? null : s; draw(); });
+      return b;
+    }));
+  }
+
+  function draw() {
+    const min = MIN[HX.format];
+    HX.setText('hx-title', `Every bowler he has faced at least ${min} balls from`);
+    const pts = HX.data('bowlers').filter((r) => r.balls >= min).sort((a, b) => (a.style === SLA) - (b.style === SLA));
+    drawLegend(pts);
+    const box = document.getElementById('chart');
+    const W = box.clientWidth;
+    if (!W) return;
+    const overall = HX.data('by_group').find((r) => r.group === 'all').sr;
+    const H = W < 520 ? 300 : 340;
+    const mt = 26;
+    const mb = 42;
+    const mr = 12;
+    const svg = svgFor(box, W, H);
+    const y = d3.scaleLinear([0, d3.max(pts, (p) => p.sr) * 1.05], [H - mb, mt]).nice();
+    const yTicks = y.ticks(5);
+    const ml = d3.max(yTicks, (t) => textWidth(svg, String(t))) + 10;
+    const x = d3.scaleLinear([0, d3.max(pts, (p) => p.balls)], [ml, W - mr]).nice();
+    yTicks.forEach((t) => {
+      svg.append('line').attr('class', 'hx-grid').attr('x1', ml).attr('x2', W - mr).attr('y1', y(t)).attr('y2', y(t));
+      svg.append('text').attr('class', 'hx-axis').attr('x', ml - 8).attr('y', y(t)).attr('dy', '0.35em').attr('text-anchor', 'end').text(t);
+    });
+    svg.append('line').attr('class', 'hx-axisline').attr('x1', ml).attr('x2', W - mr).attr('y1', H - mb).attr('y2', H - mb);
+    x.ticks(W < 520 ? 4 : 6).forEach((t) => {
+      svg.append('text').attr('class', 'hx-axis').attr('x', x(t)).attr('y', H - mb + 16).attr('text-anchor', 'middle').text(t);
+    });
+    svg.append('text').attr('class', 'hx-axis').attr('x', W - mr).attr('y', H - 4).attr('text-anchor', 'end').text('Balls faced from the bowler →');
+    svg.append('text').attr('class', 'hx-axis').attr('x', 0).attr('y', 12).text('Strike rate');
+    const ry = y(overall);
+    svg.append('line').attr('class', 'hx-ref').attr('x1', ml).attr('x2', W - mr).attr('y1', ry).attr('y2', ry);
+    svg.append('text').attr('class', 'hx-axis hx-halo').attr('x', W - mr).attr('y', ry - 6).attr('text-anchor', 'end')
+      .text(`His overall strike rate ${f1(overall)}`);
+    const dim = (p) => focus && p.style !== focus;
+    svg.append('g').selectAll('circle').data(pts).join('circle')
+      .attr('cx', (p) => x(p.balls)).attr('cy', (p) => y(p.sr)).attr('r', (p) => (p.style === SLA ? 6 : 5))
+      .style('fill', (p) => styleColor(p.style)).style('stroke', 'var(--hx-card)').style('stroke-width', 1.5)
+      .style('opacity', (p) => (dim(p) ? 0.15 : 1));
+    const top = pts.filter((p) => p.style === SLA && !dim(p)).sort((a, b) => b.balls - a.balls)[0];
+    if (top) {
+      const lw = textWidth(svg, top.bowler, 'hx-strong');
+      const right = x(top.balls) + 10 + lw <= W - mr;
+      svg.append('text').attr('class', 'hx-strong hx-halo')
+        .attr('x', right ? x(top.balls) + 10 : x(top.balls) - 10).attr('y', y(top.sr) + 18)
+        .attr('text-anchor', right ? 'start' : 'end').text(top.bowler);
+    }
+    const ring = svg.append('circle').attr('r', 9).style('fill', 'none').style('stroke-width', 2).style('opacity', 0);
+    const delaunay = d3.Delaunay.from(pts, (p) => x(p.balls), (p) => y(p.sr));
+    svg.append('rect').attr('x', ml).attr('y', mt).attr('width', W - mr - ml).attr('height', H - mb - mt).style('fill', 'transparent')
+      .on('pointermove pointerdown', (event) => {
+        const [mx, my] = d3.pointer(event);
+        const p = pts[delaunay.find(mx, my)];
+        if (!p || Math.hypot(x(p.balls) - mx, y(p.sr) - my) > 28) { ring.style('opacity', 0); hideTip(box); return; }
+        ring.attr('cx', x(p.balls)).attr('cy', y(p.sr)).style('stroke', styleColor(p.style)).style('opacity', 1);
+        showTip(box, event, [
+          `${p.bowler} · ${p.team}`,
+          p.style === 'Pace' ? p.type : p.detail,
+          `${f0(p.runs)} runs off ${f0(p.balls)} balls`,
+          `Strike rate ${f1(p.sr)} · dot balls ${f1(p.dot_pct)}%`,
+          p.outs ? `Dismissed him ${plural(p.outs, 'time', 'times')}` : 'Has not dismissed him',
+        ]);
+      })
+      .on('pointerleave', () => { ring.style('opacity', 0); hideTip(box); });
+  }
+  HX.onDraw(draw);
+  HX.start();
+})();
+</script>
+</body>
+</html>

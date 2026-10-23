@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hridoy Innings vs Orthodox</title>
+<style>
+  /* Layout: one card that fills the iframe's width; header with the format switch, then the visual, then a source line. */
+  :root {
+    --hx-card: #ffffff; --hx-panel: #f5f6f7; --hx-fg: #16181b; --hx-muted: #5b626b; --hx-line: #dfe3e7;
+    --hx-grid: #eceef1; --hx-axis: #c4cad1; --hx-ref: #7b828b; --hx-sla: #b4232c; --hx-spin: #2563b8; --hx-pace: #a7adb4;
+    --hx-tip-bg: #ffffff; --hx-tip-shadow: 0 4px 14px rgba(20, 24, 28, 0.12);
+    --hx-serif: Georgia, "Times New Roman", Times, serif;
+    --hx-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --hx-fs-cap: 13px; --hx-fs-body: 15px; --hx-fs-head: 19px; --hx-fs-big: 30px;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --hx-card: #15181b; --hx-panel: #1d2124; --hx-fg: #eceef0; --hx-muted: #9aa1a9; --hx-line: #2c3136;
+    --hx-grid: #23272b; --hx-axis: #3a4046; --hx-ref: #8a929b; --hx-sla: #e5555b; --hx-spin: #5b93dc; --hx-pace: #5e656c;
+    --hx-tip-bg: #202428; --hx-tip-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root[data-theme="auto"] {
+      --hx-card: #15181b; --hx-panel: #1d2124; --hx-fg: #eceef0; --hx-muted: #9aa1a9; --hx-line: #2c3136;
+      --hx-grid: #23272b; --hx-axis: #3a4046; --hx-ref: #8a929b; --hx-sla: #e5555b; --hx-spin: #5b93dc; --hx-pace: #5e656c;
+      --hx-tip-bg: #202428; --hx-tip-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: transparent; }
+  body { font-family: var(--hx-sans); font-size: var(--hx-fs-body); line-height: 1.5; color: var(--hx-fg); }
+
+  .hx {
+    background: var(--hx-card);
+    color: var(--hx-fg);
+    border: 1px solid var(--hx-line);
+    border-radius: 10px;
+    padding: 18px clamp(14px, 3vw, 22px) 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+  }
+  .hx-top { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: flex-start; justify-content: space-between; }
+  .hx-titles { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 22rem; }
+  .hx-kicker { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--hx-sla); }
+  .hx h2 { margin: 0; font-size: var(--hx-fs-head); font-weight: 650; line-height: 1.25; text-wrap: balance; }
+  .hx-dek { margin: 2px 0 0; font-size: var(--hx-fs-body); line-height: 1.55; max-width: 68ch; }
+  .hx .hx-dek b, .hx .hx-note b { font-weight: 650; font-variant-numeric: tabular-nums; color: var(--hx-fg); }
+  .hx-note { margin: 0; font-size: var(--hx-fs-cap); color: var(--hx-muted); line-height: 1.55; max-width: 72ch; }
+  .hx-source { margin: 0; padding-top: 10px; border-top: 1px solid var(--hx-line); font-size: 12px; color: var(--hx-muted); line-height: 1.5; }
+
+  .hx-seg, .hx-legend { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .hx-seg-label { font-size: var(--hx-fs-cap); color: var(--hx-muted); margin-right: 2px; }
+  .hx-seg button, .hx-legend button {
+    font: inherit; font-size: var(--hx-fs-cap); color: var(--hx-muted); background: transparent;
+    border: 1px solid var(--hx-line); border-radius: 999px; padding: 4px 11px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px; line-height: 1.4;
+  }
+  .hx-seg button:hover, .hx-legend button:hover { color: var(--hx-fg); }
+  .hx-seg button[aria-pressed="true"] { color: var(--hx-card); background: var(--hx-fg); border-color: var(--hx-fg); }
+  .hx-legend button[aria-pressed="true"] { color: var(--hx-fg); border-color: var(--hx-fg); }
+  .hx-format { flex: none; padding: 3px; border: 1px solid var(--hx-line); border-radius: 999px; gap: 2px; }
+  .hx-format button { border-color: transparent; font-weight: 600; padding: 4px 14px; }
+  .hx button:focus-visible { outline: 2px solid var(--hx-fg); outline-offset: 2px; }
+
+  .hx-tiles { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hx-tiles > .hx-tile { flex: 1 1 9rem; }
+  .hx-tile { background: var(--hx-panel); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; border-top: 3px solid var(--hx-sla); }
+  .hx-tile-label { font-size: var(--hx-fs-cap); color: var(--hx-muted); }
+  .hx-tile-value { font-family: var(--hx-serif); font-size: var(--hx-fs-big); line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .hx-tile-vs { font-size: 12.5px; color: var(--hx-muted); font-variant-numeric: tabular-nums; }
+
+  .hx-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: var(--hx-fs-cap); color: var(--hx-muted); }
+  .hx-key span { display: inline-flex; align-items: center; gap: 6px; }
+  .hx-sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+  .hx-sw-bar { width: 12px; height: 8px; border-radius: 2px; }
+  .hx-sw-pace { background: var(--hx-pace); }
+  .hx-sw-sla { background: var(--hx-sla); }
+  .hx-sw-fg { background: var(--hx-fg); }
+
+  .hx-chart { position: relative; width: 100%; }
+  .hx-chart svg { display: block; overflow: visible; }
+  .hx svg text { font-family: var(--hx-sans); font-size: 12px; }
+  .hx svg .hx-axis { fill: var(--hx-muted); }
+  .hx svg .hx-label { fill: var(--hx-fg); }
+  .hx svg .hx-strong { fill: var(--hx-fg); font-weight: 650; }
+  .hx svg .hx-grid { stroke: var(--hx-grid); stroke-width: 1; }
+  .hx svg .hx-axisline { stroke: var(--hx-axis); stroke-width: 1; }
+  .hx svg .hx-ref { stroke: var(--hx-ref); stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .hx svg .hx-halo { stroke: var(--hx-card); stroke-width: 4; stroke-linejoin: round; paint-order: stroke; }
+
+  .hx-tip {
+    position: absolute; z-index: 2; pointer-events: none; color: var(--hx-fg);
+    background: var(--hx-tip-bg); border: 1px solid var(--hx-line); border-radius: 8px; box-shadow: var(--hx-tip-shadow);
+    padding: 5px 9px; font-size: 12.5px; line-height: 1.5; max-width: 16rem; font-variant-numeric: tabular-nums;
+  }
+  .hx-tip .hx-tip-head { color: var(--hx-muted); }
+
+  .hx-tablewrap { overflow-x: auto; }
+  .hx table { width: 100%; border-collapse: collapse; font-size: var(--hx-fs-cap); font-variant-numeric: tabular-nums; }
+  .hx th, .hx td { padding: 7px 8px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--hx-line); }
+  .hx th:first-child, .hx td:first-child { text-align: left; }
+  .hx thead th { font-weight: 600; color: var(--hx-muted); vertical-align: bottom; }
+  .hx thead button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+  .hx thead th[aria-sort] button { color: var(--hx-fg); }
+  .hx thead th[aria-sort="descending"] button::after { content: " ↓"; }
+  .hx thead th[aria-sort="ascending"] button::after { content: " ↑"; }
+  .hx tbody tr:last-child td { border-bottom: 0; }
+  .hx-sticky th:first-child, .hx-sticky td:first-child { position: sticky; left: 0; background: var(--hx-card); z-index: 1; }
+  .hx-wrapheads thead th { white-space: normal; max-width: 5.5rem; }
+  .hx-wrapheads th, .hx-wrapheads td { padding-left: 6px; padding-right: 6px; }
+  .hx tr.hx-row-focus td:first-child { box-shadow: inset 3px 0 0 var(--hx-sla); font-weight: 650; }
+  .hx tr.hx-row-total td { border-top: 1px solid var(--hx-axis); color: var(--hx-muted); }
+  .hx-chip { display: inline-block; margin-left: 6px; padding: 0 6px; border: 1px solid var(--hx-line); border-radius: 999px; font-size: 0.85em; color: var(--hx-muted); font-weight: 400; }
+  .hx-cellbar { display: inline-flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .hx-cellbar-track { width: 3rem; height: 8px; border-radius: 999px; background: var(--hx-grid); overflow: hidden; display: block; }
+  .hx-cellbar-fill { display: block; height: 100%; border-radius: 999px; }
+  @media (prefers-reduced-motion: no-preference) { .hx-cellbar-fill { transition: width 250ms ease-out; } }
+  #sla-table td:nth-child(2) { text-align: left; }
+</style>
+</head>
+<body data-name="hridoy-innings-left-arm-orthodox">
+<div class="hx" id="hx" role="figure" aria-label="Towhid Hridoy: each innings against left-arm orthodox">
+  <div class="hx-top">
+    <div class="hx-titles">
+      <p class="hx-kicker">Towhid Hridoy · <span data-meta="label">ODIs</span></p>
+      <h2 id="hx-title">Each innings against left-arm orthodox</h2>
+      
+    </div>
+    <div class="hx-seg hx-format" role="group" aria-label="Format">
+      <button type="button" id="f-odi" data-format="odi" aria-pressed="true">ODIs</button>
+      <button type="button" id="f-t20i" data-format="t20i" aria-pressed="false">T20Is</button>
+    </div>
+  </div>
+  <p class="hx-note">Balls he faced from left-arm orthodox bowlers in each innings, with the runs he scored off them inside. Where the runs bar falls short of the balls bar, he scored at less than a run a ball. Hover over or tap an innings for details.</p>
+  <div class="hx-key" aria-hidden="true">
+    <span><i class="hx-sw hx-sw-bar hx-sw-pace"></i>Balls faced</span>
+    <span><i class="hx-sw hx-sw-bar hx-sw-sla"></i>Runs scored</span>
+    <span><i class="hx-sw hx-sw-fg"></i>Dismissed by a left-arm orthodox bowler</span>
+  </div>
+  <div class="hx-chart" id="chart" style="min-height:250px"></div>
+  <p class="hx-source"><span data-meta="scope">…</span>. Dismissals count only wickets credited to the bowler, so run-outs are left out. Data: Cricsheet ball-by-ball data and ESPNcricinfo commentary.</p>
+</div>
+<script type="application/json" id="hx-data">{"meta":{"odi":{"label":"ODIs","scope":"All 57 ODIs he has played, to 17 October 2026 (52 innings)"},"t20i":{"label":"T20Is","scope":"All 67 T20Is he has played, to 3 October 2026 (61 innings)"}},"odi":{"sla_innings":[{"match":"1355718","date":"2023-03-20","opp":"Ireland","runs":10,"balls":7,"outs":0,"bowlers":"Matthew Humphreys","out_bowler":"","out_kind":""},{"match":"1364125","date":"2023-05-12","opp":"Ireland","runs":15,"balls":19,"outs":1,"bowlers":"George Dockrell","out_bowler":"George Dockrell","out_kind":"caught"},{"match":"1365552","date":"2023-05-14","opp":"Ireland","runs":1,"balls":3,"outs":1,"bowlers":"George Dockrell","out_bowler":"George Dockrell","out_kind":"bowled"},{"match":"espn1377014","date":"2023-07-11","opp":"Afghanistan","runs":10,"balls":9,"outs":0,"bowlers":"Zia-ur-Rehman","out_bowler":"","out_kind":""},{"match":"1388393","date":"2023-08-31","opp":"Sri Lanka","runs":8,"balls":18,"outs":0,"bowlers":"Dunith Wellalage","out_bowler":"","out_kind":""},{"match":"1388403","date":"2023-09-09","opp":"Sri Lanka","runs":10,"balls":26,"outs":0,"bowlers":"Dunith Wellalage","out_bowler":"","out_kind":""},{"match":"1388412","date":"2023-09-15","opp":"India","runs":24,"balls":49,"outs":0,"bowlers":"Axar Patel, Ravindra Jadeja","out_bowler":"","out_kind":""},{"match":"1384402","date":"2023-10-13","opp":"New Zealand","runs":6,"balls":13,"outs":0,"bowlers":"Rachin Ravindra, Mitchell Santner","out_bowler":"","out_kind":""},{"match":"1384408","date":"2023-10-19","opp":"India","runs":3,"balls":11,"outs":0,"bowlers":"Ravindra Jadeja","out_bowler":"","out_kind":""},{"match":"1408102","date":"2023-12-17","opp":"New Zealand","runs":4,"balls":5,"outs":0,"bowlers":"Rachin Ravindra","out_bowler":"","out_kind":""},{"match":"1419828","date":"2024-03-15","opp":"Sri Lanka","runs":19,"balls":22,"outs":0,"bowlers":"Dunith Wellalage","out_bowler":"","out_kind":""},{"match":"1419829","date":"2024-03-18","opp":"Sri Lanka","runs":1,"balls":5,"outs":0,"bowlers":"Dunith Wellalage","out_bowler":"","out_kind":""},{"match":"espn1453070","date":"2024-11-06","opp":"Afghanistan","runs":4,"balls":5,"outs":0,"bowlers":"Nangeyalia Kharote","out_bowler":"","out_kind":""},{"match":"espn1453071","date":"2024-11-09","opp":"Afghanistan","runs":1,"balls":5,"outs":1,"bowlers":"Nangeyalia Kharote","out_bowler":"Nangeyalia Kharote","out_kind":"caught"},{"match":"espn1453072","date":"2024-11-11","opp":"Afghanistan","runs":2,"balls":2,"outs":0,"bowlers":"Nangeyalia Kharote","out_bowler":"","out_kind":""},{"match":"1466415","date":"2025-02-20","opp":"India","runs":34,"balls":48,"outs":0,"bowlers":"Axar Patel, Ravindra Jadeja","out_bowler":"","out_kind":""},{"match":"1485505","date":"2025-07-02","opp":"Sri Lanka","runs":0,"balls":3,"outs":1,"bowlers":"Kamindu Mendis","out_bowler":"Kamindu Mendis","out_kind":"bowled"},{"match":"1485506","date":"2025-07-05","opp":"Sri Lanka","runs":17,"balls":26,"outs":0,"bowlers":"Dunith Wellalage, Kamindu Mendis","out_bowler":"","out_kind":""},{"match":"1485507","date":"2025-07-08","opp":"Sri Lanka","runs":24,"balls":35,"outs":0,"bowlers":"Dunith Wellalage, Kamindu Mendis","out_bowler":"","out_kind":""},{"match":"espn1500393","date":"2025-10-08","opp":"Afghanistan","runs":9,"balls":16,"outs":0,"bowlers":"Nangeyalia Kharote","out_bowler":"","out_kind":""},{"match":"espn1500394","date":"2025-10-11","opp":"Afghanistan","runs":1,"balls":1,"outs":0,"bowlers":"Nangeyalia Kharote","out_bowler":"","out_kind":""},{"match":"espn1500395","date":"2025-10-14","opp":"Afghanistan","runs":2,"balls":3,"outs":0,"bowlers":"Nangeyalia Kharote","out_bowler":"","out_kind":""},{"match":"1505122","date":"2025-10-18","opp":"West Indies","runs":22,"balls":44,"outs":0,"bowlers":"Khary Pierre, Gudakesh Motie","out_bowler":"","out_kind":""},{"match":"1505123","date":"2025-10-21","opp":"West Indies","runs":4,"balls":16,"outs":1,"bowlers":"Akeal Hosein, Khary Pierre, Gudakesh Motie","out_bowler":"Gudakesh Motie","out_kind":"caught"},{"match":"1505124","date":"2025-10-23","opp":"West Indies","runs":19,"balls":28,"outs":0,"bowlers":"Akeal Hosein, Gudakesh Motie, Khary Pierre","out_bowler":"","out_kind":""},{"match":"1525653","date":"2026-03-13","opp":"Pakistan","runs":8,"balls":12,"outs":0,"bowlers":"Maaz Sadaqat","out_bowler":"","out_kind":""},{"match":"1528272","date":"2026-04-17","opp":"New Zealand","runs":5,"balls":8,"outs":0,"bowlers":"Jayden Lennox","out_bowler":"","out_kind":""},{"match":"1528273","date":"2026-04-20","opp":"New Zealand","runs":9,"balls":12,"outs":0,"bowlers":"Jayden Lennox","out_bowler":"","out_kind":""},{"match":"1528274","date":"2026-04-23","opp":"New Zealand","runs":9,"balls":10,"outs":0,"bowlers":"Jayden Lennox","out_bowler":"","out_kind":""},{"match":"espn1555117","date":"2026-10-17","opp":"Zimbabwe","runs":1,"balls":2,"outs":0,"bowlers":"Wellington Masakadza","out_bowler":"","out_kind":""}]},"t20i":{"sla_innings":[{"match":"1388213","date":"2023-12-27","opp":"New Zealand","runs":6,"balls":9,"outs":1,"bowlers":"Mitchell Santner","out_bowler":"Mitchell Santner","out_kind":"caught"},{"match":"1388215","date":"2023-12-31","opp":"New Zealand","runs":3,"balls":5,"outs":1,"bowlers":"Mitchell Santner","out_bowler":"Mitchell Santner","out_kind":"caught"},{"match":"1425126","date":"2024-05-03","opp":"Zimbabwe","runs":14,"balls":5,"outs":0,"bowlers":"Ainsley Ndlovu","out_bowler":"","out_kind":""},{"match":"1425127","date":"2024-05-05","opp":"Zimbabwe","runs":5,"balls":2,"outs":0,"bowlers":"Ainsley Ndlovu","out_bowler":"","out_kind":""},{"match":"1425128","date":"2024-05-07","opp":"Zimbabwe","runs":19,"balls":10,"outs":0,"bowlers":"Wellington Masakadza","out_bowler":"","out_kind":""},{"match":"1425131","date":"2024-05-21","opp":"United States of America","runs":7,"balls":12,"outs":0,"bowlers":"Harmeet Singh","out_bowler":"","out_kind":""},{"match":"1425132","date":"2024-05-23","opp":"United States of America","runs":9,"balls":4,"outs":0,"bowlers":"Harmeet Singh","out_bowler":"","out_kind":""},{"match":"1415721","date":"2024-06-10","opp":"South Africa","runs":16,"balls":11,"outs":0,"bowlers":"Keshav Maharaj","out_bowler":"","out_kind":""},{"match":"1415727","date":"2024-06-13","opp":"Netherlands","runs":2,"balls":4,"outs":1,"bowlers":"Tim Pringle","out_bowler":"Tim Pringle","out_kind":"bowled"},{"match":"1415747","date":"2024-06-22","opp":"India","runs":3,"balls":3,"outs":0,"bowlers":"Ravindra Jadeja","out_bowler":"","out_kind":""},{"match":"1439894","date":"2024-10-09","opp":"India","runs":1,"balls":2,"outs":1,"bowlers":"Abhishek Sharma","out_bowler":"Abhishek Sharma","out_kind":"bowled"},{"match":"1439895","date":"2024-10-12","opp":"India","runs":6,"balls":4,"outs":0,"bowlers":"Abhishek Sharma","out_bowler":"","out_kind":""},{"match":"1484051","date":"2025-05-17","opp":"United Arab Emirates","runs":3,"balls":6,"outs":0,"bowlers":"Haider Ali","out_bowler":"","out_kind":""},{"match":"1484052","date":"2025-05-19","opp":"United Arab Emirates","runs":8,"balls":4,"outs":0,"bowlers":"Haider Ali","out_bowler":"","out_kind":""},{"match":"1486582","date":"2025-05-21","opp":"United Arab Emirates","runs":0,"balls":2,"outs":1,"bowlers":"Haider Ali","out_bowler":"Haider Ali","out_kind":"lbw"},{"match":"1483785","date":"2025-05-28","opp":"Pakistan","runs":1,"balls":2,"outs":1,"bowlers":"Khushdil Shah","out_bowler":"Khushdil Shah","out_kind":"lbw"},{"match":"1485510","date":"2025-07-16","opp":"Sri Lanka","runs":5,"balls":6,"outs":0,"bowlers":"Kamindu Mendis","out_bowler":"","out_kind":""},{"match":"1491903","date":"2025-07-20","opp":"Pakistan","runs":1,"balls":3,"outs":0,"bowlers":"Mohammad Nawaz","out_bowler":"","out_kind":""},{"match":"1498664","date":"2025-09-03","opp":"Netherlands","runs":3,"balls":7,"outs":1,"bowlers":"Tim Pringle, Daniel Doram","out_bowler":"Tim Pringle","out_kind":"caught"},{"match":"1496922","date":"2025-09-11","opp":"Hong Kong","runs":10,"balls":9,"outs":0,"bowlers":"Yasim Murtaza","out_bowler":"","out_kind":""},{"match":"1496932","date":"2025-09-20","opp":"Sri Lanka","runs":30,"balls":15,"outs":0,"bowlers":"Dunith Wellalage, Kamindu Mendis","out_bowler":"","out_kind":""},{"match":"1496935","date":"2025-09-24","opp":"India","runs":3,"balls":5,"outs":1,"bowlers":"Axar Patel","out_bowler":"Axar Patel","out_kind":"caught"},{"match":"1505125","date":"2025-10-27","opp":"West Indies","runs":12,"balls":11,"outs":0,"bowlers":"Akeal Hosein, Khary Pierre","out_bowler":"","out_kind":""},{"match":"1505126","date":"2025-10-29","opp":"West Indies","runs":8,"balls":8,"outs":0,"bowlers":"Akeal Hosein, Khary Pierre","out_bowler":"","out_kind":""},{"match":"1506014","date":"2025-11-27","opp":"Ireland","runs":2,"balls":4,"outs":0,"bowlers":"Matthew Humphreys","out_bowler":"","out_kind":""},{"match":"1506015","date":"2025-11-29","opp":"Ireland","runs":1,"balls":2,"outs":0,"bowlers":"Matthew Humphreys","out_bowler":"","out_kind":""},{"match":"1528277","date":"2026-05-02","opp":"New Zealand","runs":7,"balls":3,"outs":0,"bowlers":"Jayden Lennox","out_bowler":"","out_kind":""},{"match":"1532484","date":"2026-06-19","opp":"Australia","runs":1,"balls":2,"outs":0,"bowlers":"Joel Davies","out_bowler":"","out_kind":""},{"match":"1532485","date":"2026-06-21","opp":"Australia","runs":6,"balls":3,"outs":0,"bowlers":"Joel Davies","out_bowler":"","out_kind":""},{"match":"1538301","date":"2026-07-15","opp":"Zimbabwe","runs":0,"balls":1,"outs":1,"bowlers":"Milton Shumba","out_bowler":"Milton Shumba","out_kind":"caught"},{"match":"1552776","date":"2026-10-01","opp":"Pakistan","runs":2,"balls":2,"outs":0,"bowlers":"Arafat Minhas","out_bowler":"","out_kind":""},{"match":"1552778","date":"2026-10-03","opp":"Sri Lanka","runs":6,"balls":3,"outs":1,"bowlers":"Tharindu Ratnayake","out_bowler":"Tharindu Ratnayake","out_kind":"caught"}]}}</script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const theme = params.get('theme');
+  if (theme === 'dark' || theme === 'auto') document.documentElement.dataset.theme = theme;
+  const DATA = JSON.parse(document.getElementById('hx-data').textContent);
+  let format = params.get('format') === 't20i' ? 't20i' : 'odi';
+  const root = document.getElementById('hx');
+  const listeners = [];
+
+  const f1 = d3.format('.1f');
+  const f0 = d3.format(',');
+  const ONE_DP = new Set(['sr', 'avg', 'dot_pct', 'balls_per_boundary']);
+  const fmtField = (field, v) => {
+    if (v == null || v === '') return '–';
+    if (typeof v !== 'number') return String(v);
+    return ONE_DP.has(field) ? f1(v) : f0(v);
+  };
+  const plural = (n, one, many) => `${f0(n)} ${n === 1 ? one : many}`;
+  const SLA = 'Left-arm orthodox';
+  const styleColor = (s) => (s === SLA ? 'var(--hx-sla)' : s === 'Other spin' ? 'var(--hx-spin)' : 'var(--hx-pace)');
+
+  function showTip(box, event, lines) {
+    let tip = box.querySelector('.hx-tip');
+    if (!tip) {
+      tip = document.createElement('div');
+      tip.className = 'hx-tip';
+      box.append(tip);
+    }
+    tip.replaceChildren(...lines.filter(Boolean).map((l, i) => {
+      const d = document.createElement('div');
+      if (i === 0) d.className = 'hx-tip-head';
+      d.textContent = l;
+      return d;
+    }));
+    tip.hidden = false;
+    const r = box.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    const th = tip.offsetHeight;
+    let x = event.clientX - r.left + 14;
+    let y = event.clientY - r.top + 14;
+    if (x + tw > r.width) x = event.clientX - r.left - tw - 14;
+    if (x < 0) x = 0;
+    if (y + th > r.height) y = event.clientY - r.top - th - 14;
+    if (y < 0) y = 0;
+    tip.style.left = `${x}px`;
+    tip.style.top = `${y}px`;
+  }
+  const hideTip = (box) => { const t = box.querySelector('.hx-tip'); if (t) t.hidden = true; };
+  function textWidth(svg, text, cls) {
+    const t = svg.append('text').attr('class', cls || 'hx-axis').text(text);
+    const w = t.node().getComputedTextLength();
+    t.remove();
+    return w;
+  }
+  function svgFor(box, W, H) {
+    const svg = d3.select(box).selectAll('svg').data([0]).join('svg')
+      .attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`);
+    svg.selectAll('*').remove();
+    return svg;
+  }
+
+  function setText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
+  function setRich(id, parts) {
+    // parts: strings, or [text] for bold figures
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.replaceChildren(...parts.map((p) => {
+      if (Array.isArray(p)) { const b = document.createElement('b'); b.textContent = p[0]; return b; }
+      return document.createTextNode(p);
+    }));
+  }
+
+  function post() {
+    if (window.parent === window) return;
+    const h = Math.ceil(root.getBoundingClientRect().height);
+    window.parent.postMessage({ type: 'hx-embed-height', name: document.body.dataset.name, height: h }, '*');
+  }
+
+  function syncFormat() {
+    document.querySelectorAll('[data-format]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.format === format)));
+    const m = DATA.meta[format];
+    document.querySelectorAll('[data-meta]').forEach((el) => { el.textContent = m[el.dataset.meta]; });
+  }
+  function redraw() {
+    syncFormat();
+    listeners.forEach((fn) => fn());
+    post();
+  }
+
+  window.HX = {
+    get format() { return format; },
+    data: (id) => DATA[format][id],
+    meta: () => DATA.meta[format],
+    onDraw: (fn) => listeners.push(fn),
+    redraw, f1, f0, fmtField, plural, SLA, styleColor, showTip, hideTip, textWidth, svgFor, setText, setRich,
+    start() {
+      document.querySelectorAll('[data-format]').forEach((b) => b.addEventListener('click', () => {
+        if (format === b.dataset.format) return;
+        format = b.dataset.format;
+        redraw();
+      }));
+      // First draw happens now, not on an animation frame: browsers pause those in off-screen iframes.
+      let lastW = Math.round(root.getBoundingClientRect().width);
+      redraw();
+      let timer = 0;
+      new ResizeObserver((entries) => {
+        const w = Math.round(entries[0].contentRect.width);
+        if (w === lastW) return;
+        lastW = w;
+        clearTimeout(timer);
+        timer = setTimeout(redraw, 60);
+      }).observe(root);
+      new ResizeObserver(post).observe(root);
+      window.addEventListener('load', post);
+    },
+  };
+})();
+</script>
+<script>
+(() => {
+  const { showTip, hideTip, textWidth, svgFor } = HX;
+  function draw() {
+    const box = document.getElementById('chart');
+    const W = box.clientWidth;
+    if (!W) return;
+    const rows = HX.data('sla_innings');
+    const H = 250;
+    const mt = 26;
+    const mb = 30;
+    const mr = 4;
+    const svg = svgFor(box, W, H);
+    const y = d3.scaleLinear([0, d3.max(rows, (r) => Math.max(r.balls, r.runs))], [H - mb, mt + 12]).nice();
+    const yTicks = y.ticks(4);
+    const ml = d3.max(yTicks, (t) => textWidth(svg, String(t))) + 10;
+    const x = d3.scaleBand(rows.map((r) => r.match), [ml, W - mr]).padding(0.28);
+    const bw = x.bandwidth();
+    const dateFmt = d3.utcFormat('%-d %b %Y');
+    yTicks.forEach((t) => {
+      svg.append('line').attr('class', 'hx-grid').attr('x1', ml).attr('x2', W - mr).attr('y1', y(t)).attr('y2', y(t));
+      svg.append('text').attr('class', 'hx-axis').attr('x', ml - 8).attr('y', y(t)).attr('dy', '0.35em').attr('text-anchor', 'end').text(t);
+    });
+    svg.append('text').attr('class', 'hx-axis').attr('x', 0).attr('y', 12).text('Balls and runs');
+    svg.append('line').attr('class', 'hx-axisline').attr('x1', ml).attr('x2', W - mr).attr('y1', H - mb).attr('y2', H - mb);
+    let lastYear = '';
+    let lastX = -Infinity;
+    rows.forEach((r) => {
+      const yr = r.date.slice(0, 4);
+      if (yr === lastYear) return;
+      const xx = x(r.match);
+      svg.append('line').attr('class', 'hx-axisline').attr('x1', xx).attr('x2', xx).attr('y1', H - mb).attr('y2', H - mb + 6);
+      if (xx - lastX > textWidth(svg, yr) + 6) {
+        svg.append('text').attr('class', 'hx-axis').attr('x', xx).attr('y', H - mb + 18).text(yr);
+        lastX = xx;
+      }
+      lastYear = yr;
+    });
+    const cols = svg.append('g').selectAll('g').data(rows).join('g');
+    cols.append('rect').attr('x', (r) => x(r.match)).attr('width', bw)
+      .attr('y', (r) => y(r.balls)).attr('height', (r) => y(0) - y(r.balls)).attr('rx', 3).style('fill', 'var(--hx-pace)');
+    const rw = Math.max(2, bw * 0.5);
+    cols.append('rect').attr('x', (r) => x(r.match) + (bw - rw) / 2).attr('width', rw)
+      .attr('y', (r) => y(r.runs)).attr('height', (r) => Math.max(0, y(0) - y(r.runs))).attr('rx', 2).style('fill', 'var(--hx-sla)');
+    cols.filter((r) => r.outs > 0).append('circle')
+      .attr('cx', (r) => x(r.match) + bw / 2).attr('cy', (r) => y(Math.max(r.balls, r.runs)) - 9).attr('r', 4).style('fill', 'var(--hx-fg)');
+    const step = x.step();
+    cols.append('rect').attr('x', (r) => x(r.match) - (step - bw) / 2).attr('width', step)
+      .attr('y', mt).attr('height', H - mb - mt).style('fill', 'transparent')
+      .on('pointermove pointerdown', (event, r) => {
+        cols.style('opacity', (c) => (c === r ? 1 : 0.45));
+        showTip(box, event, [
+          `${dateFmt(new Date(r.date))} · v ${r.opp}`, `${r.runs} runs off ${r.balls} balls`, r.bowlers,
+          r.outs ? `Out ${r.out_kind}, bowler ${r.out_bowler}` : 'Not out to them',
+        ]);
+      })
+      .on('pointerleave', () => { cols.style('opacity', 1); hideTip(box); });
+  }
+  HX.onDraw(draw);
+  HX.start();
+})();
+</script>
+</body>
+</html>
